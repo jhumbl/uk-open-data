@@ -1,0 +1,171 @@
+# Weekly data refresh.
+#
+# What it does, in order:
+#   1. Runs every source's fetch script and syncs each dataset family to
+#      its Hugging Face repo (run_all.py — the hub skips unchanged files
+#      and creates no commit when nothing changed; monthly archive-YYYY-MM
+#      tags happen in there too).
+#   2. Clobbers the rolling "backup" GitHub release with the current
+#      files (disaster recovery only — serving is from HF; release assets
+#      have no CORS, the v1 lesson in DESIGN.md §2).
+#   3. Commits the updated catalog.json + README table (metadata only —
+#      never data).
+#   4. Smoke-tests the serving promise: CORS + HTTP 206 on every
+#      published URL (DESIGN.md invariant 5).
+#
+# One-time setup (already done for this repo, recorded for reruns):
+#   1. gh release create backup --title "Backup: current datasets" ...
+#   2. gh secret set HF_TOKEN  (a WRITE token from
+#      https://huggingface.co/settings/tokens)
+#   3. Enable Actions failure notifications in your GitHub notification
+#      settings (the broken-source alerts below rely on them).
+#   Then trigger this workflow manually (Actions → Refresh datasets →
+#   Run workflow) and check the HF repos, the backup release and the
+#   metadata commit.
+#
+# Note: on free-tier repos, scheduled workflows are disabled after 60 days
+# without repo activity. The weekly metadata commit keeps this alive — but
+# only while the workflow succeeds, so enable failure notifications.
+
+name: Refresh datasets
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch: # manual "Run workflow" button — use this for testing
+
+permissions:
+  contents: write # push the metadata commit + upload backup release assets
+  issues: write # auto-file "Source broken" issues
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # A cold police-crime cache means ~9 GB of downloads (~30-60 min); 90
+    # leaves headroom without letting a hang burn the default 6 hours.
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # The police crime source keeps London-filtered intermediates from
+      # data.police.uk's ~1.6 GB monthly zips under cache/ so steady-state
+      # runs download little or nothing (see sources/police_crime_london).
+      # restore/save are split (rather than the combined actions/cache)
+      # because the combined action skips its save when the job fails, and
+      # this workflow deliberately fails the job whenever ANY source fails —
+      # an unrelated broken source must not discard a 45-minute cache build.
+      # The run_id key is unique so every run saves; the prefix restore-key
+      # restores the most recent previous save; the 10 GB repo cache cap
+      # LRU-evicts old generations and the weekly cron defeats the 7-day
+      # idle eviction. A cold cache is only a slow run, never a wrong one.
+      - name: Restore police crime cache
+        uses: actions/cache/restore@v4
+        with:
+          path: cache
+          key: police-cache-${{ github.run_id }}
+          restore-keys: |
+            police-cache-
+
+      - name: Fetch all datasets and sync to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python run_all.py --out data
+
+      - name: Save police crime cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: cache
+          key: police-cache-${{ github.run_id }}
+
+      # Every valid file, every week, no logic (DESIGN.md §3): the hub is
+      # the serving layer, this release exists so an HF account problem can
+      # never cost us current data. The bash glob skips data/.changed and
+      # data/.failed. A quarantined source's files are absent from data/,
+      # and --clobber replaces assets without deleting others — so the
+      # backup keeps that source's last-good copy automatically.
+      - name: Clobber the backup release with current files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload backup --clobber -R "${{ github.repository }}" data/*
+
+      - name: Regenerate README dataset table
+        run: python generate_readme.py
+
+      - name: Commit updated metadata
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add catalog.json README.md
+          git commit -m "Refresh metadata $(date -u +%Y-%m-%d)" || echo "No metadata changes."
+          git push
+
+      # The serving promise is tested, not assumed (invariant 5): every
+      # published URL must answer a cross-origin Range request with CORS
+      # headers and HTTP 206. A provider behaviour change = a red run.
+      - name: Smoke-test the serving contract
+        run: python smoke_test.py
+
+      # ---- Broken-source handling ----------------------------------------
+      # run_all.py never aborts the run for a single bad source (healthy
+      # sources above still synced). Every failure fails the job so Actions
+      # notifications fire, but a GitHub Issue is only filed once a source
+      # has failed 2+ runs in a row — fetches already retry with backoff,
+      # so a single post-retry failure is usually a transient that
+      # self-heals next week, and skipping the issue means there's nothing
+      # to clean up when it does. Issues are deduplicated by title, so a
+      # source broken for weeks gets one issue, not one per week.
+
+      - name: Open issues for repeatedly failed sources
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -s data/.failed ] || { echo "All sources healthy."; exit 0; }
+          while IFS=$'\t' read -r source count reason; do
+            if [ "${count:-1}" -lt 2 ]; then
+              echo "First failure for ${source} - not filing an issue yet (the job still fails; issue comes with a 2nd consecutive failure)."
+              continue
+            fi
+            title="Source broken: ${source}"
+            existing=$(gh issue list -R "${{ github.repository }}" \
+              --state open --search "in:title \"${title}\"" \
+              --json number --jq '.[0].number // empty')
+            body="Automated report from the weekly refresh run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          \`\`\`
+          ${reason}
+          \`\`\`
+
+          The Hugging Face repo is still serving the previous good version of this source's files. See the *When a source breaks* runbook in CLAUDE.md."
+            if [ -n "$existing" ]; then
+              gh issue comment "$existing" -R "${{ github.repository }}" --body "$body"
+              echo "Updated existing issue #$existing for ${source}"
+            else
+              gh issue create -R "${{ github.repository }}" \
+                --title "$title" --label "source-broken" --body "$body" \
+                || gh issue create -R "${{ github.repository }}" \
+                     --title "$title" --body "$body"
+              echo "Opened new issue for ${source}"
+            fi
+          done < data/.failed
+
+      - name: Fail the job if any source failed
+        run: |
+          if [ -s data/.failed ]; then
+            echo "The following sources failed this run:"
+            cat data/.failed
+            exit 1
+          fi
