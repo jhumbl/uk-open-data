@@ -19,16 +19,17 @@ from lib.common import hf_repo_id
 
 def get_api():
     """An authenticated HfApi, or a clear error telling you where the token
-    comes from. CI provides HF_TOKEN as an Actions secret; locally, export a
-    write token from https://huggingface.co/settings/tokens."""
-    from huggingface_hub import HfApi
+    comes from. CI provides HF_TOKEN as an Actions secret; locally either
+    export HF_TOKEN or store the token once with `hf auth login`."""
+    from huggingface_hub import HfApi, get_token
 
-    token = os.environ.get("HF_TOKEN")
+    token = os.environ.get("HF_TOKEN") or get_token()
     if not token:
         raise RuntimeError(
-            "HF_TOKEN is not set. Create a WRITE token at "
-            "https://huggingface.co/settings/tokens and set the HF_TOKEN "
-            "environment variable — or run with --no-hf to skip uploading."
+            "No Hugging Face token found. Create a WRITE token at "
+            "https://huggingface.co/settings/tokens, then either set the "
+            "HF_TOKEN environment variable or run `hf auth login` — or run "
+            "with --no-hf to skip uploading."
         )
     return HfApi(token=token, library_name="uk-open-data")
 
