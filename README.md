@@ -38,6 +38,7 @@ drawing conclusions; that context is the point of this project.
 | File | Description | Source | Cadence | Data |
 | --- | --- | --- | --- | --- |
 | `dft_veh0105_licensed_by_la.ods` (+ `.parquet`) | VEH0105: Licensed vehicles by body type, fuel type and local authority | DfT / DVLA | Quarterly | [dft-vehicle-licensing](https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing) |
+| `dft_veh0132_ulev_by_la.ods` (+ `.parquet`) | VEH0132: Licensed ultra low emission vehicles (ULEVs) by local authority | DfT / DVLA | Quarterly | [dft-vehicle-licensing](https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing) |
 <!-- END GENERATED DATASETS TABLE -->
 
 ## Running the pipeline

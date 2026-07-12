@@ -26,15 +26,42 @@
         "min_period": "2009 Q4",
         "row_count": 2643940
       }
+    },
+    "dft_veh0132_ulev_by_la.ods": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing/resolve/main/dft_veh0132_ulev_by_la.ods",
+      "fetched_from": "https://assets.publishing.service.gov.uk/media/69ef35519ca985145673b9d7/veh0132.ods",
+      "first_seen": "2026-07-12T16:02:41Z",
+      "hf_repo": "dft-vehicle-licensing",
+      "last_changed": "2026-07-12T16:02:41Z",
+      "last_checked": "2026-07-12T16:07:11Z",
+      "sha256": "f031b6ac59bb813b75f7a772eb587cc34d57c95dbef01fd5d40b2e5feb82b18b",
+      "size_bytes": 2149865,
+      "source": "dft_veh0132_ulev_by_la"
+    },
+    "dft_veh0132_ulev_by_la.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing/resolve/main/dft_veh0132_ulev_by_la.parquet",
+      "fetched_from": "https://assets.publishing.service.gov.uk/media/69ef35519ca985145673b9d7/veh0132.ods",
+      "first_seen": "2026-07-12T16:02:41Z",
+      "hf_repo": "dft-vehicle-licensing",
+      "last_changed": "2026-07-12T16:02:41Z",
+      "last_checked": "2026-07-12T16:07:11Z",
+      "sha256": "9300f380e50c9be5302a096a5bfa7d8342232e68bce1f79b34467ea2043ce9ce",
+      "size_bytes": 625612,
+      "source": "dft_veh0132_ulev_by_la",
+      "stats": {
+        "max_period": "2025 Q4",
+        "min_period": "2011 Q4",
+        "row_count": 374547
+      }
     }
   },
   "families": {
     "dft-vehicle-licensing": {
       "consecutive_failures": 0,
-      "last_synced": "2026-07-12T14:47:44Z",
+      "last_synced": "2026-07-12T16:07:13Z",
       "last_tag": "archive-2026-07",
       "repo_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing",
-      "revision": "307dd1775d396279c8120f17c359ef0e36e72f8e",
+      "revision": "3cfa6b491350ef082757a62ba2e9095a0c78f36f",
       "status": "ok"
     }
   },
@@ -42,6 +69,12 @@
     "dft_veh0105_licensed_by_la": {
       "consecutive_failures": 0,
       "last_success": "2026-07-12T14:47:42Z",
+      "status": "ok"
+    },
+    "dft_veh0132_ulev_by_la": {
+      "consecutive_failures": 0,
+      "last_failure": "2026-07-12T16:06:07Z",
+      "last_success": "2026-07-12T16:07:11Z",
       "status": "ok"
     }
   }
