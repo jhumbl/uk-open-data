@@ -105,7 +105,14 @@ Rules:
   so a publisher's format change degrades the output rather than failing
   the run (see tidy_to_parquet in the VEH0105 source). Aggregate parquets
   (`<name>_agg_<slug>.parquet`) are added when a real dashboard needs one,
-  not speculatively.
+  not speculatively. One recorded exception to publish-the-raw-file:
+  `police_crime_london` republishes no raw zips — its inputs are ~9 GB of
+  monthly archives that data.police.uk itself retains permanently at
+  stable dated URLs (see the caveat in its datapackage.json). It keeps
+  re-derivable intermediates in the gitignored repo-root `cache/` — never
+  in `data/`, whose contents run_all.py publishes — and because there is
+  no raw fallback, its parquets are mandatory rather than best-effort
+  (validate() requires all three).
 - The derived parquet's columns are declared as a Frictionless Table
   Schema (`schema.fields`) on its resource in datapackage.json — the
   single source of truth. fetch.py builds its column order from it

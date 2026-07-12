@@ -1,0 +1,250 @@
+{
+  "name": "police_crime_london",
+  "title": "Street-level crime, outcomes and stop & search for London (Metropolitan & City of London Police), Dec 2010 to present",
+  "description": "Every crime and anti-social-behaviour incident recorded by London's two territorial police forces since December 2010, with case outcomes and stop & search records, as published on data.police.uk. Reconstructed as full history by combining data.police.uk's permanent monthly archive zips: a fixed covering set three years apart plus the newest zip, each month taken from the newest zip that contains it (the most-revised version). Three tables, one row per crime / outcome / stop, all columns strings exactly as published.",
+  "homepage": "https://data.police.uk/data/archive/",
+  "provider": "Home Office / data.police.uk",
+  "cadence": "Monthly",
+  "hf_repo": "police-crime-london",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "title": "Open Government Licence v3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "data.police.uk — Archive downloads (Home Office; data supplied by the police forces of England, Wales and Northern Ireland)",
+      "path": "https://data.police.uk/data/archive/"
+    }
+  ],
+  "update_cadence": "data.police.uk publishes a new monthly archive zip roughly one to two months after the month it covers; the weekly pipeline run picks it up when it appears, so roughly one run in four detects changes and the rest report all files unchanged. Months inside the newest zip's ~36-month window are also revised by forces between releases, so recent history can change even when no new month has appeared.",
+  "caveats": [
+    "Rows are incidents *recorded by* the Metropolitan Police Service and City of London Police, which together police Greater London — this is a force-based cut, not a geographic clip: a small number of incidents these forces handle fall outside London, and London incidents recorded by other forces are absent.",
+    "British Transport Police are excluded, so crime on London's railways and Underground is largely missing from these figures.",
+    "Locations are anonymised by data.police.uk: coordinates are snapped to a master list of over 750,000 map points (the `location` label reads 'On or near ...'), and are blank where no suitable point exists — never treat coordinates as exact offence locations.",
+    "Upstream revises months until they roll out of the newest archive zip's ~36-month window (forces re-upload corrections and reclassifications); months older than that are pinned to the version in the covering zip that contains them, so this history is the final published version of each month wherever one exists.",
+    "crime_id is data.police.uk's one-way hash, not a police reference number, and is empty for anti-social-behaviour rows; genuinely duplicate rows exist in the upstream files and are deliberately kept, so row counts match what upstream publishes.",
+    "Outcomes begin in January 2012 and stop & search in March 2015 for these two forces (the national collections started around 2014 and December 2014; London's published history differs), and neither is returned by every force for every month — gaps are upstream gaps, not fetch failures. One crime can have several outcome rows.",
+    "last_outcome_category on the crimes table is a snapshot as of the zip the month was taken from — use the outcomes table for outcome history.",
+    "No raw zip is republished (a deliberate exception to this repo's publish-the-raw-file rule): the inputs are ~9 GB of monthly zips that data.police.uk itself retains permanently at stable dated URLs — better provenance than a copy. catalog.json's fetched_from records the newest zip each build consumed."
+  ],
+  "resources": [
+    {
+      "name": "street_crimes",
+      "path": "police_crime_london.parquet",
+      "format": "parquet",
+      "description": "One row per recorded crime or anti-social-behaviour incident, December 2010 to present. All columns strings exactly as published.",
+      "schema": {
+        "fields": [
+          {
+            "name": "crime_id",
+            "type": "string",
+            "description": "data.police.uk's one-way hash of the record (64 hex chars) — not a police reference number; empty for anti-social-behaviour rows."
+          },
+          {
+            "name": "month",
+            "type": "string",
+            "description": "Month the crime was reported, YYYY-MM."
+          },
+          {
+            "name": "reported_by",
+            "type": "string",
+            "description": "Force that provided the data: 'Metropolitan Police Service' or 'City of London Police'."
+          },
+          {
+            "name": "falls_within",
+            "type": "string",
+            "description": "Force area the point falls within; currently always the same as reported_by."
+          },
+          {
+            "name": "longitude",
+            "type": "string",
+            "description": "Anonymised snap-point longitude (WGS84) as published; may be empty."
+          },
+          {
+            "name": "latitude",
+            "type": "string",
+            "description": "Anonymised snap-point latitude (WGS84) as published; may be empty."
+          },
+          {
+            "name": "location",
+            "type": "string",
+            "description": "Label of the anonymised map point, e.g. 'On or near Petrol Station'."
+          },
+          {
+            "name": "lsoa_code",
+            "type": "string",
+            "description": "2011 Lower Layer Super Output Area code of the anonymised point; may be empty."
+          },
+          {
+            "name": "lsoa_name",
+            "type": "string",
+            "description": "2011 LSOA name of the anonymised point; may be empty."
+          },
+          {
+            "name": "crime_type",
+            "type": "string",
+            "description": "data.police.uk crime category, e.g. 'Burglary', 'Anti-social behaviour'."
+          },
+          {
+            "name": "last_outcome_category",
+            "type": "string",
+            "description": "Most recent outcome at the time the month's zip was generated — a snapshot; see the outcomes table for history."
+          },
+          {
+            "name": "context",
+            "type": "string",
+            "description": "Free-text force annotation; almost always empty."
+          }
+        ]
+      }
+    },
+    {
+      "name": "outcomes",
+      "path": "police_crime_london_outcomes.parquet",
+      "format": "parquet",
+      "description": "One row per case outcome, from January 2012 onward. Joins to the crimes table via crime_id; one crime can have several outcome rows. All columns strings exactly as published.",
+      "schema": {
+        "fields": [
+          {
+            "name": "crime_id",
+            "type": "string",
+            "description": "data.police.uk's one-way hash of the crime this outcome belongs to — joins to the crimes table."
+          },
+          {
+            "name": "month",
+            "type": "string",
+            "description": "Month of the outcome, YYYY-MM."
+          },
+          {
+            "name": "reported_by",
+            "type": "string",
+            "description": "Force that provided the data."
+          },
+          {
+            "name": "falls_within",
+            "type": "string",
+            "description": "Force area the point falls within; currently always the same as reported_by."
+          },
+          {
+            "name": "longitude",
+            "type": "string",
+            "description": "Anonymised snap-point longitude of the originating crime; may be empty."
+          },
+          {
+            "name": "latitude",
+            "type": "string",
+            "description": "Anonymised snap-point latitude of the originating crime; may be empty."
+          },
+          {
+            "name": "location",
+            "type": "string",
+            "description": "Label of the anonymised map point of the originating crime."
+          },
+          {
+            "name": "lsoa_code",
+            "type": "string",
+            "description": "2011 LSOA code of the anonymised point; may be empty."
+          },
+          {
+            "name": "lsoa_name",
+            "type": "string",
+            "description": "2011 LSOA name of the anonymised point; may be empty."
+          },
+          {
+            "name": "outcome_type",
+            "type": "string",
+            "description": "Outcome category, e.g. 'Investigation complete; no suspect identified'."
+          }
+        ]
+      }
+    },
+    {
+      "name": "stop_search",
+      "path": "police_crime_london_stop_search.parquet",
+      "format": "parquet",
+      "description": "One row per stop & search, from March 2015 onward. No force column exists upstream; force coverage gaps by month are upstream gaps. Boolean-ish fields are kept as the published strings ('True'/'False'/empty). All columns strings exactly as published.",
+      "schema": {
+        "fields": [
+          {
+            "name": "type",
+            "type": "string",
+            "description": "'Person search', 'Vehicle search' or 'Person and Vehicle search'."
+          },
+          {
+            "name": "date",
+            "type": "string",
+            "description": "ISO 8601 timestamp of the stop."
+          },
+          {
+            "name": "part_of_a_policing_operation",
+            "type": "string",
+            "description": "'True'/'False'/empty — whether the stop was part of a policing operation."
+          },
+          {
+            "name": "policing_operation",
+            "type": "string",
+            "description": "Name of the policing operation; rarely populated."
+          },
+          {
+            "name": "latitude",
+            "type": "string",
+            "description": "Anonymised snap-point latitude; may be empty."
+          },
+          {
+            "name": "longitude",
+            "type": "string",
+            "description": "Anonymised snap-point longitude; may be empty."
+          },
+          {
+            "name": "gender",
+            "type": "string",
+            "description": "Gender of the person stopped, as recorded; may be empty."
+          },
+          {
+            "name": "age_range",
+            "type": "string",
+            "description": "Age band of the person stopped, e.g. '18-24'; may be empty."
+          },
+          {
+            "name": "self_defined_ethnicity",
+            "type": "string",
+            "description": "Ethnicity as described by the person stopped; may be empty."
+          },
+          {
+            "name": "officer_defined_ethnicity",
+            "type": "string",
+            "description": "Ethnicity as recorded by the officer; may be empty."
+          },
+          {
+            "name": "legislation",
+            "type": "string",
+            "description": "Legal power used, e.g. 'Police and Criminal Evidence Act 1984 (section 1)'."
+          },
+          {
+            "name": "object_of_search",
+            "type": "string",
+            "description": "What the officer was searching for, e.g. 'Controlled drugs'."
+          },
+          {
+            "name": "outcome",
+            "type": "string",
+            "description": "Outcome of the stop, e.g. 'A no further action disposal', 'Arrest'."
+          },
+          {
+            "name": "outcome_linked_to_object_of_search",
+            "type": "string",
+            "description": "'True'/'False'/empty — whether the outcome related to what was searched for."
+          },
+          {
+            "name": "removal_of_more_than_just_outer_clothing",
+            "type": "string",
+            "description": "'True'/'False'/empty — whether a more-than-outer-clothing search took place."
+          }
+        ]
+      }
+    }
+  ]
+}

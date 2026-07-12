@@ -3,6 +3,10 @@
     "title": "DfT vehicle licensing statistics",
     "description": "Quarterly counts of licensed vehicles in the United Kingdom, produced by the Department for Transport from DVLA registration data: how many vehicles are licensed, of what body type, running on what fuel, under private or company keepership, registered in which local authority. All tables here share the same publisher, Open Government Licence, quarterly cadence and DVLA-stock caveats — that is what makes them one family."
   },
+  "police-crime-london": {
+    "title": "Street-level crime, outcomes and stop & search — London",
+    "description": "Every crime and anti-social-behaviour incident recorded by London's two territorial police forces (the Metropolitan Police Service and City of London Police) since December 2010, with case outcomes and stop & search records, as published on data.police.uk. Full history is reconstructed from data.police.uk's permanent monthly archive zips, each month taken from the newest zip that contains it (the most-revised version). Locations are anonymised by data.police.uk; British Transport Police are excluded. Three tables sharing one provenance, licence, monthly cadence and set of recording caveats — that is what makes them one family."
+  },
   "fsa-food-hygiene-london": {
     "title": "FSA food hygiene ratings (FHRS) — London",
     "description": "Every establishment rated under the Food Hygiene Rating Scheme in the 33 London local authorities (the 32 boroughs plus the City of London Corporation), published by the Food Standards Agency as one XML file per authority, regenerated daily. The FSA keeps no public history — each day's extract overwrites the last — so the weekly commits and monthly archive-YYYY-MM tags on this repo are a longitudinal record of London's food-business landscape that exists nowhere else."

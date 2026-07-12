@@ -40,6 +40,7 @@ drawing conclusions; that context is the point of this project.
 | `dft_veh0105_licensed_by_la.ods` (+ `.parquet`) | VEH0105: Licensed vehicles by body type, fuel type and local authority | DfT / DVLA | Quarterly | [dft-vehicle-licensing](https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing) |
 | `dft_veh0132_ulev_by_la.ods` (+ `.parquet`) | VEH0132: Licensed ultra low emission vehicles (ULEVs) by local authority | DfT / DVLA | Quarterly | [dft-vehicle-licensing](https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing) |
 | `fsa_fhrs_london_food_hygiene.parquet` (+ `.zip`) | Food hygiene ratings (FHRS) for every rated food business in London | FSA | Daily | [fsa-food-hygiene-london](https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london) |
+| `police_crime_london.parquet` (+ `.parquet`, `.parquet`) | Street-level crime, outcomes and stop & search for London (Metropolitan & City of London Police), Dec 2010 to present | Home Office / data.police.uk | Monthly | [police-crime-london](https://huggingface.co/datasets/jhumbl/police-crime-london) |
 <!-- END GENERATED DATASETS TABLE -->
 
 ## Running the pipeline

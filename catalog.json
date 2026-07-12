@@ -80,6 +80,54 @@
       "sha256": "4c9fd34856a453c073deb1e974a24d6b2ef40a2808ef61679b17970682d2a9a3",
       "size_bytes": 4871831,
       "source": "fsa_fhrs_london_food_hygiene"
+    },
+    "police_crime_london.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/police-crime-london/resolve/main/police_crime_london.parquet",
+      "fetched_from": "https://data.police.uk/data/archive/2026-05.zip",
+      "first_seen": "2026-07-12T16:19:33Z",
+      "hf_repo": "police-crime-london",
+      "last_changed": "2026-07-12T16:19:33Z",
+      "last_checked": "2026-07-12T16:26:22Z",
+      "sha256": "f9181791c92bb4b67f26ac559d548f6a3f76c2a6a8504e55be8ef06044fe26a2",
+      "size_bytes": 886743358,
+      "source": "police_crime_london",
+      "stats": {
+        "max_period": "2026-05",
+        "min_period": "2010-12",
+        "row_count": 16871637
+      }
+    },
+    "police_crime_london_outcomes.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/police-crime-london/resolve/main/police_crime_london_outcomes.parquet",
+      "fetched_from": "https://data.police.uk/data/archive/2026-05.zip",
+      "first_seen": "2026-07-12T16:19:33Z",
+      "hf_repo": "police-crime-london",
+      "last_changed": "2026-07-12T16:19:33Z",
+      "last_checked": "2026-07-12T16:26:23Z",
+      "sha256": "71d86de8f16eae5c568742141c81514e93cec464918508d18b73b007787f2f5e",
+      "size_bytes": 664950997,
+      "source": "police_crime_london",
+      "stats": {
+        "max_period": "2026-05",
+        "min_period": "2012-01",
+        "row_count": 10011409
+      }
+    },
+    "police_crime_london_stop_search.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/police-crime-london/resolve/main/police_crime_london_stop_search.parquet",
+      "fetched_from": "https://data.police.uk/data/archive/2026-05.zip",
+      "first_seen": "2026-07-12T16:19:33Z",
+      "hf_repo": "police-crime-london",
+      "last_changed": "2026-07-12T16:19:33Z",
+      "last_checked": "2026-07-12T16:26:23Z",
+      "sha256": "a901a77974156b0ae6d15cf8c162489d57aae109c57444b0f29027891f994187",
+      "size_bytes": 20982367,
+      "source": "police_crime_london",
+      "stats": {
+        "max_period": "2026-05-31T22:50:00+00:00",
+        "min_period": "2015-03-02T16:40:00+00:00",
+        "row_count": 1963878
+      }
     }
   },
   "families": {
@@ -98,6 +146,14 @@
       "repo_url": "https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london",
       "revision": "41038e41edbde85dfb2843a7c81308416147f4f6",
       "status": "ok"
+    },
+    "police-crime-london": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-07-12T16:26:26Z",
+      "last_tag": "archive-2026-07",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/police-crime-london",
+      "revision": "9466fc22d3d68044ece107d518e8bb752a2f23d7",
+      "status": "ok"
     }
   },
   "sources": {
@@ -115,6 +171,11 @@
     "fsa_fhrs_london_food_hygiene": {
       "consecutive_failures": 0,
       "last_success": "2026-07-12T16:15:17Z",
+      "status": "ok"
+    },
+    "police_crime_london": {
+      "consecutive_failures": 0,
+      "last_success": "2026-07-12T16:26:22Z",
       "status": "ok"
     }
   }
