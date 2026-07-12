@@ -167,10 +167,11 @@ Rules:
     python generate_readme.py              # refresh README dataset table
     git diff catalog.json                  # see what changed
 
-Uploading needs `HF_TOKEN` in the environment — a WRITE token from
-https://huggingface.co/settings/tokens. CI has it as an Actions secret of
-the same name. `--no-hf` runs everything except upload and works without
-the token or the huggingface_hub package.
+Uploading needs a WRITE token from
+https://huggingface.co/settings/tokens — either as `HF_TOKEN` in the
+environment (CI has it as an Actions secret of that name) or stored once
+via `hf auth login --token <token>`. `--no-hf` runs everything except
+upload and works without the token or the huggingface_hub package.
 
 ## When a source breaks (runbook)
 
@@ -289,6 +290,6 @@ whose next run succeeds.
   adding a source never involves the HF website. But the *namespace*
   (`HF_NAMESPACE` in lib/common.py) and the token are account-level,
   manual, one-time setup.
-- huggingface_hub reads `HF_TOKEN` from the environment; we still check
-  for it explicitly in lib/hf_sync.py to fail with a useful message
-  instead of a 401 mid-run.
+- lib/hf_sync.py resolves the token as HF_TOKEN env var first, then the
+  `hf auth login` cache, and fails with a useful message if neither is
+  present — instead of a 401 mid-run.
