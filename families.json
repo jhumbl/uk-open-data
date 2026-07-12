@@ -1,0 +1,6 @@
+{
+  "dft-vehicle-licensing": {
+    "title": "DfT vehicle licensing statistics",
+    "description": "Quarterly counts of licensed vehicles in the United Kingdom, produced by the Department for Transport from DVLA registration data: how many vehicles are licensed, of what body type, running on what fuel, under private or company keepership, registered in which local authority. All tables here share the same publisher, Open Government Licence, quarterly cadence and DVLA-stock caveats — that is what makes them one family."
+  }
+}

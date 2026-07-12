@@ -1,0 +1,7 @@
+# Fetched data never enters git (DESIGN.md invariant 1).
+data/
+cache/
+
+__pycache__/
+*.pyc
+.venv/
