@@ -1,0 +1,87 @@
+{
+  "name": "dft_veh0105_licensed_by_la",
+  "title": "VEH0105: Licensed vehicles by body type, fuel type and local authority",
+  "description": "Licensed vehicles at the end of each quarter, by body type, fuel type, keepership (private/company) and upper and lower tier local authority, United Kingdom. Produced by the Department for Transport from DVLA registration data. This is the all-vehicles denominator for VEH0132 (ULEVs).",
+  "homepage": "https://www.gov.uk/government/statistical-data-sets/vehicle-licensing-statistics-data-tables",
+  "provider": "DfT / DVLA",
+  "cadence": "Quarterly",
+  "hf_repo": "dft-vehicle-licensing",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "title": "Open Government Licence v3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Department for Transport / DVLA — Vehicle licensing statistics",
+      "path": "https://www.gov.uk/government/collections/vehicles-statistics"
+    }
+  ],
+  "update_cadence": "Quarterly (July, September, December) with the full annual release around April/May. Most weekly pipeline runs will therefore detect no change.",
+  "caveats": [
+    "The tidy parquet's count_thousands column is in THOUSANDS of vehicles, exactly as DfT publishes it (the source's constant 'Units: Thousands' column is dropped). Multiply by 1000 for a vehicle count, e.g. 109.441 means 109,441 vehicles.",
+    "Vehicles are allocated to a local authority by the registered keeper's postcode, which is not necessarily where the vehicle is located. Company fleets registered to a single head office can distort local figures.",
+    "In the tidy parquet, cells DfT suppressed (published as '[x]') become nulls in the count_thousands column.",
+    "The tidy parquet keeps the publisher's aggregate rows: body_type='Total', fuel='Total', keepership='Total', and aggregate geographies (United Kingdom, Great Britain, England, regions). Filter these out before summing or you will double-count."
+  ],
+  "resources": [
+    {
+      "name": "raw_ods",
+      "path": "dft_veh0105_licensed_by_la.ods",
+      "format": "ods",
+      "description": "The unmodified file as published by DfT."
+    },
+    {
+      "name": "tidy_parquet",
+      "path": "dft_veh0105_licensed_by_la.parquet",
+      "format": "parquet",
+      "description": "Best-effort long/tidy extraction of the main data sheet: one row per geography x body type x fuel x keepership x quarter. May be absent if the published layout changed; the raw ODS is authoritative.",
+      "schema": {
+        "fields": [
+          {
+            "name": "ons_code",
+            "type": "string",
+            "description": "ONS geography code (e.g. E09000033). Includes aggregate codes such as K02000001 (United Kingdom)."
+          },
+          {
+            "name": "ons_geography",
+            "type": "string",
+            "description": "Geography name as published by DfT (the ODS's hierarchy indentation is trimmed)."
+          },
+          {
+            "name": "ons_sort",
+            "type": "integer",
+            "description": "DfT's presentation sort order for geographies."
+          },
+          {
+            "name": "body_type",
+            "type": "string",
+            "description": "Vehicle body type (e.g. Cars, Motorcycles, Light goods vehicles). Includes the publisher's 'Total' rows — filter before summing."
+          },
+          {
+            "name": "fuel",
+            "type": "string",
+            "description": "Fuel type. Includes the publisher's 'Total' rows — filter before summing."
+          },
+          {
+            "name": "keepership",
+            "type": "string",
+            "description": "COMPANY, PRIVATE, or the publisher's 'Total'."
+          },
+          {
+            "name": "quarter",
+            "type": "string",
+            "description": "Publisher quarter label 'YYYY Qn' (e.g. '2025 Q4'); lexicographic order equals temporal order."
+          },
+          {
+            "name": "count_thousands",
+            "type": "number",
+            "description": "Licensed vehicles at the end of the quarter, in THOUSANDS (e.g. 109.441 = 109,441 vehicles). Null where DfT suppressed the value ('[x]' in the source)."
+          }
+        ]
+      }
+    }
+  ]
+}
