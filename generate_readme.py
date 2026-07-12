@@ -40,11 +40,19 @@ def build_row(source_dir: Path) -> str:
 
     resources = pkg["resources"]
     primary = resources[0]["path"]
-    # split(".", 1) keeps compound extensions like .csv.gz intact
-    extra = [r["path"].split(".", 1)[-1] for r in resources[1:]]
+    # Label each sibling by what distinguishes it from the primary file:
+    # its extension when only that differs (`.parquet`), its suffix when
+    # the names share the source-name stem (`_outcomes.parquet`), or the
+    # full name as a last resort — three parquet siblings must not all
+    # collapse into the same bare extension.
+    stem = primary.split(".", 1)[0]
+    extra = [
+        r["path"].removeprefix(stem) if r["path"].startswith(stem) else r["path"]
+        for r in resources[1:]
+    ]
     file_cell = f"`{primary}`"
     if extra:
-        file_cell += " (+ " + ", ".join(f"`.{ext}`" for ext in extra) + ")"
+        file_cell += " (+ " + ", ".join(f"`{label}`" for label in extra) + ")"
 
     family = pkg["hf_repo"]
     data_cell = f"[{family}]({hf_repo_url(family)})"
