@@ -1,0 +1,48 @@
+{
+  "datasets": {
+    "dft_veh0105_licensed_by_la.ods": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing/resolve/main/dft_veh0105_licensed_by_la.ods",
+      "fetched_from": "https://assets.publishing.service.gov.uk/media/69ef3553ed93f72cf81633fc/veh0105.ods",
+      "first_seen": "2026-07-12T14:22:13Z",
+      "hf_repo": "dft-vehicle-licensing",
+      "last_changed": "2026-07-12T14:22:13Z",
+      "last_checked": "2026-07-12T14:47:42Z",
+      "sha256": "e742d9ef281cd3eed3ee43cfe988ad4e634c0c7cfb9c06c41b86af250eb6cdfc",
+      "size_bytes": 17013087,
+      "source": "dft_veh0105_licensed_by_la"
+    },
+    "dft_veh0105_licensed_by_la.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing/resolve/main/dft_veh0105_licensed_by_la.parquet",
+      "fetched_from": "https://assets.publishing.service.gov.uk/media/69ef3553ed93f72cf81633fc/veh0105.ods",
+      "first_seen": "2026-07-12T14:22:13Z",
+      "hf_repo": "dft-vehicle-licensing",
+      "last_changed": "2026-07-12T14:22:13Z",
+      "last_checked": "2026-07-12T14:47:42Z",
+      "sha256": "6038471f1d2d98e0da105b585b7c8e736f99dd2f7df9663d95bd12644bcdb8d7",
+      "size_bytes": 6463951,
+      "source": "dft_veh0105_licensed_by_la",
+      "stats": {
+        "max_period": "2025 Q4",
+        "min_period": "2009 Q4",
+        "row_count": 2643940
+      }
+    }
+  },
+  "families": {
+    "dft-vehicle-licensing": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-07-12T14:47:44Z",
+      "last_tag": "archive-2026-07",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing",
+      "revision": "307dd1775d396279c8120f17c359ef0e36e72f8e",
+      "status": "ok"
+    }
+  },
+  "sources": {
+    "dft_veh0105_licensed_by_la": {
+      "consecutive_failures": 0,
+      "last_success": "2026-07-12T14:47:42Z",
+      "status": "ok"
+    }
+  }
+}

@@ -22,7 +22,7 @@ FAMILIES_PATH = REPO_ROOT / "families.json"
 # The Hugging Face namespace all dataset repos live under (DESIGN.md §3).
 # Set once when the HF account is created; changing it is a URL migration
 # for every consumer (DESIGN.md §7) — deliberate, never casual.
-HF_NAMESPACE = "TODO-SET-HF-NAMESPACE"
+HF_NAMESPACE = "jhumbl"
 
 # Be a polite client: identify ourselves and never hang forever.
 USER_AGENT = "uk-open-data (github.com/jhumbl/uk-open-data; automated weekly fetch)"
