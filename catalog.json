@@ -33,7 +33,7 @@
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-07-12T16:02:41Z",
-      "last_checked": "2026-07-12T16:07:11Z",
+      "last_checked": "2026-07-12T16:14:19Z",
       "sha256": "f031b6ac59bb813b75f7a772eb587cc34d57c95dbef01fd5d40b2e5feb82b18b",
       "size_bytes": 2149865,
       "source": "dft_veh0132_ulev_by_la"
@@ -44,7 +44,7 @@
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-07-12T16:02:41Z",
-      "last_checked": "2026-07-12T16:07:11Z",
+      "last_checked": "2026-07-12T16:14:19Z",
       "sha256": "9300f380e50c9be5302a096a5bfa7d8342232e68bce1f79b34467ea2043ce9ce",
       "size_bytes": 625612,
       "source": "dft_veh0132_ulev_by_la",
@@ -53,15 +53,50 @@
         "min_period": "2011 Q4",
         "row_count": 374547
       }
+    },
+    "fsa_fhrs_london_food_hygiene.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london/resolve/main/fsa_fhrs_london_food_hygiene.parquet",
+      "fetched_from": "https://ratings.food.gov.uk/OpenDataFiles/FHRS{code}en-GB.xml",
+      "first_seen": "2026-07-12T16:09:42Z",
+      "hf_repo": "fsa-food-hygiene-london",
+      "last_changed": "2026-07-12T16:09:42Z",
+      "last_checked": "2026-07-12T16:15:17Z",
+      "sha256": "93958d9813e741203b7bd17978342b8e1873ee4e2462c0357c26c95f424e464a",
+      "size_bytes": 5103836,
+      "source": "fsa_fhrs_london_food_hygiene",
+      "stats": {
+        "max_period": "2026-07-09",
+        "min_period": "2002-07-15",
+        "row_count": 80877
+      }
+    },
+    "fsa_fhrs_london_food_hygiene_raw_xml.zip": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london/resolve/main/fsa_fhrs_london_food_hygiene_raw_xml.zip",
+      "fetched_from": "https://ratings.food.gov.uk/OpenDataFiles/FHRS{code}en-GB.xml",
+      "first_seen": "2026-07-12T16:09:42Z",
+      "hf_repo": "fsa-food-hygiene-london",
+      "last_changed": "2026-07-12T16:09:42Z",
+      "last_checked": "2026-07-12T16:15:17Z",
+      "sha256": "4c9fd34856a453c073deb1e974a24d6b2ef40a2808ef61679b17970682d2a9a3",
+      "size_bytes": 4871831,
+      "source": "fsa_fhrs_london_food_hygiene"
     }
   },
   "families": {
     "dft-vehicle-licensing": {
       "consecutive_failures": 0,
-      "last_synced": "2026-07-12T16:07:13Z",
+      "last_synced": "2026-07-12T16:14:22Z",
       "last_tag": "archive-2026-07",
       "repo_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing",
-      "revision": "3cfa6b491350ef082757a62ba2e9095a0c78f36f",
+      "revision": "7303b287eb29407b0b35168efab0e4dc637b2b09",
+      "status": "ok"
+    },
+    "fsa-food-hygiene-london": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-07-12T16:15:19Z",
+      "last_tag": "archive-2026-07",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london",
+      "revision": "41038e41edbde85dfb2843a7c81308416147f4f6",
       "status": "ok"
     }
   },
@@ -74,7 +109,12 @@
     "dft_veh0132_ulev_by_la": {
       "consecutive_failures": 0,
       "last_failure": "2026-07-12T16:06:07Z",
-      "last_success": "2026-07-12T16:07:11Z",
+      "last_success": "2026-07-12T16:14:19Z",
+      "status": "ok"
+    },
+    "fsa_fhrs_london_food_hygiene": {
+      "consecutive_failures": 0,
+      "last_success": "2026-07-12T16:15:17Z",
       "status": "ok"
     }
   }

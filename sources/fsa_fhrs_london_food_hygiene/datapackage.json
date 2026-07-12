@@ -1,0 +1,150 @@
+{
+  "name": "fsa_fhrs_london_food_hygiene",
+  "title": "Food hygiene ratings (FHRS) for every rated food business in London",
+  "description": "Every establishment rated under the Food Hygiene Rating Scheme in the 33 London local authorities (the 32 boroughs plus the City of London Corporation): business name and type, address, geocode, current rating, inspection date and the three component scores. The FSA publishes one XML file per authority, regenerated daily, and keeps no public history — each day's extract overwrites the last — so the weekly commits and monthly archive-YYYY-MM tags on this repo form a longitudinal record of London's food-business landscape that exists nowhere else.",
+  "homepage": "https://ratings.food.gov.uk/open-data",
+  "provider": "FSA",
+  "cadence": "Daily",
+  "hf_repo": "fsa-food-hygiene-london",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "title": "Open Government Licence v3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Food Standards Agency — Food hygiene ratings (FHRS) open data",
+      "path": "https://ratings.food.gov.uk/open-data"
+    }
+  ],
+  "update_cadence": "The FSA regenerates every local authority's file daily, so unlike the quarterly/annual statistical sources in this repo, every weekly pipeline run should detect changes; the underlying ratings change continuously as inspections happen.",
+  "caveats": [
+    "A rating reflects the establishment's most recent inspection, which can be years old — check rating_date before treating ratings as current conditions.",
+    "rating_value is not always numeric: alongside 0-5 it can be 'Exempt', 'AwaitingInspection' or 'AwaitingPublication', so it is kept as text in the merged table.",
+    "The component scores (hygiene, structural, confidence in management) count points deducted — lower is better — and are absent for exempt/unrated establishments.",
+    "Some records lack geocodes and/or postcodes; do not assume every row can be mapped.",
+    "Establishments belong to the *inspecting* authority (normally where the premises sit). London counts include the City of London Corporation, whose remit also covers some markets outside the Square Mile.",
+    "The FSA publishes current state only, with no public archive — the history of these files accumulates in this repo's weekly commits and monthly archive-YYYY-MM tags, and in catalog.json's git history in the pipeline repo.",
+    "The XML header embeds the FSA's daily ExtractDate, so the raw zip's hash changes on every weekly run even in the (rare) weeks where no rating actually changed — a 'changed' zip does not by itself mean ratings moved."
+  ],
+  "resources": [
+    {
+      "name": "merged_parquet",
+      "path": "fsa_fhrs_london_food_hygiene.parquet",
+      "format": "parquet",
+      "description": "All 33 authorities merged into one table, one row per establishment, with a local_authority column added. All columns are strings (rating_value is not always numeric). Best-effort derived file; the raw XML zip is authoritative.",
+      "schema": {
+        "fields": [
+          {
+            "name": "local_authority",
+            "type": "string",
+            "description": "Inspecting London authority (added by the merge; not in the FSA XML rows)."
+          },
+          {
+            "name": "fhrs_id",
+            "type": "string",
+            "description": "FSA's unique establishment id."
+          },
+          {
+            "name": "local_authority_business_id",
+            "type": "string",
+            "description": "The authority's own id for the business."
+          },
+          {
+            "name": "business_name",
+            "type": "string",
+            "description": "Trading name."
+          },
+          {
+            "name": "business_type",
+            "type": "string",
+            "description": "FSA business type label (e.g. Restaurant/Cafe/Canteen)."
+          },
+          {
+            "name": "business_type_id",
+            "type": "string",
+            "description": "FSA business type code."
+          },
+          {
+            "name": "address_line_1",
+            "type": "string",
+            "description": "Address line; may be empty."
+          },
+          {
+            "name": "address_line_2",
+            "type": "string",
+            "description": "Address line; may be empty."
+          },
+          {
+            "name": "address_line_3",
+            "type": "string",
+            "description": "Address line; may be empty."
+          },
+          {
+            "name": "address_line_4",
+            "type": "string",
+            "description": "Address line; may be empty."
+          },
+          {
+            "name": "post_code",
+            "type": "string",
+            "description": "Postcode; may be empty."
+          },
+          {
+            "name": "rating_value",
+            "type": "string",
+            "description": "0-5, or 'Exempt'/'AwaitingInspection'/'AwaitingPublication' — hence string."
+          },
+          {
+            "name": "rating_key",
+            "type": "string",
+            "description": "FSA's internal key for the rating image/label."
+          },
+          {
+            "name": "rating_date",
+            "type": "string",
+            "description": "ISO date (yyyy-mm-dd) of the most recent inspection; empty when unrated."
+          },
+          {
+            "name": "new_rating_pending",
+            "type": "string",
+            "description": "'True' when a newer rating awaits publication."
+          },
+          {
+            "name": "score_hygiene",
+            "type": "string",
+            "description": "Points deducted — lower is better; empty for exempt/unrated."
+          },
+          {
+            "name": "score_structural",
+            "type": "string",
+            "description": "Points deducted — lower is better; empty for exempt/unrated."
+          },
+          {
+            "name": "score_confidence_in_management",
+            "type": "string",
+            "description": "Points deducted — lower is better; empty for exempt/unrated."
+          },
+          {
+            "name": "longitude",
+            "type": "string",
+            "description": "WGS84 longitude as published; may be empty."
+          },
+          {
+            "name": "latitude",
+            "type": "string",
+            "description": "WGS84 latitude as published; may be empty."
+          }
+        ]
+      }
+    },
+    {
+      "name": "raw_xml_zip",
+      "path": "fsa_fhrs_london_food_hygiene_raw_xml.zip",
+      "format": "zip",
+      "description": "The 33 unmodified FSA XML files (FHRS<code>en-GB.xml, codes 501-533) bundled into one deterministic zip — the archival record, reprocessable if the merged table ever needs rebuilding or extending."
+    }
+  ]
+}
