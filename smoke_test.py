@@ -1,11 +1,12 @@
-"""Smoke-test the serving promise (DESIGN.md invariant 5).
+"""Smoke-test the serving promise (CLAUDE.md invariant 5).
 
 The primary consumer is a browser: DuckDB-Wasm issues cross-origin Range
 requests, so every published URL must return `access-control-allow-origin`
 and HTTP 206 partial content — on every redirect hop, because the browser
-enforces CORS per hop. v1 of this project promised exactly this and it was
-false; this test exists so that can never happen silently again. CI runs it
-after every sync; a provider behaviour change becomes a red run.
+enforces CORS per hop. An earlier version of this project promised exactly
+this and it was false (the founding lesson in CLAUDE.md's design
+rationale); this test exists so that can never happen silently again. CI
+runs it after every sync; a provider behaviour change becomes a red run.
 
 Usage:
     python smoke_test.py

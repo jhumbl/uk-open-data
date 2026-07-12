@@ -11,8 +11,8 @@ that a browser app can query directly: DuckDB-Wasm range requests, plain
 mechanically on every run, not assumed.
 
 This repo holds the code and metadata only — **never data**. See
-[DESIGN.md](DESIGN.md) for the full architecture and the reasoning behind
-it, and [CLAUDE.md](CLAUDE.md) for the working guide.
+[CLAUDE.md](CLAUDE.md) for the architecture, the design rationale and the
+working guide.
 
 ## Using the data
 

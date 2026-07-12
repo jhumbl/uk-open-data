@@ -1,14 +1,15 @@
 """Render each family's HF dataset card (the repo's README.md) from
 families.json plus the member sources' datapackage.json files.
 
-One metadata source, two rendered faces (DESIGN.md §7): this module renders
+One metadata source, two rendered faces: this module renders
 the Hugging Face face; generate_readme.py renders the pipeline-repo face.
 Never hand-edit a card on the HF website — the next weekly run overwrites it.
 
 Cards must be byte-deterministic and MUST NOT embed timestamps or run
 metadata: an unchanged card is skipped by the uploader, but a card that
 says "generated on <date>" would create an HF commit every week and break
-the run-twice-nothing-changes invariant (DESIGN.md §6).
+the run-twice-nothing-changes invariant (the determinism gotcha in
+CLAUDE.md).
 
 The YAML frontmatter carries the `configs:` block that drives HF's dataset
 viewer: one config per derived parquet, named after the file's stem, so
@@ -42,7 +43,8 @@ def _frontmatter(family_meta: dict, packages: list[dict]) -> str:
     if len(licenses) != 1:
         raise ValueError(
             "sources in one family declare different licenses — that breaks "
-            "the one-honest-card test (DESIGN.md §5); split the family"
+            "the one-honest-card test (CLAUDE.md, the dataset-family "
+            "model); split the family"
         )
     license_ = json.loads(licenses.pop())
 

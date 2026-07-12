@@ -1,11 +1,9 @@
 # CLAUDE.md
 
-Guidance for Claude Code (and humans) working in this repository.
-
-**Read DESIGN.md first** for anything architectural — it records the
-decisions already made, the alternatives already rejected, and why. This
-file is the working guide: layout, contracts, runbooks, gotchas. Where the
-two seem to disagree, DESIGN.md wins.
+Guidance for Claude Code (and humans) working in this repository — the
+single authoritative document: the working guide (layout, contracts,
+runbooks, gotchas) plus, under *Design rationale*, the decisions already
+made, the alternatives already rejected, and why.
 
 ## What this repo is
 
@@ -24,7 +22,50 @@ Stable URL patterns (safe to build apps against):
 
 `<ns>` is `HF_NAMESPACE` in `lib/common.py`. The serving contract — CORS +
 HTTP Range on those URLs — is *verified* by `smoke_test.py` on every run,
-never assumed (DESIGN.md §2 explains the episode behind this rule).
+never assumed (the design rationale below records the episode behind
+this rule).
+
+## Design rationale
+
+Decisions already made and alternatives already rejected. Don't
+relitigate these without new facts.
+
+- **The founding lesson.** An earlier version of this project served
+  data as GitHub Release assets and its README promised browsers could
+  fetch them directly. That was false — GitHub's release CDN sends no
+  CORS headers — and nothing caught it, because every consumer we
+  actually exercised (Python, curl, CI) ignores CORS; the primary
+  consumer, a browser, was locked out of the primary URLs. Three
+  permanent rules fell out: don't build promises on behaviour you don't
+  control and don't test (hence smoke_test.py and invariant 5 — never
+  weaken it); test the *consumer's* path, not just our files; hold free
+  platforms loosely — every platform dependency needs a priced exit.
+- **Why Hugging Face.** Requirements: free, CORS + HTTP Range
+  (DuckDB-Wasm), no file-size squeeze (largest file ~900 MB), version
+  history, weekly CI uploads. HF meets all of them (verified empirically
+  2026-07, and re-verified weekly by the smoke test). Dataset repos are
+  git repos over chunk-deduplicated storage, so "latest" is `main`,
+  snapshots are tags, and re-uploading unchanged bytes costs nothing —
+  and the same stack (Actions → HF datasets → DuckDB) has run for years
+  in production elsewhere (Datadex/Datania). Public datasets get 1 TB
+  free; ours is <2 GB.
+- **Rejected alternatives**: GitHub Releases (no CORS, not configurable —
+  demoted to the disaster-backup release); raw.githubusercontent.com
+  (data in git, 100 MB/file); GitHub Pages (~1 GB site cap, too small for
+  the police parquets); Cloudflare R2 + custom domain (technically the
+  best exit, but needs a paid domain and a card on file — explicitly the
+  first thing to revisit if the project earns real traffic); a Worker
+  CORS proxy (custom infrastructure to maintain forever, request caps vs
+  DuckDB-Wasm's chatty range requests); AWS S3 (metered egress on a
+  public dataset is an open-ended bill).
+- **Priced platform risks.** HF's anonymous rate limit (~1,000 req/hr/IP)
+  is per *visitor*, so it scales with audience — the number to watch;
+  aggregate parquets keep dashboard queries small. HF's free tier has
+  tightened before; we are squarely their target use, the backup release
+  holds current data, HF repos are clonable with full history, and most
+  sources are independently re-fetchable from their publishers. Spending
+  money is not failure: real dashboard traffic or actual throttling is
+  the documented trigger to move to R2 + an owned domain.
 
 ## Layout
 
@@ -51,7 +92,7 @@ never assumed (DESIGN.md §2 explains the episode behind this rule).
 ## The dataset-family model
 
 Data lives in one HF repo per **family** — defined by a simple test: *one
-dataset card you can write honestly* (DESIGN.md §5). Files share a repo
+dataset card you can write honestly*. Files share a repo
 when they share provenance, licence, cadence and caveats. Group by topic
 within publisher (`dft-vehicle-licensing`), never by publisher
 (`dft-everything`).
@@ -140,8 +181,8 @@ Rules:
 
 ## Adding a new source (the most common task)
 
-1. Decide the family (DESIGN.md §5). New family → add an entry to
-   `families.json` (title + honest description).
+1. Decide the family (see *The dataset-family model*). New family → add
+   an entry to `families.json` (title + honest description).
 2. `mkdir sources/<publisher>_<table-id>_<short-description>` and write
    `fetch.py` following the contract. Copy the VEH0105 source as a
    starting point.
@@ -229,8 +270,6 @@ There is no special recovery state — a fixed source is just a source
 whose next run succeeds.
 
 ## Invariants — do not break these
-
-(DESIGN.md §10 is the authoritative list; this is the working summary.)
 
 1. **No data in git.** Only code, docs, and catalog/datapackage metadata
    are committed. If a change would commit a data file, stop.

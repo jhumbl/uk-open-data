@@ -19,9 +19,9 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 CATALOG_PATH = REPO_ROOT / "catalog.json"
 FAMILIES_PATH = REPO_ROOT / "families.json"
 
-# The Hugging Face namespace all dataset repos live under (DESIGN.md §3).
+# The Hugging Face namespace all dataset repos live under.
 # Set once when the HF account is created; changing it is a URL migration
-# for every consumer (DESIGN.md §7) — deliberate, never casual.
+# for every consumer (CLAUDE.md invariant 6) — deliberate, never casual.
 HF_NAMESPACE = "jhumbl"
 
 # Be a polite client: identify ourselves and never hang forever.

@@ -7,11 +7,11 @@
 #      tags happen in there too).
 #   2. Clobbers the rolling "backup" GitHub release with the current
 #      files (disaster recovery only — serving is from HF; release assets
-#      have no CORS, the v1 lesson in DESIGN.md §2).
+#      have no CORS, the founding lesson in CLAUDE.md's design rationale).
 #   3. Commits the updated catalog.json + README table (metadata only —
 #      never data).
 #   4. Smoke-tests the serving promise: CORS + HTTP 206 on every
-#      published URL (DESIGN.md invariant 5).
+#      published URL (CLAUDE.md invariant 5).
 #
 # One-time setup (already done for this repo, recorded for reruns):
 #   1. gh release create backup --title "Backup: current datasets" ...
@@ -90,7 +90,7 @@ jobs:
           path: cache
           key: police-cache-${{ github.run_id }}
 
-      # Every valid file, every week, no logic (DESIGN.md §3): the hub is
+      # Every valid file, every week, no logic: the hub is
       # the serving layer, this release exists so an HF account problem can
       # never cost us current data. The bash glob skips data/.changed and
       # data/.failed. A quarantined source's files are absent from data/,

@@ -1,9 +1,9 @@
 """Publish each family's files to its Hugging Face dataset repo.
 
-One dataset repo per family (DESIGN.md §5). The hub compares content hashes
-before committing: unchanged files are dropped from the commit, and if
-nothing changed at all no commit is created — that server-side skip is what
-makes byte-determinism pay off (DESIGN.md §6) and what the run-twice check
+One dataset repo per family (CLAUDE.md, the dataset-family model). The hub
+compares content hashes before committing: unchanged files are dropped from
+the commit, and if nothing changed at all no commit is created — that
+server-side skip is what makes byte-determinism pay off and what the run-twice check
 relies on. huggingface_hub is imported lazily so `run_all.py --no-hf` works
 without it installed.
 """
@@ -67,7 +67,7 @@ def sync_family(api, family: str, files: list[Path], card: str) -> dict:
 
 def ensure_monthly_tag(api, family: str) -> str:
     """Tag the repo `archive-YYYY-MM` for the current month if not already
-    tagged (DESIGN.md §7 step 3). exist_ok means the first run of the month
+    tagged. exist_ok means the first run of the month
     wins and later runs never move the tag — snapshots stay immutable.
     """
     tag = f"archive-{datetime.now(timezone.utc):%Y-%m}"

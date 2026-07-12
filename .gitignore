@@ -1,4 +1,4 @@
-# Fetched data never enters git (DESIGN.md invariant 1).
+# Fetched data never enters git (CLAUDE.md invariant 1).
 data/
 cache/
 
