@@ -124,19 +124,19 @@ def utc_now_iso() -> str:
 
 def load_catalog() -> dict:
     if CATALOG_PATH.exists():
-        with open(CATALOG_PATH) as fh:
+        with open(CATALOG_PATH, encoding="utf-8") as fh:
             return json.load(fh)
     return {"datasets": {}, "families": {}, "sources": {}}
 
 
 def save_catalog(catalog: dict) -> None:
-    with open(CATALOG_PATH, "w") as fh:
+    with open(CATALOG_PATH, "w", encoding="utf-8") as fh:
         json.dump(catalog, fh, indent=2, sort_keys=True)
         fh.write("\n")
 
 
 def load_datapackage(source_dir: Path) -> dict:
-    with open(source_dir / "datapackage.json") as fh:
+    with open(source_dir / "datapackage.json", encoding="utf-8") as fh:
         return json.load(fh)
 
 
@@ -144,7 +144,7 @@ def load_families() -> dict:
     """families.json: family-level card metadata (title, description) that
     has no per-source home. Every hf_repo named by a source's
     datapackage.json must have an entry here."""
-    with open(FAMILIES_PATH) as fh:
+    with open(FAMILIES_PATH, encoding="utf-8") as fh:
         return json.load(fh)
 
 

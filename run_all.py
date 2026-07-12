@@ -291,8 +291,12 @@ def main() -> int:
     elif family_files:
         sync_families(family_files, catalog, failed_lines)
 
-    (out_dir / ".changed").write_text("\n".join(changed) + ("\n" if changed else ""))
-    (out_dir / ".failed").write_text("\n".join(failed_lines) + ("\n" if failed_lines else ""))
+    (out_dir / ".changed").write_text(
+        "\n".join(changed) + ("\n" if changed else ""), encoding="utf-8"
+    )
+    (out_dir / ".failed").write_text(
+        "\n".join(failed_lines) + ("\n" if failed_lines else ""), encoding="utf-8"
+    )
     save_catalog(catalog)
 
     print(f"\nDone: {len(changed)} file(s) changed, {len(failed_lines)} failure(s).")

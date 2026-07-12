@@ -30,7 +30,7 @@ REQUIRED_FIELDS = ("provider", "cadence", "title", "resources", "hf_repo")
 
 
 def build_row(source_dir: Path) -> str:
-    pkg = json.loads((source_dir / "datapackage.json").read_text())
+    pkg = json.loads((source_dir / "datapackage.json").read_text(encoding="utf-8"))
     for field in REQUIRED_FIELDS:
         if field not in pkg:
             sys.exit(
