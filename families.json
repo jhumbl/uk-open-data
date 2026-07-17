@@ -7,6 +7,10 @@
     "title": "Street-level crime, outcomes and stop & search — London",
     "description": "Every crime and anti-social-behaviour incident recorded by London's two territorial police forces (the Metropolitan Police Service and City of London Police) since December 2010, with case outcomes and stop & search records, as published on data.police.uk. Full history is reconstructed from data.police.uk's permanent monthly archive zips, each month taken from the newest zip that contains it (the most-revised version). Locations are anonymised by data.police.uk; British Transport Police are excluded. Three tables sharing one provenance, licence, monthly cadence and set of recording caveats — that is what makes them one family."
   },
+  "gla-trees": {
+    "title": "London public realm trees (GLA / GiGL)",
+    "description": "Tree-level inventory of London's publicly maintained realm — around 1.14 million street, park and other public-land trees — collated by Greenspace Information for Greater London (GiGL) for the Greater London Authority from the boroughs, TfL, the Royal Parks and other public land managers, with species, location type, size and age where recorded, and a 2090 climate suitability score. One publisher, one Open Government Licence, one occasional edition cycle and one set of coverage caveats — that is what makes it one family."
+  },
   "fsa-food-hygiene-london": {
     "title": "FSA food hygiene ratings (FHRS) — London",
     "description": "Every establishment rated under the Food Hygiene Rating Scheme in the 33 London local authorities (the 32 boroughs plus the City of London Corporation), published by the Food Standards Agency as one XML file per authority, regenerated daily. The FSA keeps no public history — each day's extract overwrites the last — so the weekly commits and monthly archive-YYYY-MM tags on this repo are a longitudinal record of London's food-business landscape that exists nowhere else."

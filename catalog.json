@@ -81,6 +81,31 @@
       "size_bytes": 4871842,
       "source": "fsa_fhrs_london_food_hygiene"
     },
+    "gla_public_realm_trees.csv": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/gla-trees/resolve/main/gla_public_realm_trees.csv",
+      "fetched_from": "https://data.london.gov.uk/download/2r45m/e62a6a1f-390d-4193-ae32-3aabd9846f36/Borough_tree_list_2025Nov.csv",
+      "first_seen": "2026-07-17T21:28:43Z",
+      "hf_repo": "gla-trees",
+      "last_changed": "2026-07-17T21:28:43Z",
+      "last_checked": "2026-07-17T21:29:41Z",
+      "sha256": "47bfe02f42fc842c670f35b6f6ecbb04600884c56561429b9bba6aa4f79d6319",
+      "size_bytes": 208790582,
+      "source": "gla_public_realm_trees"
+    },
+    "gla_public_realm_trees.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/gla-trees/resolve/main/gla_public_realm_trees.parquet",
+      "fetched_from": "https://data.london.gov.uk/download/2r45m/e62a6a1f-390d-4193-ae32-3aabd9846f36/Borough_tree_list_2025Nov.csv",
+      "first_seen": "2026-07-17T21:28:43Z",
+      "hf_repo": "gla-trees",
+      "last_changed": "2026-07-17T21:28:43Z",
+      "last_checked": "2026-07-17T21:29:41Z",
+      "sha256": "af6209191a27b889ab36ac6ff288f60a3daf6255e67b4f6d2784a753b06bc451",
+      "size_bytes": 26980926,
+      "source": "gla_public_realm_trees",
+      "stats": {
+        "row_count": 1136049
+      }
+    },
     "police_crime_london.parquet": {
       "download_url": "https://huggingface.co/datasets/jhumbl/police-crime-london/resolve/main/police_crime_london.parquet",
       "fetched_from": "https://data.police.uk/data/archive/2026-05.zip",
@@ -147,6 +172,14 @@
       "revision": "4216dbdc0d596832bf7ddbaa80f5f7ea9105b3f3",
       "status": "ok"
     },
+    "gla-trees": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-07-17T21:29:48Z",
+      "last_tag": "archive-2026-07",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/gla-trees",
+      "revision": "206a163cba14464d818bb4053b23c6181e7ced57",
+      "status": "ok"
+    },
     "police-crime-london": {
       "consecutive_failures": 0,
       "last_synced": "2026-07-13T09:25:36Z",
@@ -171,6 +204,11 @@
     "fsa_fhrs_london_food_hygiene": {
       "consecutive_failures": 0,
       "last_success": "2026-07-13T09:23:48Z",
+      "status": "ok"
+    },
+    "gla_public_realm_trees": {
+      "consecutive_failures": 0,
+      "last_success": "2026-07-17T21:29:41Z",
       "status": "ok"
     },
     "police_crime_london": {

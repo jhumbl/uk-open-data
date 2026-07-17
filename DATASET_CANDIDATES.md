@@ -74,7 +74,7 @@ borough-level filtering):
    was instead filled by ✅ `police_crime_london`, full incident-level
    history; the dashboard remains a candidate as a lighter ward-level
    complement)*
-8. `gla_public_realm_trees` — 1.1m London street/park trees
+8. ✅ `gla_public_realm_trees` — 1.1m London street/park trees (built all-London, November 2025 edition)
 9. `wcc_air_quality` — Westminster's own monitor data, CSV
 10. `dft_stats19_collisions_london` — road casualties, annual, filter to London
 
@@ -107,7 +107,7 @@ borough-level filtering):
 
 | Proposed source | Dataset | Cadence | Format | Feas. | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `gla_public_realm_trees` | [London public realm trees](https://data.london.gov.uk/dataset/local-authority-maintained-trees/) — ~1.14m trees, species + location | Occasional | CSV | A | Datastore direct-download URLs are stable. Filter/flag Westminster rows in tidy step |
+| ✅ `gla_public_realm_trees` | [London public realm trees](https://data.london.gov.uk/dataset/local-authority-maintained-trees/) — ~1.14m trees, species + location | Occasional | CSV | A | Built 2026-07: fetches the newest CSV resource via the Datastore JSON API (each edition is a new resource/UUID, so no hard-coded URL). Kept all-London, no Westminster filter; size columns stay strings (suppliers mix exact values and bands). Family `gla-trees` |
 | `wcc_air_quality` | [Westminster air quality data download](https://www.westminster.gov.uk/about-council/data/air-quality-data) — monitor + diffusion-tube data | Hourly/monthly | CSV | B | Council's own publication; need to inspect the download page for URL stability |
 | `gla_air_quality_stats` | [Air quality summary statistics](https://data.london.gov.uk/dataset/air-quality-summary-statistics) / [monitoring sites](https://data.london.gov.uk/dataset/air_quality_monitoring_sites) | Annual/occasional | CSV | A | Whether sites met objectives, by borough |
 | `laqn_westminster_monitors` | [London Air Quality Network API](https://www.londonair.org.uk/Londonair/API/) — hourly readings for Westminster sites | Hourly | JSON/CSV | A | No key needed. Weekly pull of last-week hourly data per WM site; would grow — consider monthly aggregation |

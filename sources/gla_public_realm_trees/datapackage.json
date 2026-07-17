@@ -1,0 +1,145 @@
+{
+  "name": "gla_public_realm_trees",
+  "title": "London Public Realm Trees: location, species and climate suitability of ~1.14m publicly maintained trees",
+  "description": "Tree-level inventory of London's public realm — street trees, park trees and some school and housing-land trees — collated by Greenspace Information for Greater London (GiGL) for the Greater London Authority from all 32 boroughs, the City of London, Transport for London, the Royal Parks, the London Legacy Development Corporation and Quintain (Wembley Park). Each row is one tree: coordinates, taxonomy, maintainer, location type, size and age where recorded, and a composite 2090 climate suitability score. This is the dataset behind the GLA's London Public Realm Tree Map.",
+  "homepage": "https://data.london.gov.uk/dataset/local-authority-maintained-trees/",
+  "provider": "GLA / GiGL",
+  "cadence": "Occasional",
+  "hf_repo": "gla-trees",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "title": "Open Government Licence v3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Greater London Authority (GLA Environment Team) / Greenspace Information for Greater London (GiGL) — London Public Realm Trees, London Datastore",
+      "path": "https://data.london.gov.uk/dataset/local-authority-maintained-trees/"
+    },
+    {
+      "title": "GLA — Future Climate Suitability of London's Public Realm Trees (source of the 2090 climate suitability score)",
+      "path": "https://www.london.gov.uk/media/110943/download"
+    }
+  ],
+  "update_cadence": "Occasional: editions were published in 2018, 2021 and November 2025, so years can pass between updates. The weekly pipeline run re-checks the London Datastore API each Monday and picks up a new edition automatically; almost every run will report the files unchanged, which is normal.",
+  "caveats": [
+    "This is NOT London's whole urban forest. The GLA's i-Tree report estimates 8+ million trees in London; this dataset covers the ~1.14 million in the publicly maintained realm (highways, parks, some school and housing land). Woodlands, private gardens and most other private land are out of scope.",
+    "Borough totals reflect the data each organisation supplied, not the real tree stock — coverage and recording practice vary widely (Croydon supplied ~1,200 records, Enfield ~110,000). Do not compare borough counts as if they measured trees on the ground.",
+    "Where an organisation did not supply updated data for an edition, the GLA carries its previous records forward (e.g. Bromley in the 2025 edition), so individual records can be years older than the edition date.",
+    "The size columns (canopy_m, height_m, girth_dbh) are kept as published: a mix of exact values ('8 m'), banded ranges ('05 to 10 m', '<5 m', '20+ m' — band edges differ by supplier) and the sentinel 'Not recorded'. They are strings, not numbers, and need consumer-side parsing.",
+    "Columns keep the publisher's sentinels as text: 'Not provided' (climate_suitability, cs_confidence, age_cat), 'Undefined' (age_cat) and a literal 'NA' string in the taxonomy columns (~420,000 rows in common_genus, fewer in taxon_genus and taxon_family). Empty cells (e.g. 36 rows with no borough) are nulls.",
+    "The 2090 climate suitability score is a composite assessment of each species against projected 2090 London climate conditions, from the GLA's Future Climate Suitability report; it is species-level, not an assessment of the individual tree.",
+    "taxon_species is not always species-level — some suppliers record genus only (e.g. 'Acer'), and the borough/maintainer columns can disagree near borough boundaries (a tree listed under one borough may be maintained by a neighbouring authority).",
+    "Only the current edition is republished here. Older editions (February 2018, July 2021) remain downloadable from the London Datastore page, and past states of this repo's files are kept by the monthly archive-YYYY-MM tags."
+  ],
+  "resources": [
+    {
+      "name": "raw_csv",
+      "path": "gla_public_realm_trees.csv",
+      "format": "csv",
+      "description": "The unmodified CSV of the newest edition as published on the London Datastore (UTF-8 with BOM), renamed to this repo's stable filename."
+    },
+    {
+      "name": "tidy_parquet",
+      "path": "gla_public_realm_trees.parquet",
+      "format": "parquet",
+      "description": "Typed copy of the raw CSV, one row per tree: coordinates and uniqueid typed, whitespace trimmed, empty cells nulled, rows sorted by borough then uniqueid. Column names and categorical/size text are exactly as published. May be absent if the published layout changed; the raw CSV is authoritative.",
+      "schema": {
+        "fields": [
+          {
+            "name": "borough",
+            "type": "string",
+            "description": "London borough the tree is located in (e.g. Westminster, City of London). Null for a handful of rows the publisher left blank."
+          },
+          {
+            "name": "lat",
+            "type": "number",
+            "description": "Latitude, WGS84 decimal degrees."
+          },
+          {
+            "name": "lon",
+            "type": "number",
+            "description": "Longitude, WGS84 decimal degrees."
+          },
+          {
+            "name": "uniqueid",
+            "type": "integer",
+            "description": "Row identifier assigned by the publisher; unique within the 2025 edition. Not guaranteed stable between editions."
+          },
+          {
+            "name": "taxon_species",
+            "type": "string",
+            "description": "Scientific name as supplied — usually species (e.g. 'Acer campestre') but genus-only where the supplier recorded no species."
+          },
+          {
+            "name": "common_name",
+            "type": "string",
+            "description": "Common name matching taxon_species (e.g. 'Field maple')."
+          },
+          {
+            "name": "taxon_genus",
+            "type": "string",
+            "description": "Scientific genus (e.g. 'Acer')."
+          },
+          {
+            "name": "common_genus",
+            "type": "string",
+            "description": "Common name of the genus (e.g. 'Maple'), or the publisher's literal 'NA' string (~37% of rows)."
+          },
+          {
+            "name": "gla_name",
+            "type": "string",
+            "description": "The GLA's display grouping for the tree map (usually the common genus)."
+          },
+          {
+            "name": "taxon_family",
+            "type": "string",
+            "description": "Scientific family (e.g. 'Sapindaceae')."
+          },
+          {
+            "name": "maintainer",
+            "type": "string",
+            "description": "Organisation that maintains the tree (e.g. 'City of Westminster', 'The Royal Parks', 'Transport for London'). Can differ from borough near boundaries."
+          },
+          {
+            "name": "location",
+            "type": "string",
+            "description": "Tree location type: Highways, Parks, Housing, Other, or Outside London."
+          },
+          {
+            "name": "climate_suitability",
+            "type": "string",
+            "description": "Composite 2090 climate suitability of the species: High, Moderate, Low, Vulnerable, or 'Not provided'."
+          },
+          {
+            "name": "cs_confidence",
+            "type": "string",
+            "description": "Confidence of the climate suitability assessment: High, Low, or 'Not provided'."
+          },
+          {
+            "name": "age_cat",
+            "type": "string",
+            "description": "Age category as supplied: Young (0-15), Early mature (16-30), Mature (31-80), Over mature (81-150), Veteran (over 150), Undefined, or 'Not provided'."
+          },
+          {
+            "name": "canopy_m",
+            "type": "string",
+            "description": "Canopy spread in metres, AS PUBLISHED: exact ('8 m'), banded ('05 to 10 m', '<3 m', '20+ m') or 'Not recorded'. String — parse before computing."
+          },
+          {
+            "name": "height_m",
+            "type": "string",
+            "description": "Tree height in metres, AS PUBLISHED: exact ('12 m'), banded ('10 to 15 m', '<5 m', '20+ m') or 'Not recorded'. String — parse before computing."
+          },
+          {
+            "name": "girth_dbh",
+            "type": "string",
+            "description": "Girth (diameter at breast height) in centimetres, AS PUBLISHED: exact ('32 cm'), banded ('21 to 35 cm', 'Up to 15 cm') or 'Not recorded'. String — parse before computing."
+          }
+        ]
+      }
+    }
+  ]
+}
