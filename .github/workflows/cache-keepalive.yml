@@ -1,0 +1,38 @@
+# Keeps the police-crime Actions cache warm between weekly refreshes.
+#
+# GitHub evicts any Actions cache not accessed for 7 days. The refresh
+# workflow's weekly Monday cron sits exactly on that boundary, and
+# scheduled runs fire with variable delay — on 2026-07-27 the gap
+# between two refreshes reached 7 days 51 minutes, the cache was
+# evicted, and the cold ~9 GB rebuild from data.police.uk blew the job
+# timeout. This job restores the most recent cache and throws it away:
+# the restore counts as an access and resets the eviction clock. It
+# saves nothing, uploads nothing, and touches no data — if it fails or
+# misses, the only consequence is that the next refresh may face a cold
+# (slow, never wrong) rebuild, which refresh.yml's timeout now allows.
+
+name: Keep police cache warm
+
+on:
+  schedule:
+    - cron: "0 6 * * 4" # Thursdays 06:00 UTC — midway between Monday refreshes
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Touch the police crime cache
+        uses: actions/cache/restore@v4
+        with:
+          path: cache
+          # The primary key never matches a saved key (nothing saves under
+          # -keepalive-), so the prefix restore-key always restores the most
+          # recent refresh save — the generation the next refresh will use.
+          key: police-cache-keepalive-${{ github.run_id }}
+          restore-keys: |
+            police-cache-

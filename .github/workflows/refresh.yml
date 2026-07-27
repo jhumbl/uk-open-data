@@ -45,9 +45,13 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    # A cold police-crime cache means ~9 GB of downloads (~30-60 min); 90
-    # leaves headroom without letting a hang burn the default 6 hours.
-    timeout-minutes: 90
+    # A cold police-crime cache means re-downloading ~9 GB from
+    # data.police.uk, which can serve as slowly as ~450 KB/s (2026-07-27:
+    # 90 minutes bought only ~2.4 GB before the old 90-min timeout killed
+    # the run). Four hours lets a cold rebuild finish while still not
+    # letting a true hang burn the default 6; warm-cache runs take ~10-15
+    # minutes, and cache-keepalive.yml exists to keep warm the normal case.
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
 
@@ -68,8 +72,12 @@ jobs:
       # an unrelated broken source must not discard a 45-minute cache build.
       # The run_id key is unique so every run saves; the prefix restore-key
       # restores the most recent previous save; the 10 GB repo cache cap
-      # LRU-evicts old generations and the weekly cron defeats the 7-day
-      # idle eviction. A cold cache is only a slow run, never a wrong one.
+      # LRU-evicts old generations. The weekly cron alone does NOT defeat
+      # the 7-day idle eviction — scheduled runs fire with variable delay,
+      # and on 2026-07-27 the gap between refreshes hit 7 days 51 minutes
+      # and the cache was evicted. cache-keepalive.yml touches the cache
+      # midweek to reset that clock. A cold cache is only a slow run,
+      # never a wrong one.
       - name: Restore police crime cache
         uses: actions/cache/restore@v4
         with:
@@ -81,6 +89,10 @@ jobs:
       - name: Fetch all datasets and sync to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          # Python block-buffers stdout to a pipe; without this, a run
+          # killed mid-step loses every buffered progress line and a slow
+          # download is indistinguishable from a hang in the live log.
+          PYTHONUNBUFFERED: "1"
         run: python run_all.py --out data
 
       - name: Save police crime cache
