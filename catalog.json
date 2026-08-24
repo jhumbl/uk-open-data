@@ -6,7 +6,7 @@
       "first_seen": "2026-07-12T14:22:13Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-07-20T08:57:19Z",
-      "last_checked": "2026-08-17T06:50:02Z",
+      "last_checked": "2026-08-24T06:54:11Z",
       "sha256": "e612c62c8e88613b7facdb90f38a9913be7974473fd76ff280dbf3aa96a9ee55",
       "size_bytes": 17357168,
       "source": "dft_veh0105_licensed_by_la"
@@ -17,7 +17,7 @@
       "first_seen": "2026-07-12T14:22:13Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-07-20T08:57:19Z",
-      "last_checked": "2026-08-17T06:50:02Z",
+      "last_checked": "2026-08-24T06:54:11Z",
       "sha256": "25cd0b2edb07a0830a22d3c1845b3a305499478a60e8d2c651531b194a38f555",
       "size_bytes": 6475272,
       "source": "dft_veh0105_licensed_by_la",
@@ -33,7 +33,7 @@
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-07-20T08:58:32Z",
-      "last_checked": "2026-08-17T06:51:18Z",
+      "last_checked": "2026-08-24T06:55:28Z",
       "sha256": "84a231a2428ebd68231c438f32d431df3be14f360df62c446b90da0092b61184",
       "size_bytes": 2163034,
       "source": "dft_veh0132_ulev_by_la"
@@ -44,7 +44,7 @@
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-07-20T08:58:32Z",
-      "last_checked": "2026-08-17T06:51:18Z",
+      "last_checked": "2026-08-24T06:55:28Z",
       "sha256": "d08206e66f3afc1c5859f84013287db557fbe9a65dd4807550a3345beb662174",
       "size_bytes": 632803,
       "source": "dft_veh0132_ulev_by_la",
@@ -59,15 +59,15 @@
       "fetched_from": "https://ratings.food.gov.uk/OpenDataFiles/FHRS{code}en-GB.xml",
       "first_seen": "2026-07-12T16:09:42Z",
       "hf_repo": "fsa-food-hygiene-london",
-      "last_changed": "2026-08-17T06:51:58Z",
-      "last_checked": "2026-08-17T06:51:58Z",
-      "sha256": "9e223adf8e0d7ed49bc6e4c73ce6b262eafe25ea9d46d7f3298260632887fcac",
-      "size_bytes": 5117802,
+      "last_changed": "2026-08-24T06:56:02Z",
+      "last_checked": "2026-08-24T06:56:02Z",
+      "sha256": "31e759a9de05338267bcc37f84f7336b4811d56de4b1210816ab730a356641f5",
+      "size_bytes": 5119369,
       "source": "fsa_fhrs_london_food_hygiene",
       "stats": {
-        "max_period": "2026-08-13",
+        "max_period": "2026-08-21",
         "min_period": "2002-07-15",
-        "row_count": 81169
+        "row_count": 81217
       }
     },
     "fsa_fhrs_london_food_hygiene_raw_xml.zip": {
@@ -75,10 +75,10 @@
       "fetched_from": "https://ratings.food.gov.uk/OpenDataFiles/FHRS{code}en-GB.xml",
       "first_seen": "2026-07-12T16:09:42Z",
       "hf_repo": "fsa-food-hygiene-london",
-      "last_changed": "2026-08-17T06:51:58Z",
-      "last_checked": "2026-08-17T06:51:58Z",
-      "sha256": "12658fed630e396f50b33a6f4faaa1229cfee209e62d60a747f1c2cb866dd411",
-      "size_bytes": 4887341,
+      "last_changed": "2026-08-24T06:56:02Z",
+      "last_checked": "2026-08-24T06:56:02Z",
+      "sha256": "e4befc814201b1d45dc1433c999f54fc3301971c233efd4e938571e4288462e6",
+      "size_bytes": 4890073,
       "source": "fsa_fhrs_london_food_hygiene"
     },
     "gla_public_realm_trees.csv": {
@@ -87,7 +87,7 @@
       "first_seen": "2026-07-17T21:28:43Z",
       "hf_repo": "gla-trees",
       "last_changed": "2026-07-17T21:28:43Z",
-      "last_checked": "2026-08-17T06:52:08Z",
+      "last_checked": "2026-08-24T06:56:10Z",
       "sha256": "47bfe02f42fc842c670f35b6f6ecbb04600884c56561429b9bba6aa4f79d6319",
       "size_bytes": 208790582,
       "source": "gla_public_realm_trees"
@@ -98,7 +98,7 @@
       "first_seen": "2026-07-17T21:28:43Z",
       "hf_repo": "gla-trees",
       "last_changed": "2026-07-17T21:28:43Z",
-      "last_checked": "2026-08-17T06:52:08Z",
+      "last_checked": "2026-08-24T06:56:10Z",
       "sha256": "af6209191a27b889ab36ac6ff288f60a3daf6255e67b4f6d2784a753b06bc451",
       "size_bytes": 26980926,
       "source": "gla_public_realm_trees",
@@ -112,7 +112,7 @@
       "first_seen": "2026-07-12T16:19:33Z",
       "hf_repo": "police-crime-london",
       "last_changed": "2026-08-03T09:47:10Z",
-      "last_checked": "2026-08-17T06:54:02Z",
+      "last_checked": "2026-08-24T06:58:08Z",
       "sha256": "74573d8c690ea246b45f767096f7ae63a13ae9c34ba3c74c048798650ed04553",
       "size_bytes": 892493575,
       "source": "police_crime_london",
@@ -128,7 +128,7 @@
       "first_seen": "2026-07-12T16:19:33Z",
       "hf_repo": "police-crime-london",
       "last_changed": "2026-08-03T09:47:11Z",
-      "last_checked": "2026-08-17T06:54:02Z",
+      "last_checked": "2026-08-24T06:58:08Z",
       "sha256": "45506cbbeabd9298121607190ce99ffef3e6c0991ee3e7495ae5d5e02fa9bf08",
       "size_bytes": 670314927,
       "source": "police_crime_london",
@@ -144,7 +144,7 @@
       "first_seen": "2026-07-12T16:19:33Z",
       "hf_repo": "police-crime-london",
       "last_changed": "2026-08-03T09:47:11Z",
-      "last_checked": "2026-08-17T06:54:02Z",
+      "last_checked": "2026-08-24T06:58:08Z",
       "sha256": "993bab1a5e5c0c1b93655bd1d6e9184b6e927d3253056ef98bb317d04722ad48",
       "size_bytes": 20984099,
       "source": "police_crime_london",
@@ -158,7 +158,7 @@
   "families": {
     "dft-vehicle-licensing": {
       "consecutive_failures": 0,
-      "last_synced": "2026-08-17T06:54:04Z",
+      "last_synced": "2026-08-24T06:58:10Z",
       "last_tag": "archive-2026-08",
       "repo_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing",
       "revision": "c38c28cadca6005fc0cd45340259f798ec05714e",
@@ -166,15 +166,15 @@
     },
     "fsa-food-hygiene-london": {
       "consecutive_failures": 0,
-      "last_synced": "2026-08-17T06:54:06Z",
+      "last_synced": "2026-08-24T06:58:11Z",
       "last_tag": "archive-2026-08",
       "repo_url": "https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london",
-      "revision": "651a5fe95a35590fb4911ef4a1c39a3f70996879",
+      "revision": "a02761d5d57a1581f15819a77bb47b00cdc41f83",
       "status": "ok"
     },
     "gla-trees": {
       "consecutive_failures": 0,
-      "last_synced": "2026-08-17T06:54:08Z",
+      "last_synced": "2026-08-24T06:58:12Z",
       "last_tag": "archive-2026-08",
       "repo_url": "https://huggingface.co/datasets/jhumbl/gla-trees",
       "revision": "206a163cba14464d818bb4053b23c6181e7ced57",
@@ -182,7 +182,7 @@
     },
     "police-crime-london": {
       "consecutive_failures": 0,
-      "last_synced": "2026-08-17T06:54:13Z",
+      "last_synced": "2026-08-24T06:58:16Z",
       "last_tag": "archive-2026-08",
       "repo_url": "https://huggingface.co/datasets/jhumbl/police-crime-london",
       "revision": "8496876e40280a463bc0023873633adca794b85c",
@@ -192,28 +192,28 @@
   "sources": {
     "dft_veh0105_licensed_by_la": {
       "consecutive_failures": 0,
-      "last_success": "2026-08-17T06:50:02Z",
+      "last_success": "2026-08-24T06:54:11Z",
       "status": "ok"
     },
     "dft_veh0132_ulev_by_la": {
       "consecutive_failures": 0,
       "last_failure": "2026-07-12T16:06:07Z",
-      "last_success": "2026-08-17T06:51:18Z",
+      "last_success": "2026-08-24T06:55:28Z",
       "status": "ok"
     },
     "fsa_fhrs_london_food_hygiene": {
       "consecutive_failures": 0,
-      "last_success": "2026-08-17T06:51:58Z",
+      "last_success": "2026-08-24T06:56:02Z",
       "status": "ok"
     },
     "gla_public_realm_trees": {
       "consecutive_failures": 0,
-      "last_success": "2026-08-17T06:52:07Z",
+      "last_success": "2026-08-24T06:56:09Z",
       "status": "ok"
     },
     "police_crime_london": {
       "consecutive_failures": 0,
-      "last_success": "2026-08-17T06:54:01Z",
+      "last_success": "2026-08-24T06:58:07Z",
       "status": "ok"
     }
   }
