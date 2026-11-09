@@ -143,6 +143,48 @@
         "row_count": 1136049
       }
     },
+    "orr_1415_station_usage.ods": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/orr-station-usage/resolve/main/orr_1415_station_usage.ods",
+      "fetched_from": "https://dataportal.orr.gov.uk/media/1908/table-1415-time-series-of-passenger-entries-and-exits-and-interchanges-by-station.ods",
+      "first_seen": "2026-11-09T20:30:45Z",
+      "hf_repo": "orr-station-usage",
+      "last_changed": "2026-11-09T20:30:45Z",
+      "last_checked": "2026-11-09T20:34:10Z",
+      "sha256": "6b21d03093ebfd01382b2b876b44a7c61491b9b4eb5b638b80a414dbfe414465",
+      "size_bytes": 1517842,
+      "source": "orr_1415_station_usage"
+    },
+    "orr_1415_station_usage.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/orr-station-usage/resolve/main/orr_1415_station_usage.parquet",
+      "fetched_from": "https://dataportal.orr.gov.uk/media/1908/table-1415-time-series-of-passenger-entries-and-exits-and-interchanges-by-station.ods",
+      "first_seen": "2026-11-09T20:30:45Z",
+      "hf_repo": "orr-station-usage",
+      "last_changed": "2026-11-09T20:30:45Z",
+      "last_checked": "2026-11-09T20:34:10Z",
+      "sha256": "5e2c358cde648ef982342a53c28e360c01be04340b19779845b0972aeff60abc",
+      "size_bytes": 960725,
+      "source": "orr_1415_station_usage",
+      "stats": {
+        "categorical_values": {
+          "region": [
+            "East Midlands",
+            "East of England",
+            "London",
+            "North East",
+            "North West",
+            "Scotland",
+            "South East",
+            "South West",
+            "Wales",
+            "West Midlands",
+            "Yorkshire and The Humber"
+          ]
+        },
+        "max_period": "2024-25",
+        "min_period": "1997-98",
+        "row_count": 68481
+      }
+    },
     "police_crime_london.parquet": {
       "download_url": "https://huggingface.co/datasets/jhumbl/police-crime-london/resolve/main/police_crime_london.parquet",
       "fetched_from": "https://data.police.uk/data/archive/2026-09.zip",
@@ -772,6 +814,14 @@
       "revision": "5fc0b720e81c204b19b632cb68e84583d329ec62",
       "status": "ok"
     },
+    "orr-station-usage": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-11-09T20:34:11Z",
+      "last_tag": "archive-2026-11",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/orr-station-usage",
+      "revision": "14131996f9c536f85ac819413b325b1cb807f0ba",
+      "status": "ok"
+    },
     "police-crime-london": {
       "consecutive_failures": 0,
       "last_synced": "2026-11-09T20:09:33Z",
@@ -817,6 +867,11 @@
     "gla_public_realm_trees": {
       "consecutive_failures": 0,
       "last_success": "2026-11-09T20:06:59Z",
+      "status": "ok"
+    },
+    "orr_1415_station_usage": {
+      "consecutive_failures": 0,
+      "last_success": "2026-11-09T20:34:09Z",
       "status": "ok"
     },
     "police_crime_london": {
