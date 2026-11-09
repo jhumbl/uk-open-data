@@ -1,0 +1,57 @@
+{
+  "name": "tfl_journeys_by_mode",
+  "title": "TfL public transport journeys by type of transport, per four-week period",
+  "description": "Millions of journeys on London's public transport network in each four-week TfL reporting period from April 2010, by bus, Underground, DLR, tram, London Overground, London Cable Car and Elizabeth line (published as 'TfL Rail'). Published by Transport for London on the London Datastore. One row per period per mode.",
+  "homepage": "https://data.london.gov.uk/dataset/public-transport-journeys-by-type-of-transport-ep8ow",
+  "provider": "TfL / London Datastore",
+  "cadence": "4-weekly",
+  "hf_repo": "tfl-journeys-by-mode",
+  "licenses": [
+    {
+      "name": "OGL-UK-2.0",
+      "title": "Open Government Licence v2.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London, via the London Datastore — Public Transport Journeys by Type of Transport (tfl-journeys-type.csv)",
+      "path": "https://data.london.gov.uk/dataset/public-transport-journeys-by-type-of-transport-ep8ow"
+    }
+  ],
+  "update_cadence": "TfL adds each four-week reporting period (13 a year) a few weeks after it ends; checked weekly.",
+  "caveats": [
+    "TfL reporting periods are four weeks (28 days), except that period 1 starts on 1 April and period 13 ends on 31 March, so those two vary in length (days_in_period). Figures are not adjusted for period length; there is no calendar-month version.",
+    "financial_year is derived from each period's start date. TfL's own label (tfl_period_label) is wrong for 2020-21, whose periods are labelled '_19/20'.",
+    "'Elizabeth line' is the column TfL still labels 'TfL Rail': TfL Rail services (Liverpool Street-Shenfield, Paddington-Heathrow/Reading) before the Elizabeth line opened in May 2022, the Elizabeth line after. Treat the series as changing in scope in 2015 and 2022. TfL's column has figures from April 2014, a year before TfL Rail services began (May 2015); TfL does not say what they cover.",
+    "Before a mode existed TfL publishes either blank (null) or 0 — e.g. 0 for the cable car before it opened in June 2012 and for 'TfL Rail' before April 2014, blank for Overground before October 2010; kept as published. TfL notes that reliable Overground figures are available only from October 2010.",
+    "Counting methods differ by mode (TfL): DLR journeys are based on automatic passenger counts at stations; Overground and tram on automatic on-carriage counts; bus journeys count boardings. Figures are in millions, rounded to one decimal place (two for the cable car).",
+    "Covid-19: 2019-20 (from March 2020), 2020-21 and 2021-22 reflect restrictions and recovery; do not use them as a baseline."
+  ],
+  "resources": [
+    {
+      "name": "journeys_by_mode_parquet",
+      "path": "tfl_journeys_by_mode.parquet",
+      "format": "parquet",
+      "description": "One row per four-week period per mode, sorted by period_start then mode. Derived from the raw CSV, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "financial_year", "type": "string", "description": "April-to-March year containing the period's start, e.g. '2026-27'."},
+          {"name": "period", "type": "integer", "description": "TfL reporting period within the financial year, 1 to 13."},
+          {"name": "period_start", "type": "string", "description": "First day of the period, ISO yyyy-mm-dd."},
+          {"name": "period_end", "type": "string", "description": "Last day of the period, ISO yyyy-mm-dd."},
+          {"name": "days_in_period", "type": "integer", "description": "Length of the period in days, as published by TfL (usually 28)."},
+          {"name": "tfl_period_label", "type": "string", "description": "TfL's own period label, verbatim (e.g. '07_26/27'). Wrong for 2020-21 — use financial_year."},
+          {"name": "mode", "type": "string", "description": "One of: Bus, Underground, DLR, Tram, Overground, London Cable Car, Elizabeth line."},
+          {"name": "journeys_millions", "type": "number", "description": "Journeys in the period, in millions; null where TfL gives no figure."}
+        ]
+      }
+    },
+    {
+      "name": "raw_csv",
+      "path": "tfl_journeys_by_mode.csv",
+      "format": "csv",
+      "description": "TfL's tfl-journeys-type.csv exactly as downloaded from the London Datastore: one row per period, one column per mode."
+    }
+  ]
+}

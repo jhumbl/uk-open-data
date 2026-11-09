@@ -45,7 +45,7 @@ from lib.common import download, get_page, load_resource_schema, write_parquet
 
 # The Datastore's machine-readable index of this dataset. Stable across
 # editions (unlike the per-resource download URLs it points at).
-API_URL = "https://data.london.gov.uk/api/dataset/local-authority-maintained-trees"
+API_URL = "https://data.london.gov.uk/api/v2/dataset/local-authority-maintained-trees"
 
 CSV_NAME = "gla_public_realm_trees.csv"
 PARQUET_NAME = "gla_public_realm_trees.parquet"

@@ -23,6 +23,10 @@
     "title": "ORR estimates of station usage — Great Britain",
     "description": "How many people use each of Great Britain's ~2,600 mainline railway stations, from the Office of Rail and Road's annual Estimates of station usage: estimated entries, exits and interchanges at every station for each financial year from 1997-98. The figures are official statistics, estimated mainly from ticket sales rather than counted at gates."
   },
+  "tfl-journeys-by-mode": {
+    "title": "TfL public transport journeys by type of transport",
+    "description": "How many journeys are made on London's public transport each four-week TfL reporting period, by mode — bus, Underground, DLR, tram, London Overground, London Cable Car and Elizabeth line — from April 2010, as published by Transport for London on the London Datastore. TfL's headline ridership series, at the level TfL reports it."
+  },
   "tfl-cycle-hire": {
     "title": "TfL Santander Cycles — docking stations",
     "description": "London's Santander Cycles hire network from Transport for London's open data: the inventory of docking stations from TfL's live BikePoint list — location, size, status and install date for around 800 stations. TfL publishes only the current list, so the monthly archive-YYYY-MM tags here record how the network changes over time: stations added, removed, renamed, moved or resized. Powered by TfL Open Data."
