@@ -76,17 +76,19 @@ def main() -> int:
         if "download_url" in entry:
             urls.append(entry["download_url"])
 
-    # One snapshot URL per family: same promise, different revision.
+    # One snapshot URL per family: same promise, different revision. Use the
+    # family's longest-published file (earliest first_seen): a source that
+    # joins a family mid-month isn't in that month's tag — tags are immutable
+    # and taken at the month's first sync — so picking alphabetically could
+    # test a URL that was never promised and 404 for the rest of the month.
     for family, health in sorted(catalog.get("families", {}).items()):
         tag = health.get("last_tag")
-        first_file = next(
-            (
-                name
-                for name, entry in sorted(catalog["datasets"].items())
-                if entry.get("hf_repo") == family and "download_url" in entry
-            ),
-            None,
+        members = sorted(
+            (entry.get("first_seen", ""), name)
+            for name, entry in catalog["datasets"].items()
+            if entry.get("hf_repo") == family and "download_url" in entry
         )
+        first_file = members[0][1] if members else None
         if tag and first_file:
             urls.append(hf_resolve_url(family, first_file, tag))
 
