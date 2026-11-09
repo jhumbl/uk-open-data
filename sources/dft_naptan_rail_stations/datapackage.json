@@ -1,0 +1,66 @@
+{
+  "name": "dft_naptan_rail_stations",
+  "title": "NaPTAN rail stations: every National Rail station in Great Britain with CRS code, TIPLOC and location",
+  "description": "The National Rail station records in the National Public Transport Access Nodes dataset (NaPTAN), published by the Department for Transport: one row per station record, with its CRS (three-letter) code, TIPLOC, NaPTAN stop area, OS National Grid easting/northing and WGS84 latitude/longitude. Covers the national rail network (NaPTAN area 910), including London Overground and Elizabeth line stations.",
+  "homepage": "https://www.data.gov.uk/dataset/ff93ffc1-6656-47d8-9155-85ea0b8f2251/naptan",
+  "provider": "DfT",
+  "cadence": "Continuous",
+  "hf_repo": "dft-naptan",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "title": "Open Government Licence v3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Department for Transport — National Public Transport Access Nodes (NaPTAN), ATCO area 910 (National Rail), via the NaPTAN API",
+      "path": "https://naptan.api.dft.gov.uk/v1/access-nodes?dataFormat=xml&atcoAreaCodes=910"
+    }
+  ],
+  "update_cadence": "NaPTAN is updated continuously as records are added or amended; the API always serves the current state. Checked weekly.",
+  "caveats": [
+    "One row per NaPTAN station record, not per station. Most stations have one record, but about 25 CRS codes have several (one per TIPLOC — e.g. five for Clapham Junction, two for London Bridge, Victoria or Liverpool Central main and Loop Line), each in its own stop area. Their locations are usually within metres of each other, occasionally a few hundred (Bishop Auckland). For one point per station, filter to status = 'active' and take one row per crs.",
+    "crs is the National Rail three-letter station code, the same code ORR publishes as TLC in its station usage statistics. Records without a CRS are mostly stop_type BCQ (bus or coach stops NaPTAN files under the rail area, e.g. for rail-replacement services) and inactive records.",
+    "status = 'inactive' marks records NaPTAN has retired (closed stations, superseded records, and a few foreign destinations such as Avignon). They are kept as published.",
+    "Locations: easting/northing (OS National Grid) are always given. lat/lon are NaPTAN's own WGS84 coordinates where it publishes them; for the few records where NaPTAN gives only easting/northing (in November 2026 the 11 central Elizabeth line and Barking Riverside records), lat/lon are converted from easting/northing (OSGB36 to WGS84 by Helmert transformation, accurate to about 5 m) and coords_derived is true.",
+    "A handful of NaPTAN records have easting/northing and lat/lon that disagree with each other (Horden by about 100 m in November 2026). Both are kept as published.",
+    "Scope is the national rail network (NaPTAN area 910). London Underground, DLR, tram and other metro-only stations are in a different NaPTAN area and are not included.",
+    "NaPTAN offers no public history: the API serves only the current state. Earlier states are preserved by this dataset's monthly archive-YYYY-MM tags."
+  ],
+  "resources": [
+    {
+      "name": "rail_stations_parquet",
+      "path": "dft_naptan_rail_stations.parquet",
+      "format": "parquet",
+      "description": "One row per NaPTAN station record (StopPoint), sorted by atco_code. Derived from the raw XML, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "atco_code", "type": "string", "description": "NaPTAN ATCO code, unique per record, e.g. '9100PADTON'."},
+          {"name": "common_name", "type": "string", "description": "NaPTAN common name, verbatim (often ends 'Rail Station')."},
+          {"name": "stop_type", "type": "string", "description": "NaPTAN stop type: RLY (rail station), RPL (rail platform) or BCQ (bus/coach stop recorded under the rail area)."},
+          {"name": "status", "type": "string", "description": "'active' or 'inactive', as published."},
+          {"name": "crs", "type": "string", "description": "National Rail CRS (three-letter) code, e.g. 'PAD'; null where NaPTAN gives none."},
+          {"name": "tiploc", "type": "string", "description": "Network Rail TIPLOC code; null where NaPTAN gives none."},
+          {"name": "station_name", "type": "string", "description": "Station name from NaPTAN's rail reference, verbatim; null where NaPTAN gives none."},
+          {"name": "stop_area_code", "type": "string", "description": "NaPTAN stop area the record belongs to, e.g. '910GPADTON'; null for a few records with none."},
+          {"name": "easting", "type": "integer", "description": "OS National Grid easting, metres."},
+          {"name": "northing", "type": "integer", "description": "OS National Grid northing, metres."},
+          {"name": "lat", "type": "number", "description": "WGS84 latitude, 6 decimal places: NaPTAN's own, or converted from easting/northing where coords_derived is true."},
+          {"name": "lon", "type": "number", "description": "WGS84 longitude, 6 decimal places: NaPTAN's own, or converted from easting/northing where coords_derived is true."},
+          {"name": "coords_derived", "type": "boolean", "description": "True where NaPTAN publishes no latitude/longitude and lat/lon were converted from easting/northing."},
+          {"name": "locality_code", "type": "string", "description": "NPTG locality code the record is placed in."},
+          {"name": "admin_area_code", "type": "string", "description": "NaPTAN administrative area code (110 = National Rail)."},
+          {"name": "modified", "type": "string", "description": "When NaPTAN last modified the record, ISO yyyy-mm-ddThh:mm:ss as published."}
+        ]
+      }
+    },
+    {
+      "name": "raw_xml",
+      "path": "dft_naptan_rail_stations.xml",
+      "format": "xml",
+      "description": "NaPTAN area 910 exactly as returned by the NaPTAN API (XML, NaPTAN schema 2.1): stop points and stop areas."
+    }
+  ]
+}

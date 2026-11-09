@@ -79,6 +79,7 @@ drawing conclusions; that context is the point of this project.
 <!-- BEGIN GENERATED DATASETS TABLE (generate_readme.py) -->
 | File | Description | Source | Cadence | Data |
 | --- | --- | --- | --- | --- |
+| `dft_naptan_rail_stations.parquet` (+ `.xml`) | NaPTAN rail stations: every National Rail station in Great Britain with CRS code, TIPLOC and location | DfT | Continuous | [dft-naptan](https://huggingface.co/datasets/jhumbl/dft-naptan) |
 | `dft_veh0105_licensed_by_la.ods` (+ `.parquet`) | VEH0105: Licensed vehicles by body type, fuel type and local authority | DfT / DVLA | Quarterly | [dft-vehicle-licensing](https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing) |
 | `dft_veh0132_ulev_by_la.ods` (+ `.parquet`) | VEH0132: Licensed ultra low emission vehicles (ULEVs) by local authority | DfT / DVLA | Quarterly | [dft-vehicle-licensing](https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing) |
 | `fsa_fhrs_london_food_hygiene.parquet` (+ `_raw_xml.zip`) | Food hygiene ratings (FHRS) for every rated food business in London | FSA | Daily | [fsa-food-hygiene-london](https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london) |
