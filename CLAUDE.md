@@ -79,6 +79,9 @@ relitigate these without new facts.
                                 (hub skips unchanged files), monthly tags
     lib/cards.py                Renders each family's HF dataset card from
                                 metadata — deterministic, no timestamps
+    lib/tfl_network_demand.py   Shared by the two TfL Network Demand sources:
+                                bucket listing, overlap rule (latest period
+                                wins), deterministic raw zip
     catalog.json                Machine-readable index: per-file sha256, size,
                                 timestamps, URLs, stats, source health, HF
                                 revisions. Committed weekly by CI — its git

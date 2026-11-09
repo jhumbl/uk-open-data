@@ -1,0 +1,75 @@
+{
+  "name": "tfl_network_daily_journeys",
+  "title": "TfL network-wide Underground and bus journeys per day",
+  "description": "Total journeys per day across London's Underground and bus networks from 1 January 2019, as published by TfL alongside its station footfall series (same Network Demand folder, same overlapping yearly and rolling two-year files rewritten in place about weekly). This table resolves the overlaps into one row per day; the raw zip preserves each week's files exactly as published. Powered by TfL Open Data.",
+  "homepage": "https://crowding.data.tfl.gov.uk/",
+  "provider": "TfL",
+  "cadence": "Weekly",
+  "hf_repo": "tfl-network-demand",
+  "licenses": [
+    {
+      "name": "TfL-Transport-Data-Licence",
+      "title": "TfL Transport Data Service licence (based on OGL v2.0) — attribution: \"Powered by TfL Open Data\"",
+      "path": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London — Network Demand open data (crowding.data.tfl.gov.uk, folder 'Network Demand', Journeys_*.csv)",
+      "path": "https://crowding.data.tfl.gov.uk/"
+    }
+  ],
+  "update_cadence": "TfL rewrites the current file roughly weekly, with data to about a week before upload, so most weekly pipeline runs will find this source changed.",
+  "caveats": [
+    "Counts are rounded by TfL to the nearest thousand journeys.",
+    "These are TfL's journey estimates, not station taps: they do not reconcile with summing tfl_station_footfall (which counts entries and exits at gate lines, including some non-Underground stations).",
+    "TfL does not document exactly which modes are inside 'Tube' (e.g. whether Elizabeth line journeys are included) — compare against TfL's period-level 'journeys by type of transport' series before relying on the split.",
+    "Covid-19: 2020 and 2021 (and early 2022) reflect lockdowns and recovery; do not use them as a baseline.",
+    "Overlaps between TfL's files are resolved by taking each day from the file covering the latest period; source_file records which file each row came from. Recent days are subject to small revisions in later weekly uploads.",
+    "TfL keeps no history of superseded figures — earlier versions survive only in this repo's commit history and monthly archive-YYYY-MM tags.",
+    "Attribution required by the licence: \"Powered by TfL Open Data\"."
+  ],
+  "resources": [
+    {
+      "name": "daily_journeys_parquet",
+      "path": "tfl_network_daily_journeys.parquet",
+      "format": "parquet",
+      "description": "One row per day, overlaps between TfL's files resolved (latest period wins), sorted by travel_date. Best-effort derived file; the raw zip is authoritative.",
+      "schema": {
+        "fields": [
+          {
+            "name": "travel_date",
+            "type": "string",
+            "description": "Date of travel, ISO yyyy-mm-dd (TfL publishes yyyymmdd)."
+          },
+          {
+            "name": "day_of_week",
+            "type": "string",
+            "description": "Monday..Sunday, canonicalised to that casing; validated to agree with travel_date."
+          },
+          {
+            "name": "tube_journey_count",
+            "type": "integer",
+            "description": "Underground journeys that day, rounded by TfL to the nearest thousand."
+          },
+          {
+            "name": "bus_journey_count",
+            "type": "integer",
+            "description": "Bus journeys that day, rounded by TfL to the nearest thousand."
+          },
+          {
+            "name": "source_file",
+            "type": "string",
+            "description": "The TfL file this row was taken from, exactly as named in the bucket."
+          }
+        ]
+      }
+    },
+    {
+      "name": "raw_zip",
+      "path": "tfl_network_daily_journeys_raw.zip",
+      "format": "zip",
+      "description": "Every Journeys_*.csv in TfL's Network Demand folder at fetch time, unmodified and under TfL's own filenames, bundled into one deterministic zip."
+    }
+  ]
+}

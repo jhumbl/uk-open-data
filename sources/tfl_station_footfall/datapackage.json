@@ -1,0 +1,82 @@
+{
+  "name": "tfl_station_footfall",
+  "title": "TfL station entries and exits per day (station footfall)",
+  "description": "Entry and exit gate taps for every station in TfL's daily footfall series — around 440 Underground, Elizabeth line, DLR, London Overground and some National Rail gate lines — one row per station per day from 1 January 2019. TfL publishes the series as overlapping yearly and rolling two-year CSVs that it rewrites in place about weekly, with small late corrections and no public history; this table resolves the overlaps (the file covering the latest period wins) into a single deduplicated series, and the raw zip preserves each week's files exactly as published. Powered by TfL Open Data.",
+  "homepage": "https://crowding.data.tfl.gov.uk/",
+  "provider": "TfL",
+  "cadence": "Weekly",
+  "hf_repo": "tfl-network-demand",
+  "licenses": [
+    {
+      "name": "TfL-Transport-Data-Licence",
+      "title": "TfL Transport Data Service licence (based on OGL v2.0) — attribution: \"Powered by TfL Open Data\"",
+      "path": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London — Network Demand open data (crowding.data.tfl.gov.uk, folder 'Network Demand', StationFootfall_*.csv)",
+      "path": "https://crowding.data.tfl.gov.uk/"
+    }
+  ],
+  "update_cadence": "TfL rewrites the current file roughly weekly, with data to about a week before upload, so most weekly pipeline runs will find this source changed; older periods are occasionally re-uploaded with corrections.",
+  "caveats": [
+    "These are gate taps, not journeys or people: one trip through two stations in the series counts as an entry at one and an exit at the other, and changing lines inside a station produces no tap.",
+    "Travel through open gates (disruption, gates left open) is not counted, and paper tickets may be under-counted.",
+    "A station-day with no row is missing, not zero — e.g. stations closed for works or strikes, or not yet open. Do not fill gaps with 0 without checking.",
+    "Station names are TfL's labels for this series and do not always match TfL's API (StopPoint) names. They change over time: 'Woolwich EL', 'Canary Wharf EL' and 'Custom House EL' became '... Elizabeth Line' from 2025-05-28, and an 'Unknown' station appears from February 2020 to December 2022. Names are published verbatim apart from trimming whitespace ('Cannon Street ' in the 2019-22 files).",
+    "Elizabeth line: Paddington has a separate 'Paddington EL' row from 2021; Bond Street and Tottenham Court Road have no separate Elizabeth line row, so their figures probably include Elizabeth line entrances — compare across May 2022 (central section opening) with care.",
+    "Covid-19: 2020 and 2021 (and early 2022) reflect lockdowns and recovery; do not use them as a baseline.",
+    "Overlaps between TfL's files are resolved by taking each station-day from the file covering the latest period (e.g. StationFootfall_2025_2026 beats StationFootfall_2024_2025); source_file records which file each row came from. The newest period is subject to small revisions in later weekly uploads.",
+    "TfL keeps no history of superseded figures — earlier versions survive only in this repo's commit history, its monthly archive-YYYY-MM tags, and catalog.json's git history in the pipeline repo.",
+    "Attribution required by the licence: \"Powered by TfL Open Data\". The licence also asks re-users to acknowledge Ordnance Survey derived data where present (\"Contains OS data © Crown copyright and database rights 2016\" and Geomni UK Map data © and database rights [2019])."
+  ],
+  "resources": [
+    {
+      "name": "station_footfall_parquet",
+      "path": "tfl_station_footfall.parquet",
+      "format": "parquet",
+      "description": "One row per station per day, overlaps between TfL's files resolved (latest period wins), sorted by travel_date then station. Best-effort derived file; the raw zip is authoritative.",
+      "schema": {
+        "fields": [
+          {
+            "name": "travel_date",
+            "type": "string",
+            "description": "Date of travel, ISO yyyy-mm-dd (TfL publishes yyyymmdd)."
+          },
+          {
+            "name": "day_of_week",
+            "type": "string",
+            "description": "Monday..Sunday, canonicalised to that casing; validated to agree with travel_date."
+          },
+          {
+            "name": "station",
+            "type": "string",
+            "description": "TfL's station label for this series, verbatim apart from trimmed whitespace (see caveats on renames)."
+          },
+          {
+            "name": "entry_tap_count",
+            "type": "integer",
+            "description": "Entry gate taps that day."
+          },
+          {
+            "name": "exit_tap_count",
+            "type": "integer",
+            "description": "Exit gate taps that day."
+          },
+          {
+            "name": "source_file",
+            "type": "string",
+            "description": "The TfL file this row was taken from, exactly as named in the bucket (some names contain a stray space before '.csv')."
+          }
+        ]
+      }
+    },
+    {
+      "name": "raw_zip",
+      "path": "tfl_station_footfall_raw.zip",
+      "format": "zip",
+      "description": "Every StationFootfall_*.csv in TfL's Network Demand folder at fetch time, unmodified and under TfL's own filenames, bundled into one deterministic zip — the archival record, since TfL overwrites these files in place."
+    }
+  ]
+}
