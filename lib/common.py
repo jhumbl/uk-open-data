@@ -245,3 +245,51 @@ def parquet_stats(path: Path, period_column: str) -> dict:
         stats["min_period"] = min(values)
         stats["max_period"] = max(values)
     return stats
+
+
+def canonicalize_categorical(series: "pd.Series", canonical: list[str]) -> "pd.Series":
+    """Map a categorical column's values onto a declared canonical set,
+    case-insensitively (after stripping), and return the mapped Series.
+
+    Use this ONLY for a *closed* vocabulary you can fully enumerate — pass
+    every valid value in ``canonical`` (e.g. ["Private", "Company", "Total"]).
+    It exists because publishers silently re-format closed enums (DfT once
+    flipped keepership ALL-CAPS -> Title Case): without canonicalisation such
+    a change is invisible to shape checks, silently mutates the served enum
+    that consumers filter on, and churns the parquet bytes.
+
+    Values matching no canonical form are left UNCHANGED, never dropped — so a
+    genuinely new category still surfaces. Pair this with a membership
+    assertion in the source's validate(), which then quarantines the
+    surprise for a human decision instead of publishing it.
+
+    Do NOT use on open, growing vocabularies (fuel types, geography names):
+    forcing a canonical case would itself corrupt them. Record those with
+    categorical_value_sets() so re-formatting shows up as a catalog diff.
+    """
+    lookup = {str(c).strip().casefold(): c for c in canonical}
+    return series.map(
+        lambda v: v if v is None else lookup.get(str(v).strip().casefold(), v)
+    )
+
+
+def categorical_value_sets(path: Path, columns: list[str]) -> dict[str, list[str]]:
+    """Distinct non-null values of each named column, each sorted — for
+    recording in catalog.json's per-file stats.
+
+    This is the general tripwire for the whole class of "publisher silently
+    re-formatted a categorical value" bugs (case, whitespace, punctuation):
+    the value set lands in the committed catalog, so any such drift becomes a
+    reviewable git diff instead of leaking unnoticed into served data. It
+    catches open vocabularies we deliberately don't canonicalise, too.
+
+    Restrict ``columns`` to low-cardinality ones — a large set bloats the
+    catalog and drowns the diff it exists to make legible.
+    """
+    import pyarrow.parquet as pq
+
+    table = pq.ParquetFile(path).read(columns=columns)
+    return {
+        col: sorted({v for v in table.column(col).to_pylist() if v is not None})
+        for col in columns
+    }

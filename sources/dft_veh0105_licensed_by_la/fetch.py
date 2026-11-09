@@ -43,6 +43,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from lib.common import (
+    canonicalize_categorical,
+    categorical_value_sets,
     download,
     get_page,
     load_resource_schema,
@@ -74,6 +76,17 @@ ID_COLUMNS = {
     "fuel": "fuel",
     "keepership": "keepership",
 }
+
+# keepership is a CLOSED vocabulary, so we pin it to this canonical set:
+# DfT has silently re-cased it before (ALL-CAPS -> Title Case), which shape
+# checks miss while it mutates the served enum consumers filter on. fuel and
+# body_type are OPEN, growing vocabularies — left verbatim (see the comment
+# in canonicalize_categorical), only recorded below.
+KEEPERSHIP_CANON = ["Private", "Company", "Total"]
+
+# Low-cardinality categorical columns whose distinct value-sets are recorded
+# in catalog.json, so any publisher re-formatting surfaces as a catalog diff.
+CATEGORICAL_COLUMNS = ["body_type", "fuel", "keepership"]
 
 # DfT's quarter columns look like "2025 Q4".
 QUARTER_RE = re.compile(r"^\d{4} Q[1-4]$")
@@ -170,6 +183,11 @@ def tidy_to_parquet(ods_path: Path, parquet_path: Path) -> Path | None:
         # consumer's equality lookup.
         for col in ("ons_code", "ons_geography", "body_type", "fuel", "keepership"):
             wide[col] = wide[col].str.strip()
+
+        # Pin keepership to its canonical casing so DfT's re-casing can't churn
+        # the bytes or silently change the served enum; a genuinely new value
+        # passes through unchanged and is caught by validate() below.
+        wide["keepership"] = canonicalize_categorical(wide["keepership"], KEEPERSHIP_CANON)
 
         df = wide.melt(
             id_vars=list(ID_COLUMNS.values()),
@@ -271,6 +289,16 @@ def validate(files: list[Path]) -> None:
                 f"{parquet.name} has {df['keepership'].nunique()} keepership "
                 "values — implausible; review tidy_to_parquet()."
             )
+        # keepership is a closed enum (canonicalised in tidy). A value outside
+        # the canonical set means DfT added a category or changed labels — the
+        # kind of drift that shape checks miss; quarantine for a human.
+        unexpected = sorted(set(df["keepership"].dropna().unique()) - set(KEEPERSHIP_CANON))
+        if unexpected:
+            raise ValueError(
+                f"{parquet.name} has unexpected keepership value(s) {unexpected}, "
+                f"not in the canonical set {KEEPERSHIP_CANON} — DfT may have added "
+                "a category or relabelled; review KEEPERSHIP_CANON and tidy_to_parquet()."
+            )
 
         null_fraction = df["count_thousands"].isna().mean()
         if null_fraction > 0.25:
@@ -285,7 +313,9 @@ def stats(files: list[Path]) -> dict[str, dict]:
     parquet = next((p for p in files if p.suffix == ".parquet"), None)
     if parquet is None:
         return {}
-    return {parquet.name: parquet_stats(parquet, "quarter")}
+    file_stats = parquet_stats(parquet, "quarter")
+    file_stats["categorical_values"] = categorical_value_sets(parquet, CATEGORICAL_COLUMNS)
+    return {parquet.name: file_stats}
 
 
 def fetch(out_dir: Path) -> list[Path]:

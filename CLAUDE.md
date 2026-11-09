@@ -161,6 +161,25 @@ Rules:
   (`lib.common.check_parquet_schema`), so a schema/code mismatch
   quarantines the source instead of publishing a surprise. The schema is
   API just like the filename (invariant 6).
+- **Categorical *values* are API too, and drift silently.** Publishers
+  re-format the values inside a categorical column — case, whitespace,
+  punctuation — far more often than they change structure, and every
+  shape check (`nunique`, row counts, schema) sails straight past it. So
+  the served enum a consumer filters on (`WHERE keepership = 'Private'`)
+  can change under them with nothing going red. DfT did exactly this once,
+  re-casing keepership ALL-CAPS → Title Case, undetected. For each
+  low-cardinality categorical column decide which kind it is: a *closed*
+  vocabulary you can fully enumerate (keepership → Private/Company/Total)
+  gets canonicalised in the tidy step with
+  `lib.common.canonicalize_categorical` and its membership asserted in
+  validate() (a genuinely new category then quarantines for a human); an
+  *open*, growing vocabulary (fuel types, geography names) is left
+  verbatim — forcing a canonical case would corrupt it. Either way record
+  every such column's distinct value-set via `lib.common.categorical_value_sets`
+  in `stats()`, so any re-formatting shows up as a reviewable `catalog.json`
+  diff instead of leaking into served data. Never leave the expected value
+  set living only in a datapackage description — that is untested prose,
+  and untested prose is what drifted.
 - Optionally expose `validate(files: list[Path]) -> None`, raising with a
   clear message if the output doesn't look right (magic bytes, size
   bounds, expected columns, plausible row counts — shape, not values). If
@@ -171,7 +190,8 @@ Rules:
 - Two more optional hooks feed catalog.json: `stats(files) ->
   dict[filename, dict]` (use `lib.common.parquet_stats`: row_count plus
   min/max of a period column whose lexicographic order equals temporal
-  order), and a module-level `FETCHED_FROM: dict[filename, url]`
+  order, and `lib.common.categorical_value_sets` for the value-set
+  tripwire above), and a module-level `FETCHED_FROM: dict[filename, url]`
   populated during fetch() with the URL each file was actually downloaded
   from. Both are best-effort — failures warn, never quarantine.
 - If the publisher's direct URL is unstable, scrape their stable landing
@@ -192,16 +212,21 @@ Rules:
    `schema.fields` block on each parquet resource, `hf_repo`, and the two
    short display fields for the README table: `provider` (e.g.
    `"DfT / DVLA"`) and `cadence` (e.g. `"Quarterly"`).
-4. Test locally without uploading: `python run_all.py --only <name>
+4. For each low-cardinality categorical column, classify the vocabulary
+   and wire up the value-drift guards (see the categorical-values bullet
+   in the source contract): *closed* → canonicalise in tidy +
+   assert membership in validate(); *open* → leave verbatim. Either way,
+   record its value-set in `stats()` via `categorical_value_sets`.
+5. Test locally without uploading: `python run_all.py --only <name>
    --no-hf`, inspect `data/` and the new catalog.json entries. Run it
    TWICE — the second run must print `unchanged` for every file (the
    determinism gotcha below).
-5. Full test against real HF: `python run_all.py --only <name>` (needs
+6. Full test against real HF: `python run_all.py --only <name>` (needs
    HF_TOKEN), then `python smoke_test.py`. The repo is created
    automatically; check the card renders and the viewer shows the table.
-6. `python generate_readme.py` to add the source to the README table
+7. `python generate_readme.py` to add the source to the README table
    (it appears only after a successful sync).
-7. Do NOT commit anything in `data/` (gitignored) and do not hand-edit
+8. Do NOT commit anything in `data/` (gitignored) and do not hand-edit
    generated artifacts: catalog.json, the README table, or HF dataset
    cards (all three are overwritten by the next run).
 
@@ -301,6 +326,20 @@ whose next run succeeds.
 
 ## Gotchas
 
+- **Publishers silently re-format categorical *values* without changing
+  structure** — a case flip, stray whitespace, "N/A" vs "n/a", an em-dash
+  swapped for a hyphen. Every shape check passes (`nunique`, row counts,
+  the declared schema all still hold), so the served enum consumers filter
+  on drifts with nothing going red, and any expectation you left only in a
+  datapackage description quietly goes stale. This already happened once:
+  DfT re-cased keepership ALL-CAPS → Title Case and it went out undetected.
+  The defence is to make value expectations machine-checked, not prose —
+  `categorical_value_sets` in `stats()` turns any re-formatting into a
+  reviewable `catalog.json` diff, and for closed enums
+  `canonicalize_categorical` + a validate() membership assertion pins the
+  contract and quarantines a genuinely new category. This is the founding
+  lesson one level down from schema: an untested promise drifts from
+  reality. See the categorical-values bullet in the source contract.
 - **Byte-determinism is load-bearing twice over**: identical content must
   produce identical bytes on every OS, or (a) every run flags spurious
   "changed" files and (b) the HF uploader commits new blobs for unchanged

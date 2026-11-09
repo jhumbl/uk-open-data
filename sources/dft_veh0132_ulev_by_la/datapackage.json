@@ -63,7 +63,7 @@
           {
             "name": "keepership",
             "type": "string",
-            "description": "COMPANY, PRIVATE, or the publisher's 'Total'."
+            "description": "Registered-keeper type: 'Private', 'Company', or the publisher's aggregate 'Total'. Canonicalised to this casing by the pipeline (DfT has re-cased these labels between releases), so the value set is stable regardless of the publisher's current formatting."
           },
           {
             "name": "quarter",
