@@ -124,7 +124,7 @@
       "first_seen": "2026-07-17T21:28:43Z",
       "hf_repo": "gla-trees",
       "last_changed": "2026-07-17T21:28:43Z",
-      "last_checked": "2026-11-09T20:06:59Z",
+      "last_checked": "2026-11-09T21:01:03Z",
       "sha256": "47bfe02f42fc842c670f35b6f6ecbb04600884c56561429b9bba6aa4f79d6319",
       "size_bytes": 208790582,
       "source": "gla_public_realm_trees"
@@ -135,7 +135,7 @@
       "first_seen": "2026-07-17T21:28:43Z",
       "hf_repo": "gla-trees",
       "last_changed": "2026-07-17T21:28:43Z",
-      "last_checked": "2026-11-09T20:06:59Z",
+      "last_checked": "2026-11-09T21:01:03Z",
       "sha256": "af6209191a27b889ab36ac6ff288f60a3daf6255e67b4f6d2784a753b06bc451",
       "size_bytes": 26980926,
       "source": "gla_public_realm_trees",
@@ -271,6 +271,44 @@
       "sha256": "33efada87554b65165104bf1b967eb7a2a38e478a7e2c1c609dfacd695e9ffc8",
       "size_bytes": 78772,
       "source": "tfl_bikepoint_docking_stations"
+    },
+    "tfl_journeys_by_mode.csv": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-journeys-by-mode/resolve/main/tfl_journeys_by_mode.csv",
+      "fetched_from": "https://data.london.gov.uk/download/ep8ow/06a805f6-77c6-481a-8b08-ddef56afffdd/tfl-journeys-type.csv",
+      "first_seen": "2026-11-09T21:00:48Z",
+      "hf_repo": "tfl-journeys-by-mode",
+      "last_changed": "2026-11-09T21:00:48Z",
+      "last_checked": "2026-11-09T21:01:44Z",
+      "sha256": "ad13cd46018dbb30c13c3aedc36bb8a1db327fe2331d4397d98ea62cd63fdfcd",
+      "size_bytes": 14879,
+      "source": "tfl_journeys_by_mode"
+    },
+    "tfl_journeys_by_mode.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-journeys-by-mode/resolve/main/tfl_journeys_by_mode.parquet",
+      "fetched_from": "https://data.london.gov.uk/download/ep8ow/06a805f6-77c6-481a-8b08-ddef56afffdd/tfl-journeys-type.csv",
+      "first_seen": "2026-11-09T21:00:48Z",
+      "hf_repo": "tfl-journeys-by-mode",
+      "last_changed": "2026-11-09T21:00:48Z",
+      "last_checked": "2026-11-09T21:01:44Z",
+      "sha256": "080e8ff9dff67d8e9111167158f7ef0d21828649fc4051e66c1eb6e14f20de6c",
+      "size_bytes": 13186,
+      "source": "tfl_journeys_by_mode",
+      "stats": {
+        "categorical_values": {
+          "mode": [
+            "Bus",
+            "DLR",
+            "Elizabeth line",
+            "London Cable Car",
+            "Overground",
+            "Tram",
+            "Underground"
+          ]
+        },
+        "max_period": "2026-09-20",
+        "min_period": "2010-04-01",
+        "row_count": 1505
+      }
     },
     "tfl_network_daily_journeys.parquet": {
       "download_url": "https://huggingface.co/datasets/jhumbl/tfl-network-demand/resolve/main/tfl_network_daily_journeys.parquet",
@@ -838,6 +876,14 @@
       "revision": "18e3c13378f65403476529e5da5bc1812724cf93",
       "status": "ok"
     },
+    "tfl-journeys-by-mode": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-11-09T21:01:46Z",
+      "last_tag": "archive-2026-11",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-journeys-by-mode",
+      "revision": "3fcb3102a416c1f546f454a5250574a39fbd60db",
+      "status": "ok"
+    },
     "tfl-network-demand": {
       "consecutive_failures": 0,
       "last_synced": "2026-11-09T20:09:39Z",
@@ -866,7 +912,7 @@
     },
     "gla_public_realm_trees": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:06:59Z",
+      "last_success": "2026-11-09T21:01:03Z",
       "status": "ok"
     },
     "orr_1415_station_usage": {
@@ -882,6 +928,11 @@
     "tfl_bikepoint_docking_stations": {
       "consecutive_failures": 0,
       "last_success": "2026-11-09T20:12:06Z",
+      "status": "ok"
+    },
+    "tfl_journeys_by_mode": {
+      "consecutive_failures": 0,
+      "last_success": "2026-11-09T21:01:44Z",
       "status": "ok"
     },
     "tfl_network_daily_journeys": {

@@ -86,6 +86,7 @@ drawing conclusions; that context is the point of this project.
 | `orr_1415_station_usage.parquet` (+ `.ods`) | ORR Table 1415: estimated entries, exits and interchanges at every GB mainline station, 1997-98 onwards | ORR | Annual | [orr-station-usage](https://huggingface.co/datasets/jhumbl/orr-station-usage) |
 | `police_crime_london.parquet` (+ `_outcomes.parquet`, `_stop_search.parquet`) | Street-level crime, outcomes and stop & search for London (Metropolitan & City of London Police), Dec 2010 to present | Home Office / data.police.uk | Monthly | [police-crime-london](https://huggingface.co/datasets/jhumbl/police-crime-london) |
 | `tfl_bikepoint_docking_stations.parquet` (+ `_raw.zip`) | Santander Cycles docking stations (TfL BikePoint) | TfL | Weekly | [tfl-cycle-hire](https://huggingface.co/datasets/jhumbl/tfl-cycle-hire) |
+| `tfl_journeys_by_mode.parquet` (+ `.csv`) | TfL public transport journeys by type of transport, per four-week period | TfL / London Datastore | 4-weekly | [tfl-journeys-by-mode](https://huggingface.co/datasets/jhumbl/tfl-journeys-by-mode) |
 | `tfl_network_daily_journeys.parquet` (+ `_raw.zip`) | TfL network-wide Underground and bus journeys per day | TfL | Weekly | [tfl-network-demand](https://huggingface.co/datasets/jhumbl/tfl-network-demand) |
 | `tfl_station_footfall.parquet` (+ `_raw.zip`) | TfL station entries and exits per day (station footfall) | TfL | Weekly | [tfl-network-demand](https://huggingface.co/datasets/jhumbl/tfl-network-demand) |
 <!-- END GENERATED DATASETS TABLE -->
