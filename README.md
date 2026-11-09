@@ -84,6 +84,7 @@ drawing conclusions; that context is the point of this project.
 | `fsa_fhrs_london_food_hygiene.parquet` (+ `_raw_xml.zip`) | Food hygiene ratings (FHRS) for every rated food business in London | FSA | Daily | [fsa-food-hygiene-london](https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london) |
 | `gla_public_realm_trees.csv` (+ `.parquet`) | London Public Realm Trees: location, species and climate suitability of ~1.14m publicly maintained trees | GLA / GiGL | Occasional | [gla-trees](https://huggingface.co/datasets/jhumbl/gla-trees) |
 | `police_crime_london.parquet` (+ `_outcomes.parquet`, `_stop_search.parquet`) | Street-level crime, outcomes and stop & search for London (Metropolitan & City of London Police), Dec 2010 to present | Home Office / data.police.uk | Monthly | [police-crime-london](https://huggingface.co/datasets/jhumbl/police-crime-london) |
+| `tfl_bikepoint_docking_stations.parquet` (+ `_raw.zip`) | Santander Cycles docking stations (TfL BikePoint) | TfL | Weekly | [tfl-cycle-hire](https://huggingface.co/datasets/jhumbl/tfl-cycle-hire) |
 | `tfl_network_daily_journeys.parquet` (+ `_raw.zip`) | TfL network-wide Underground and bus journeys per day | TfL | Weekly | [tfl-network-demand](https://huggingface.co/datasets/jhumbl/tfl-network-demand) |
 | `tfl_station_footfall.parquet` (+ `_raw.zip`) | TfL station entries and exits per day (station footfall) | TfL | Weekly | [tfl-network-demand](https://huggingface.co/datasets/jhumbl/tfl-network-demand) |
 <!-- END GENERATED DATASETS TABLE -->

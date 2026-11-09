@@ -191,6 +191,45 @@
         "row_count": 1988068
       }
     },
+    "tfl_bikepoint_docking_stations.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-cycle-hire/resolve/main/tfl_bikepoint_docking_stations.parquet",
+      "fetched_from": "https://api.tfl.gov.uk/BikePoint",
+      "first_seen": "2026-11-09T20:11:40Z",
+      "hf_repo": "tfl-cycle-hire",
+      "last_changed": "2026-11-09T20:11:40Z",
+      "last_checked": "2026-11-09T20:12:06Z",
+      "sha256": "39996f1ae9e6a371551cd6be43390b4b1db81d6c4150bc2f8687c579d596aa44",
+      "size_bytes": 47282,
+      "source": "tfl_bikepoint_docking_stations",
+      "stats": {
+        "categorical_values": {
+          "installed": [
+            true
+          ],
+          "locked": [
+            false
+          ],
+          "temporary": [
+            false,
+            true
+          ]
+        },
+        "max_period": "2026-06-01T23:00:00Z",
+        "min_period": "2010-06-19T12:01:00Z",
+        "row_count": 799
+      }
+    },
+    "tfl_bikepoint_docking_stations_raw.zip": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-cycle-hire/resolve/main/tfl_bikepoint_docking_stations_raw.zip",
+      "fetched_from": "https://api.tfl.gov.uk/BikePoint",
+      "first_seen": "2026-11-09T20:11:40Z",
+      "hf_repo": "tfl-cycle-hire",
+      "last_changed": "2026-11-09T20:11:40Z",
+      "last_checked": "2026-11-09T20:12:06Z",
+      "sha256": "33efada87554b65165104bf1b967eb7a2a38e478a7e2c1c609dfacd695e9ffc8",
+      "size_bytes": 78772,
+      "source": "tfl_bikepoint_docking_stations"
+    },
     "tfl_network_daily_journeys.parquet": {
       "download_url": "https://huggingface.co/datasets/jhumbl/tfl-network-demand/resolve/main/tfl_network_daily_journeys.parquet",
       "fetched_from": "https://crowding.data.tfl.gov.uk/",
@@ -741,6 +780,14 @@
       "revision": "5e8d3437ab6864c6aae532a7cacc32618a69c8fb",
       "status": "ok"
     },
+    "tfl-cycle-hire": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-11-09T20:12:08Z",
+      "last_tag": "archive-2026-11",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-cycle-hire",
+      "revision": "18e3c13378f65403476529e5da5bc1812724cf93",
+      "status": "ok"
+    },
     "tfl-network-demand": {
       "consecutive_failures": 0,
       "last_synced": "2026-11-09T20:09:39Z",
@@ -775,6 +822,11 @@
     "police_crime_london": {
       "consecutive_failures": 0,
       "last_success": "2026-11-09T20:09:02Z",
+      "status": "ok"
+    },
+    "tfl_bikepoint_docking_stations": {
+      "consecutive_failures": 0,
+      "last_success": "2026-11-09T20:12:06Z",
       "status": "ok"
     },
     "tfl_network_daily_journeys": {
