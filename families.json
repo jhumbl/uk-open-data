@@ -18,5 +18,9 @@
   "tfl-network-demand": {
     "title": "TfL network demand — daily station footfall and network journeys",
     "description": "Daily demand on London's public transport network from Transport for London's open 'Network Demand' data (crowding.data.tfl.gov.uk): entry and exit taps at each of ~440 stations, and total Underground and bus journeys across the network, from January 2019. TfL publishes both as overlapping yearly and rolling two-year CSV files that it replaces about weekly, with late corrections and no public history. The tables here combine the overlapping files into single deduplicated daily series; the original files are kept alongside, and the monthly archive-YYYY-MM tags preserve versions TfL no longer publishes. Powered by TfL Open Data."
+  },
+  "tfl-cycle-hire": {
+    "title": "TfL Santander Cycles — docking stations",
+    "description": "London's Santander Cycles hire network from Transport for London's open data: the inventory of docking stations from TfL's live BikePoint list — location, size, status and install date for around 800 stations. TfL publishes only the current list, so the monthly archive-YYYY-MM tags here record how the network changes over time: stations added, removed, renamed, moved or resized. Powered by TfL Open Data."
   }
 }

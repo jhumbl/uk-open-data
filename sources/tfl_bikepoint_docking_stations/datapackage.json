@@ -1,0 +1,62 @@
+{
+  "name": "tfl_bikepoint_docking_stations",
+  "title": "Santander Cycles docking stations (TfL BikePoint)",
+  "description": "Every Santander Cycles docking station in TfL's live BikePoint list — around 800 stations — with TfL's id and terminal number, name, location, number of docks, status flags and install date. TfL publishes current state only: stations that are removed, renamed or moved disappear from or change in the list with no public record. This table is a weekly copy of the list's inventory; the monthly archive-YYYY-MM tags preserve the network as it stood each month. Powered by TfL Open Data.",
+  "homepage": "https://api.tfl.gov.uk/BikePoint",
+  "provider": "TfL",
+  "cadence": "Weekly",
+  "hf_repo": "tfl-cycle-hire",
+  "licenses": [
+    {
+      "name": "TfL-Transport-Data-Licence",
+      "title": "TfL Transport Data Service licence (based on OGL v2.0) — attribution: \"Powered by TfL Open Data\"",
+      "path": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London — Unified API, BikePoint endpoint (api.tfl.gov.uk/BikePoint)",
+      "path": "https://api.tfl.gov.uk/BikePoint"
+    }
+  ],
+  "update_cadence": "TfL's API is live and changes whenever docking stations are added, removed, moved or resized; copied here weekly, so changes between copies are visible at weekly resolution.",
+  "caveats": [
+    "This is a weekly copy of a live list. A station added and removed within the same week never appears, and dates of change are known only to within a week (or to within a month from the archive tags).",
+    "TfL has reused old BikePoint ids for new stations elsewhere in London, so an id is not a permanent identifier across years. Names are unique within any one copy of the list and are what TfL's cycle hire journey files use.",
+    "Names are TfL's, verbatim, including stray spaces before commas (e.g. 'River Street , Clerkenwell') — the same spelling as in TfL's journey files.",
+    "nb_docks is TfL's reported total docks at the station, which changes when a station is expanded or reduced (about 3% of stations over 18 months to November 2026). Live bike and free-dock counts are not in this table: a single reading per week is not a meaningful measure of availability. They are in the raw zip for anyone who wants them.",
+    "install_date is missing for around 90 stations. A few stations still listed carry a removal_date (in 2018) — this is TfL's data as published, not corrected here.",
+    "Dates are UTC; TfL sends them as epoch milliseconds, so a station installed at midnight UK summer time appears at 23:00 the previous day.",
+    "History starts with the first copy here (November 2026). For earlier states of the list, the Internet Archive holds occasional copies of the API response from 2015 onwards.",
+    "Attribution required by the licence: \"Powered by TfL Open Data\". The licence also asks re-users to acknowledge Ordnance Survey derived data where present (\"Contains OS data © Crown copyright and database rights 2016\" and Geomni UK Map data © and database rights [2019])."
+  ],
+  "resources": [
+    {
+      "name": "docking_stations_parquet",
+      "path": "tfl_bikepoint_docking_stations.parquet",
+      "format": "parquet",
+      "description": "One row per docking station in TfL's list at fetch time, sorted by the numeric part of bikepoint_id. Inventory only (no live counts). Derived from the raw zip, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "bikepoint_id", "type": "string", "description": "TfL's BikePoint id, e.g. 'BikePoints_1'. Not permanent: TfL has reused ids for new stations."},
+          {"name": "terminal_name", "type": "string", "description": "TfL's terminal number for the station, a six-digit string with leading zeros (e.g. '001023')."},
+          {"name": "name", "type": "string", "description": "Station name as published by TfL, verbatim (usually 'Street, Area')."},
+          {"name": "lat", "type": "number", "description": "Latitude (WGS84)."},
+          {"name": "lon", "type": "number", "description": "Longitude (WGS84)."},
+          {"name": "nb_docks", "type": "integer", "description": "Total docks at the station as reported by TfL at fetch time."},
+          {"name": "installed", "type": "boolean", "description": "TfL's Installed flag."},
+          {"name": "locked", "type": "boolean", "description": "TfL's Locked flag (station not available for hire or return)."},
+          {"name": "temporary", "type": "boolean", "description": "TfL's Temporary flag (e.g. event or works stations)."},
+          {"name": "install_date", "type": "string", "description": "Install date-time, ISO 8601 UTC (yyyy-mm-ddThh:mm:ssZ); null where TfL gives none."},
+          {"name": "removal_date", "type": "string", "description": "Removal date-time, ISO 8601 UTC; null for almost all stations."}
+        ]
+      }
+    },
+    {
+      "name": "raw_zip",
+      "path": "tfl_bikepoint_docking_stations_raw.zip",
+      "format": "zip",
+      "description": "TfL's API response exactly as returned (BikePoint.json), in one deterministic zip. Includes the live bike and free-dock counts at fetch time."
+    }
+  ]
+}
