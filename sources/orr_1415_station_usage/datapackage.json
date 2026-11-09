@@ -1,0 +1,61 @@
+{
+  "name": "orr_1415_station_usage",
+  "title": "ORR Table 1415: estimated entries, exits and interchanges at every GB mainline station, 1997-98 onwards",
+  "description": "Estimated passenger entries and exits (Table 1415a) and interchanges (Table 1415b) at each of around 2,600 mainline railway stations in Great Britain, for every financial year (April to March) from 1997-98, from the Office of Rail and Road's annual Estimates of station usage. The two tables are combined into one long table: one row per station per year, with both measures as columns.",
+  "homepage": "https://dataportal.orr.gov.uk/statistics/usage/estimates-of-station-usage",
+  "provider": "ORR",
+  "cadence": "Annual",
+  "hf_repo": "orr-station-usage",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "title": "Open Government Licence v3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Office of Rail and Road — Estimates of station usage, Table 1415: Time series of passenger entries and exits and interchanges by station",
+      "path": "https://dataportal.orr.gov.uk/statistics/usage/estimates-of-station-usage"
+    }
+  ],
+  "update_cadence": "Annual: ORR publishes the previous April-to-March year each November or December (2024-25 on 4 December 2025; 2025-26 scheduled for November 2026). Checked weekly, so a new release appears within a week.",
+  "caveats": [
+    "These are estimates, not counts: ORR derives them mainly from ticket sales (LENNON) and local ticketing data, allocating journeys on Travelcards, London zonal fares and some other tickets to stations by model. About 5% of values are fractional for that reason. See ORR's quality and methodology report before comparing stations closely.",
+    "Break in series: ORR marks 2022-23 with [b]. From 2023-24 it adjusted for split tickets and changed how tickets to 'London Terminals' are allocated to individual stations, which particularly affects the London termini — compare across 2022-23 and 2023-24 with care. series_break is true on 2022-23 rows, mirroring ORR's marker.",
+    "Interchanges: no interchange data was collected for some years and stations ([x]). In 2022-23, interchanges at central-section Elizabeth line stations are not included (underestimates). In 2023-24, no interchange estimates are published for London Liverpool Street or London Paddington, and other Elizabeth line stations may be overestimated.",
+    "Entries and exits are not available for any station in 2003-04 (no data collected).",
+    "Missing values are null. ORR distinguishes [x] (not available) from [z] (not applicable, e.g. the station was not open); that distinction is kept in the raw workbook only. Station-years with neither measure are left out.",
+    "Stations that have closed (71 in the 2025 edition) have no TLC, NLC, region or local authority (null). Station names, codes, region and local authority are as in the current edition, applied to all years.",
+    "Elizabeth line: stations shared with the Elizabeth line include its passengers from 2022-23 (e.g. Paddington nearly trebled between 2021-22 and 2022-23). Bond Street appears as a station from 2022-23.",
+    "Covid-19: 2019-20 (from March 2020), 2020-21 and 2021-22 reflect restrictions and recovery; do not use them as a baseline.",
+    "ORR republishes the whole time series each year and logs any revisions in its revisions log; earlier editions are preserved by this dataset's monthly archive-YYYY-MM tags."
+  ],
+  "resources": [
+    {
+      "name": "station_usage_parquet",
+      "path": "orr_1415_station_usage.parquet",
+      "format": "parquet",
+      "description": "One row per station per financial year where ORR gives either measure, sorted by financial_year then station_name. Derived from the raw workbook, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "financial_year", "type": "string", "description": "April-to-March year, e.g. '2024-25' (ORR: 'Apr 2024 to Mar 2025')."},
+          {"name": "station_name", "type": "string", "description": "Station name as published by ORR."},
+          {"name": "tlc", "type": "string", "description": "Three Letter Code (CRS), e.g. 'PAD'; null for closed stations."},
+          {"name": "nlc", "type": "string", "description": "National Location Code, as a string; null for closed stations."},
+          {"name": "region", "type": "string", "description": "ITL1 region of Great Britain (one of 11, e.g. 'London', 'Scotland', 'Wales'); null for closed stations."},
+          {"name": "local_authority", "type": "string", "description": "Local authority (district or unitary), as published by ORR."},
+          {"name": "entries_exits", "type": "number", "description": "Estimated passenger entries plus exits in the year (Table 1415a); null where ORR gives none."},
+          {"name": "interchanges", "type": "number", "description": "Estimated passengers changing trains at the station in the year (Table 1415b); null where ORR gives none."},
+          {"name": "series_break", "type": "boolean", "description": "True where ORR marks the year as a break in the entries and exits series ([b]; currently 2022-23)."}
+        ]
+      }
+    },
+    {
+      "name": "raw_ods",
+      "path": "orr_1415_station_usage.ods",
+      "format": "ods",
+      "description": "ORR's Table 1415 workbook exactly as downloaded (cover sheet, notes, 1415a and 1415b)."
+    }
+  ]
+}
