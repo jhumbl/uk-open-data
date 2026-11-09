@@ -1,7 +1,7 @@
 {
   "name": "fsa_fhrs_london_food_hygiene",
   "title": "Food hygiene ratings (FHRS) for every rated food business in London",
-  "description": "Every establishment rated under the Food Hygiene Rating Scheme in the 33 London local authorities (the 32 boroughs plus the City of London Corporation): business name and type, address, geocode, current rating, inspection date and the three component scores. The FSA publishes one XML file per authority, regenerated daily, and keeps no public history — each day's extract overwrites the last — so the weekly commits and monthly archive-YYYY-MM tags on this repo form a longitudinal record of London's food-business landscape that exists nowhere else.",
+  "description": "Every establishment rated under the Food Hygiene Rating Scheme in the 33 London local authorities (the 32 boroughs plus the City of London Corporation): business name and type, address, geocode, current rating, inspection date and the three component scores. The FSA publishes one XML file per authority, regenerated daily, and keeps no public history — each day's extract overwrites the last — so the monthly archive-YYYY-MM tags on this dataset form a historical record of London's food-business landscape that is not available from the publisher.",
   "homepage": "https://ratings.food.gov.uk/open-data",
   "provider": "FSA",
   "cadence": "Daily",
@@ -19,22 +19,22 @@
       "path": "https://ratings.food.gov.uk/open-data"
     }
   ],
-  "update_cadence": "The FSA regenerates every local authority's file daily, so unlike the quarterly/annual statistical sources in this repo, every weekly pipeline run should detect changes; the underlying ratings change continuously as inspections happen.",
+  "update_cadence": "The FSA regenerates every local authority's file daily, and ratings change continuously as inspections happen. Refreshed here weekly.",
   "caveats": [
     "A rating reflects the establishment's most recent inspection, which can be years old — check rating_date before treating ratings as current conditions.",
     "rating_value is not always numeric: alongside 0-5 it can be 'Exempt', 'AwaitingInspection' or 'AwaitingPublication', so it is kept as text in the merged table.",
     "The component scores (hygiene, structural, confidence in management) count points deducted — lower is better — and are absent for exempt/unrated establishments.",
     "Some records lack geocodes and/or postcodes; do not assume every row can be mapped.",
     "Establishments belong to the *inspecting* authority (normally where the premises sit). London counts include the City of London Corporation, whose remit also covers some markets outside the Square Mile.",
-    "The FSA publishes current state only, with no public archive — the history of these files accumulates in this repo's weekly commits and monthly archive-YYYY-MM tags, and in catalog.json's git history in the pipeline repo.",
-    "The XML header embeds the FSA's daily ExtractDate, so the raw zip's hash changes on every weekly run even in the (rare) weeks where no rating actually changed — a 'changed' zip does not by itself mean ratings moved."
+    "The FSA publishes current state only, with no public archive — earlier states of these files are preserved by this dataset's commit history and monthly archive-YYYY-MM tags.",
+    "The XML header embeds the FSA's daily ExtractDate, so the raw zip changes with every weekly refresh even in the (rare) weeks where no rating actually changed — a new version of the zip does not by itself mean ratings moved."
   ],
   "resources": [
     {
       "name": "merged_parquet",
       "path": "fsa_fhrs_london_food_hygiene.parquet",
       "format": "parquet",
-      "description": "All 33 authorities merged into one table, one row per establishment, with a local_authority column added. All columns are strings (rating_value is not always numeric). Best-effort derived file; the raw XML zip is authoritative.",
+      "description": "All 33 authorities merged into one table, one row per establishment, with a local_authority column added. All columns are strings (rating_value is not always numeric). Derived from the raw XML zip, which is authoritative.",
       "schema": {
         "fields": [
           {

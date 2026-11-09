@@ -23,7 +23,7 @@
       "path": "https://www.london.gov.uk/media/110943/download"
     }
   ],
-  "update_cadence": "Occasional: editions were published in 2018, 2021 and November 2025, so years can pass between updates. The weekly pipeline run re-checks the London Datastore API each Monday and picks up a new edition automatically; almost every run will report the files unchanged, which is normal.",
+  "update_cadence": "Occasional: editions were published in 2018, 2021 and November 2025, so years can pass between updates. Checked weekly for a new edition, which is picked up automatically.",
   "caveats": [
     "This is NOT London's whole urban forest. The GLA's i-Tree report estimates 8+ million trees in London; this dataset covers the ~1.14 million in the publicly maintained realm (highways, parks, some school and housing land). Woodlands, private gardens and most other private land are out of scope.",
     "Borough totals reflect the data each organisation supplied, not the real tree stock — coverage and recording practice vary widely (Croydon supplied ~1,200 records, Enfield ~110,000). Do not compare borough counts as if they measured trees on the ground.",
@@ -32,14 +32,14 @@
     "Columns keep the publisher's sentinels as text: 'Not provided' (climate_suitability, cs_confidence, age_cat), 'Undefined' (age_cat) and a literal 'NA' string in the taxonomy columns (~420,000 rows in common_genus, fewer in taxon_genus and taxon_family). Empty cells (e.g. 36 rows with no borough) are nulls.",
     "The 2090 climate suitability score is a composite assessment of each species against projected 2090 London climate conditions, from the GLA's Future Climate Suitability report; it is species-level, not an assessment of the individual tree.",
     "taxon_species is not always species-level — some suppliers record genus only (e.g. 'Acer'), and the borough/maintainer columns can disagree near borough boundaries (a tree listed under one borough may be maintained by a neighbouring authority).",
-    "Only the current edition is republished here. Older editions (February 2018, July 2021) remain downloadable from the London Datastore page, and past states of this repo's files are kept by the monthly archive-YYYY-MM tags."
+    "Only the current edition is republished here. Older editions (February 2018, July 2021) remain downloadable from the London Datastore page, and past states of these files are kept by this dataset's monthly archive-YYYY-MM tags."
   ],
   "resources": [
     {
       "name": "raw_csv",
       "path": "gla_public_realm_trees.csv",
       "format": "csv",
-      "description": "The unmodified CSV of the newest edition as published on the London Datastore (UTF-8 with BOM), renamed to this repo's stable filename."
+      "description": "The unmodified CSV of the newest edition as published on the London Datastore (UTF-8 with BOM), renamed to a stable filename."
     },
     {
       "name": "tidy_parquet",

@@ -19,7 +19,7 @@
       "path": "https://www.gov.uk/government/collections/vehicles-statistics"
     }
   ],
-  "update_cadence": "Quarterly (July, September, December) with the full annual release around April/May. Most weekly pipeline runs will therefore detect no change.",
+  "update_cadence": "Quarterly (July, September, December) with the full annual release around April/May.",
   "caveats": [
     "Vehicles are allocated to a local authority by the registered keeper's postcode, which is not necessarily where the vehicle is located. Company fleets registered to a single head office can distort local figures.",
     "ULEV classification depends on reported CO2 figures, whose test regime changed over time (NEDC -> WLTP in April 2020); take care comparing across that boundary.",
@@ -63,7 +63,7 @@
           {
             "name": "keepership",
             "type": "string",
-            "description": "Registered-keeper type: 'Private', 'Company', or the publisher's aggregate 'Total'. Canonicalised to this casing by the pipeline (DfT has re-cased these labels between releases), so the value set is stable regardless of the publisher's current formatting."
+            "description": "Registered-keeper type: 'Private', 'Company', or the publisher's aggregate 'Total'. Normalised to this casing (DfT has re-cased these labels between releases), so values are consistent across releases."
           },
           {
             "name": "quarter",

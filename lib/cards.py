@@ -118,8 +118,19 @@ def build_card(
     packages: the datapackage.json dicts of every member source that has
     published data, in a deterministic (sorted-by-name) order.
     """
+    # Cards describe the data and where it comes from — nothing about how
+    # this project uses it (browsers, CORS, dashboards). That belongs in
+    # the pipeline repo's README, where smoke_test.py backs the claim.
     example = next(
         (r["path"] for p in packages for r in _parquet_resources(p)), None
+    )
+    providers = list(dict.fromkeys(p["provider"] for p in packages))
+    repo_id = hf_repo_id(family)
+    # police_crime_london republishes no raw files (see its caveats), so
+    # only claim "original kept alongside" when every member does keep one.
+    keeps_raw = all(
+        any(r.get("format") != "parquet" for r in p.get("resources", []))
+        for p in packages
     )
 
     head = [
@@ -129,34 +140,46 @@ def build_card(
         "",
         family_meta["description"],
         "",
-        f"Curated by [uk-open-data]({pipeline_repo_url}): a weekly pipeline "
-        "re-downloads each publisher file, tidies it into analysis-ready "
-        "parquet, validates it against a declared schema, and uploads it "
-        "here. `main` is always the latest data; a git tag `archive-YYYY-MM` "
-        "snapshots every month, so silent revisions by the publisher stay "
-        "visible. The raw file as published is stored alongside every tidy "
-        "parquet.",
+        "## About this copy",
         "",
-        "## How to use",
+        f"An unofficial republication of open data published by "
+        f"{', '.join(providers)}, under the licence shown below. Each table "
+        "is the publisher's data tidied into a single parquet file"
+        + (
+            "; the file as originally published is kept alongside it. "
+            if keeps_raw
+            else ". "
+        )
+        + "The publisher's files are re-checked weekly and changes picked "
+        "up automatically. `main` holds the latest "
+        "version and a monthly git tag `archive-YYYY-MM` preserves each "
+        f"month's state, so earlier versions remain available. Maintained "
+        f"by [uk-open-data]({pipeline_repo_url}).",
         "",
-        "Files are served with CORS and HTTP range support (verified on "
-        "every pipeline run), so browsers can query them directly — "
-        "DuckDB-Wasm, or plain `fetch()`:",
+        "## Loading the data",
         "",
-        "```",
-        f"latest:    {hf_resolve_url(family, '<filename>')}",
-        f"snapshot:  {hf_resolve_url(family, '<filename>', 'archive-YYYY-MM')}",
-        f"duckdb:    hf://datasets/{hf_repo_id(family)}/<filename>",
-        "```",
     ]
     if example:
         head += [
+            "```python",
+            "import pandas as pd",
+            f'df = pd.read_parquet("hf://datasets/{repo_id}/{example}")',
+            "```",
             "",
             "```sql",
-            f"SELECT * FROM 'hf://datasets/{hf_repo_id(family)}/{example}' LIMIT 10;",
+            f"SELECT * FROM 'hf://datasets/{repo_id}/{example}' LIMIT 10;  -- DuckDB",
             "```",
+            "",
         ]
-    head.append("")
+    head += [
+        "Direct download, latest and a monthly snapshot:",
+        "",
+        "```",
+        hf_resolve_url(family, "<filename>"),
+        hf_resolve_url(family, "<filename>", "archive-YYYY-MM"),
+        "```",
+        "",
+    ]
 
     sections = [_table_section(family, p) for p in packages]
     return "\n".join(head) + "\n" + "\n".join(sections)

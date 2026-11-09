@@ -19,7 +19,7 @@
       "path": "https://data.police.uk/data/archive/"
     }
   ],
-  "update_cadence": "data.police.uk publishes a new monthly archive zip roughly one to two months after the month it covers; the weekly pipeline run picks it up when it appears, so roughly one run in four detects changes and the rest report all files unchanged. Months inside the newest zip's ~36-month window are also revised by forces between releases, so recent history can change even when no new month has appeared.",
+  "update_cadence": "data.police.uk publishes a new monthly archive zip roughly one to two months after the month it covers; it is picked up here within a week of appearing. Months inside the newest zip's ~36-month window are also revised by forces between releases, so recent history can change even when no new month has appeared.",
   "caveats": [
     "Rows are incidents *recorded by* the Metropolitan Police Service and City of London Police, which together police Greater London — this is a force-based cut, not a geographic clip: a small number of incidents these forces handle fall outside London, and London incidents recorded by other forces are absent.",
     "British Transport Police are excluded, so crime on London's railways and Underground is largely missing from these figures.",
@@ -28,7 +28,7 @@
     "crime_id is data.police.uk's one-way hash, not a police reference number, and is empty for anti-social-behaviour rows; genuinely duplicate rows exist in the upstream files and are deliberately kept, so row counts match what upstream publishes.",
     "Outcomes begin in January 2012 and stop & search in March 2015 for these two forces (the national collections started around 2014 and December 2014; London's published history differs), and neither is returned by every force for every month — gaps are upstream gaps, not fetch failures. One crime can have several outcome rows.",
     "last_outcome_category on the crimes table is a snapshot as of the zip the month was taken from — use the outcomes table for outcome history.",
-    "No raw zip is republished (a deliberate exception to this repo's publish-the-raw-file rule): the inputs are ~9 GB of monthly zips that data.police.uk itself retains permanently at stable dated URLs — better provenance than a copy. catalog.json's fetched_from records the newest zip each build consumed."
+    "The original monthly archive zips (~9 GB) are not republished here: data.police.uk retains them permanently at stable dated URLs (https://data.police.uk/data/archive/)."
   ],
   "resources": [
     {

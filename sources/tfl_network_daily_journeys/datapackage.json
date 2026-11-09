@@ -19,14 +19,14 @@
       "path": "https://crowding.data.tfl.gov.uk/"
     }
   ],
-  "update_cadence": "TfL rewrites the current file roughly weekly, with data to about a week before upload, so most weekly pipeline runs will find this source changed.",
+  "update_cadence": "TfL rewrites the current file roughly weekly, with data to about a week before upload, and is refreshed here weekly.",
   "caveats": [
     "Counts are rounded by TfL to the nearest thousand journeys.",
     "These are TfL's journey estimates, not station taps: they do not reconcile with summing tfl_station_footfall (which counts entries and exits at gate lines, including some non-Underground stations).",
     "TfL does not document exactly which modes are inside 'Tube' (e.g. whether Elizabeth line journeys are included) — compare against TfL's period-level 'journeys by type of transport' series before relying on the split.",
     "Covid-19: 2020 and 2021 (and early 2022) reflect lockdowns and recovery; do not use them as a baseline.",
     "Overlaps between TfL's files are resolved by taking each day from the file covering the latest period; source_file records which file each row came from. Recent days are subject to small revisions in later weekly uploads.",
-    "TfL keeps no history of superseded figures — earlier versions survive only in this repo's commit history and monthly archive-YYYY-MM tags.",
+    "TfL keeps no history of superseded figures — earlier versions are preserved only by this dataset's commit history and monthly archive-YYYY-MM tags.",
     "Attribution required by the licence: \"Powered by TfL Open Data\"."
   ],
   "resources": [
@@ -34,7 +34,7 @@
       "name": "daily_journeys_parquet",
       "path": "tfl_network_daily_journeys.parquet",
       "format": "parquet",
-      "description": "One row per day, overlaps between TfL's files resolved (latest period wins), sorted by travel_date. Best-effort derived file; the raw zip is authoritative.",
+      "description": "One row per day, overlaps between TfL's files resolved (latest period wins), sorted by travel_date. Derived from the raw zip, which is authoritative.",
       "schema": {
         "fields": [
           {
@@ -45,7 +45,7 @@
           {
             "name": "day_of_week",
             "type": "string",
-            "description": "Monday..Sunday, canonicalised to that casing; validated to agree with travel_date."
+            "description": "Day name, Monday to Sunday; always consistent with travel_date."
           },
           {
             "name": "tube_journey_count",
