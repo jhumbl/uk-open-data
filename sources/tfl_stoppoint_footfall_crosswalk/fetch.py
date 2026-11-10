@@ -146,7 +146,8 @@ def load_overrides(path: Path = OVERRIDES_PATH) -> dict[str, str | None]:
 
 def read_stoppoints(zip_path: Path) -> tuple[dict[str, dict], dict[str, dict]]:
     """(stations, hubs) from the raw zip. stations: naptan_id -> record with
-    name, hub, modes, lines, lat, lon. hubs: hub id -> name + member station
+    name, hub, modes, lines, tfl_lines (lines of the five TfL modes only, from
+    lineModeGroups), lat, lon. hubs: hub id -> name + member station
     ids. Hub children count as stations too (that is how National Rail
     stations inside a TfL hub, e.g. Woolwich Arsenal, are reached)."""
     stations: dict[str, dict] = {}
@@ -155,10 +156,13 @@ def read_stoppoints(zip_path: Path) -> tuple[dict[str, dict], dict[str, dict]]:
     def add_station(sp: dict) -> None:
         rec = stations.setdefault(sp["naptanId"], {
             "name": sp["commonName"], "hub": sp.get("hubNaptanCode"),
-            "modes": set(), "lines": set(), "lat": sp.get("lat"), "lon": sp.get("lon"),
+            "modes": set(), "lines": set(), "tfl_lines": set(), "lat": sp.get("lat"), "lon": sp.get("lon"),
         })
         rec["modes"] |= set(sp.get("modes") or [])
         rec["lines"] |= {line["id"] for line in sp.get("lines") or []}
+        for group in sp.get("lineModeGroups") or []:
+            if group.get("modeName") in MODES:
+                rec["tfl_lines"] |= set(group.get("lineIdentifier") or [])
         rec["hub"] = rec["hub"] or sp.get("hubNaptanCode")
 
     with zipfile.ZipFile(zip_path) as zf:
@@ -278,6 +282,7 @@ def build(zip_path: Path, labels: list[str], crs_by_area: dict[str, str],
             "station_group_name": (hubs[hub_id]["name"] if hub_id else display_name(st["name"])) if st else None,
             "modes": sorted(st["modes"]) if st else [],
             "lines": sorted(st["lines"]) if st else [],
+            "tfl_lines": sorted(st["tfl_lines"]) if st else [],
             "crs": sorted({crs_by_area[m] for m in members if m in crs_by_area}),
             "lat": round(float(st["lat"]), 6) if st and st["lat"] is not None else None,
             "lon": round(float(st["lon"]), 6) if st and st["lon"] is not None else None,
@@ -342,6 +347,10 @@ def validate(files: list[Path]) -> None:
     if unmatched > MAX_UNMATCHED:
         raise ValueError(f"{unmatched} labels unmatched — automatic matching has broken "
                          "(StopPoint names or footfall labels changed format?)")
+    if not all(set(t) <= set(a) for t, a in zip(df["tfl_lines"], df["lines"])):
+        raise ValueError("tfl_lines is not a subset of lines — StopPoint lineModeGroups changed shape?")
+    if (df.loc[linked, "tfl_lines"].str.len() == 0).sum() > MAX_UNMATCHED:
+        raise ValueError("many linked stations have no TfL lines — lineModeGroups parsing has broken")
     lat_lo, lat_hi, lon_lo, lon_hi = LONDON_BOX
     located = df.dropna(subset=["lat", "lon"])
     if len(located) != linked.sum():
@@ -364,6 +373,7 @@ def stats(files: list[Path]) -> dict[str, dict]:
             **categorical_value_sets(parquet, ["match"]),
             "modes": sorted({m for ms in df["modes"] for m in ms}),
             "lines": sorted({line for ls in df["lines"] for line in ls}),
+            "tfl_lines": sorted({line for ls in df["tfl_lines"] for line in ls}),
         },
         "unmatched_labels": sorted(df.loc[df["match"] == "unmatched", "station"]),
         "stale_overrides": sorted(set(load_overrides()) - labels),

@@ -1,6 +1,6 @@
 station,naptan_id,reason
 Burnham Bucks,910GBNHAM,TfL footfall says 'Bucks'; StopPoint names it 'Burnham (Berks)' — the only Burnham on the Elizabeth line
-Bushey,910GBUSHEY,TfL lists two Bushey records (main and DC lines) in one hub; the main record is used
+Bushey,910GBUSHYDC,TfL lists two Bushey records (main and DC lines) in one hub; the DC-lines record is used — it is the one the Overground (TfL's service) calls at
 Clapham Junction,910GCLPHMJC,TfL lists two Clapham Junction records in one hub; the main record is used
 Edgware Road B,940GZZLUERB,'B' = Bakerloo line station (TfL abbreviation)
 Edgware Road C&H,940GZZLUERC,'C&H' = Circle and Hammersmith & City station (TfL abbreviation)
@@ -17,6 +17,6 @@ Queens Rd Peckham,910GPCKHMQD,TfL abbreviation of Queens Road Peckham
 Sydenham SR,910GSYDENHM,'SR' (Southern Region) distinguishes Sydenham from Sydenham Hill; StopPoint 'Sydenham Rail Station'
 Unknown,,TfL's placeholder for taps it could not attribute to a station (2020-02 to 2022-12); deliberately linked to no station
 W Silvertown,940GZZDLWSV,TfL abbreviation of West Silvertown (DLR)
-Watford Junction,910GWATFDJ,TfL lists two Watford Junction records (main and DC lines) in one hub; the main record is used
+Watford Junction,910GWATFJDC,TfL lists two Watford Junction records (main and DC lines) in one hub; the DC-lines record is used — it is the one the Overground (TfL's service) calls at
 Watford Met,940GZZLUWAF,'Met' = the Metropolitan line's Watford station (StopPoint 'Watford Underground Station')
 Woolwich Arsenal NR,910GWOLWCHA,'NR' = the National Rail station at Woolwich Arsenal (in the Woolwich Arsenal hub); the DLR station is the separate label 'Woolwich Arsenal DLR'
