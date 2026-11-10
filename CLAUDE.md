@@ -40,6 +40,28 @@ relitigate these without new facts.
   control and don't test (hence smoke_test.py and invariant 5 — never
   weaken it); test the *consumer's* path, not just our files; hold free
   platforms loosely — every platform dependency needs a priced exit.
+- **Scope: republish, don't author.** The project's job is to pluck
+  public data from where publishers leave it and put it somewhere easier
+  to use, with minimal processing. The test for any change: *would the
+  publisher recognise the output as their data, just reshaped?* In scope:
+  keeping the raw file, wide → long, types, trimming presentation
+  whitespace, merging a publisher's own overlapping files, canonicalising
+  a value the publisher re-cased. Out of scope: adding facts the publisher
+  didn't publish (derived columns, inferred hierarchies, matching between
+  datasets, interpretation). Those belong in the consumer (the explorer),
+  or a source we republish that does publish them. If ONS publishes the
+  lookup, republish ONS's lookup; don't infer it. Requests for "one more
+  column" are the main way this erodes, because each one looks small and
+  together they turn a mirror into a product we must maintain. Default to
+  no, and suggest the consumer-side or republish-a-source alternative.
+  Recorded exceptions, the only ones:
+  `tfl_stoppoint_footfall_crosswalk` (a compiled mapping, approved
+  2026-11-09, see *Curated tables*) and `region_code` on the two VEH
+  tables (inferred from sheet row order, `lib/dft_veh_geography.py`,
+  added 2026-11-10 and kept until it breaks). **If `region_code` breaks,
+  don't fix it:** republish ONS's local-authority-to-region lookup as a
+  source and retire the column, with a transition (invariant 3). Adding
+  an exception needs the user's explicit approval and a line here.
 - **Why Hugging Face.** Requirements: free, CORS + HTTP Range
   (DuckDB-Wasm), no file-size squeeze (largest file ~900 MB), version
   history, weekly CI uploads. HF meets all of them (verified empirically
@@ -222,6 +244,10 @@ Rules:
 
 ## Adding a new source (the most common task)
 
+0. Check scope (see *Scope: republish, don't author*). The source must
+   be a publisher's data, published by them; the tidy step may only
+   reshape it. If the request needs facts the publisher doesn't give,
+   find a publisher that does, or leave it to the consumer.
 1. Decide the family (see *The dataset-family model*). New family → add
    an entry to `families.json` (title + honest description).
 2. `mkdir sources/<publisher>_<table-id>_<short-description>` and write
