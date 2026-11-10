@@ -17,7 +17,7 @@
   },
   "tfl-network-demand": {
     "title": "TfL network demand — daily station footfall and network journeys",
-    "description": "Daily demand on London's public transport network from Transport for London's open 'Network Demand' data (crowding.data.tfl.gov.uk): entry and exit taps at each of ~440 stations, and total Underground and bus journeys across the network, from January 2019. TfL publishes both as overlapping yearly and rolling two-year CSV files that it replaces about weekly, with late corrections and no public history. The tables here combine the overlapping files into single deduplicated daily series; the original files are kept alongside, and the monthly archive-YYYY-MM tags preserve versions TfL no longer publishes. Powered by TfL Open Data."
+    "description": "Daily demand on London's public transport network from Transport for London's open 'Network Demand' data (crowding.data.tfl.gov.uk): entry and exit taps at each of ~440 stations, and total Underground and bus journeys across the network, from January 2019. TfL publishes both as overlapping yearly and rolling two-year CSV files that it replaces about weekly, with late corrections and no public history. The tables here combine the overlapping files into single deduplicated daily series; the original files are kept alongside, and the monthly archive-YYYY-MM tags preserve versions TfL no longer publishes. A station crosswalk, compiled for this dataset rather than published by TfL, links each footfall station label to TfL's station records (NaPTAN and hub IDs, lines, coordinates) and to National Rail CRS codes. Powered by TfL Open Data."
   },
   "orr-station-usage": {
     "title": "ORR estimates of station usage — Great Britain",

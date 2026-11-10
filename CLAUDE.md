@@ -201,6 +201,21 @@ Rules:
   page for the current link (see the VEH0105 source for the pattern).
 - datapackage.json must include `hf_repo` (the family repo the outputs
   land in) and the family must have an entry in families.json.
+- **Curated tables (one so far: `tfl_stoppoint_footfall_crosswalk`).**
+  Everything else here republishes a publisher's data; this one is a
+  mapping we compile (TfL footfall labels → TfL StopPoint stations, GitHub
+  issue #1). Its rules, agreed with the user 2026-11-09: labelled as ours
+  on the card and in datapackage.json; automatic matching first, with a
+  small committed `overrides.csv` (one reason per row — it is metadata,
+  like `MODE_COLUMNS`, not data, so invariant 1 holds); only published IDs,
+  never ones we mint; and a label it can't link is published as
+  `unmatched` and listed in catalog stats — never a quarantine, so a new
+  station blocks nothing. It also reads two of our own published parquets
+  as inputs (footfall labels, NaPTAN CRS codes): this run's copy in
+  `data/` if produced (sources run in name order, so both run before it),
+  else the published HF copy — so a quarantined input never blocks it.
+  When adding an override, run the source and check `unmatched_labels` in
+  catalog.json goes empty.
 
 ## Adding a new source (the most common task)
 

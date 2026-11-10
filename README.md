@@ -90,6 +90,7 @@ drawing conclusions; that context is the point of this project.
 | `tfl_journeys_by_mode.parquet` (+ `.csv`) | TfL public transport journeys by type of transport, per four-week period | TfL / London Datastore | 4-weekly | [tfl-journeys-by-mode](https://huggingface.co/datasets/jhumbl/tfl-journeys-by-mode) |
 | `tfl_network_daily_journeys.parquet` (+ `_raw.zip`) | TfL network-wide Underground and bus journeys per day | TfL | Weekly | [tfl-network-demand](https://huggingface.co/datasets/jhumbl/tfl-network-demand) |
 | `tfl_station_footfall.parquet` (+ `_raw.zip`) | TfL station entries and exits per day (station footfall) | TfL | Weekly | [tfl-network-demand](https://huggingface.co/datasets/jhumbl/tfl-network-demand) |
+| `tfl_stoppoint_footfall_crosswalk.parquet` (+ `_raw.zip`) | Station crosswalk for TfL station footfall: footfall labels to TfL StopPoint stations, hubs, lines, coordinates and CRS codes | TfL / uk-open-data | Weekly | [tfl-network-demand](https://huggingface.co/datasets/jhumbl/tfl-network-demand) |
 <!-- END GENERATED DATASETS TABLE -->
 
 ## When a source breaks

@@ -1,0 +1,70 @@
+{
+  "name": "tfl_stoppoint_footfall_crosswalk",
+  "title": "Station crosswalk for TfL station footfall: footfall labels to TfL StopPoint stations, hubs, lines, coordinates and CRS codes",
+  "description": "A lookup table linking each station label used in TfL's daily station footfall data (tfl_station_footfall.station, e.g. 'Kings Cross St Pancras', 'Woolwich EL') to Transport for London's StopPoint station records: the station's NaPTAN ID, the TfL hub that groups interchange stations, its modes and lines, its coordinates, and the National Rail CRS codes of the station group. One row per footfall label. Unlike the other tables in this dataset, this one is compiled for this dataset, not published by TfL: TfL publishes no link between its footfall labels and its station records.",
+  "homepage": "https://api.tfl.gov.uk/",
+  "provider": "TfL / uk-open-data",
+  "cadence": "Weekly",
+  "hf_repo": "tfl-network-demand",
+  "licenses": [
+    {
+      "name": "TfL-Transport-Data-Licence",
+      "title": "TfL Transport Data Service licence (based on OGL v2.0) — attribution: \"Powered by TfL Open Data\"",
+      "path": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London — Unified API, StopPoint by mode (tube, dlr, overground, elizabeth-line, tram)",
+      "path": "https://api.tfl.gov.uk/StopPoint/Mode/tube"
+    },
+    {
+      "title": "Station labels from Transport for London's Network Demand station footfall files (this dataset's tfl_station_footfall table)",
+      "path": "https://crowding.data.tfl.gov.uk/"
+    },
+    {
+      "title": "CRS codes from the Department for Transport's NaPTAN (Open Government Licence v3.0), via the dft-naptan dataset",
+      "path": "https://www.data.gov.uk/dataset/ff93ffc1-6656-47d8-9155-85ea0b8f2251/naptan"
+    }
+  ],
+  "update_cadence": "Rebuilt weekly from the current StopPoint data and footfall labels. A new footfall label appears in the table the week it first appears in the footfall data.",
+  "caveats": [
+    "This table is compiled for this dataset, not published by TfL. Most labels (about 95%) are linked automatically by matching names, allowing for TfL's suffixes (DLR, NR, EL, LO); the rest are set by hand with a recorded reason (abbreviations such as 'Edgware Road C&H' or 'W Silvertown', split stations, duplicate records). The match column says which; the hand-set links and their reasons are listed in overrides.csv in the uk-open-data repository.",
+    "A footfall label is linked to one StopPoint station record: the one TfL's label most plausibly names. TfL does not publish which gatelines each label covers. Where a label is ambiguous between modes at a shared station, the Underground station is used (e.g. 'Paddington'; the Elizabeth line has its own label, 'Paddington EL'). Use station_group_id to combine all the labels at an interchange.",
+    "station_group_id is TfL's hub ID where the station belongs to a hub (e.g. HUBCAW for Canary Wharf's Underground, DLR and Elizabeth line stations), otherwise the station's own NaPTAN ID. It stays the same when TfL renames a footfall label: 'Woolwich EL' (to 27 May 2025) and 'Woolwich Elizabeth Line' (from 28 May 2025) link to the same station.",
+    "crs lists the National Rail CRS codes of the stations in the station group, for joining ORR's station usage estimates (whose tlc column holds CRS codes). It can hold several codes (King's Cross St Pancras: KGX, STP and others) or none. ORR counts National Rail journeys from ticket sales; TfL footfall counts taps at TfL gatelines. At a shared station they measure different things and should be compared with care.",
+    "A label that cannot be linked is kept, with match = 'unmatched' and no station, until a link is added; such labels are also listed in the dataset's catalog. 'Unknown' (TfL's placeholder, 2020-02 to 2022-12) is deliberately linked to no station.",
+    "modes and lines are TfL's for the linked station record, as published by StopPoint at the time of the latest rebuild. They are not historical: lines renamed by TfL (e.g. the London Overground lines in November 2024) carry their current names for all dates.",
+    "Coordinates (WGS84) are TfL's StopPoint coordinates for the linked station record."
+  ],
+  "resources": [
+    {
+      "name": "footfall_crosswalk_parquet",
+      "path": "tfl_stoppoint_footfall_crosswalk.parquet",
+      "format": "parquet",
+      "description": "One row per station label in tfl_station_footfall, sorted by station.",
+      "schema": {
+        "fields": [
+          {"name": "station", "type": "string", "description": "Footfall station label, exactly as in tfl_station_footfall.station (the join key)."},
+          {"name": "naptan_id", "type": "string", "description": "NaPTAN ID of the linked TfL StopPoint station, e.g. '940GZZLUKSX'; null if unlinked."},
+          {"name": "naptan_name", "type": "string", "description": "TfL's name for that station record, verbatim (e.g. 'King's Cross St. Pancras Underground Station')."},
+          {"name": "hub_naptan_id", "type": "string", "description": "TfL hub ID grouping the station with others at the same interchange, e.g. 'HUBKGX'; null if none."},
+          {"name": "station_group_id", "type": "string", "description": "hub_naptan_id where there is one, else naptan_id: one ID per station or interchange."},
+          {"name": "station_group_name", "type": "string", "description": "Display name for the group: TfL's hub name, else the station name without TfL's type suffix ('Underground Station', 'Rail Station', ...)."},
+          {"name": "modes", "type": "array", "description": "TfL modes serving the linked station record, sorted (e.g. ['dlr'], ['elizabeth-line', 'national-rail'])."},
+          {"name": "lines", "type": "array", "description": "TfL line IDs serving the linked station record, sorted (e.g. ['circle', 'district'])."},
+          {"name": "crs", "type": "array", "description": "National Rail CRS codes of the stations in the group, sorted; empty if none."},
+          {"name": "lat", "type": "number", "description": "WGS84 latitude of the linked station record (TfL); null if unlinked."},
+          {"name": "lon", "type": "number", "description": "WGS84 longitude of the linked station record (TfL); null if unlinked."},
+          {"name": "match", "type": "string", "description": "How the link was made: 'automatic' (name matching), 'override' (set by hand, reason recorded) or 'unmatched'."}
+        ]
+      }
+    },
+    {
+      "name": "raw_stoppoint_zip",
+      "path": "tfl_stoppoint_footfall_crosswalk_raw.zip",
+      "format": "zip",
+      "description": "The TfL StopPoint API responses used, one JSON file per mode (tube, dlr, overground, elizabeth-line, tram), exactly as downloaded."
+    }
+  ]
+}

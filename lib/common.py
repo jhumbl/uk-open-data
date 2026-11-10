@@ -192,7 +192,7 @@ def check_parquet_schema(path: Path, fields: list[dict]) -> None:
 
     Raises ValueError naming the first mismatch. Types are checked
     pragmatically: string -> arrow string/large_string, integer -> any
-    arrow integer, number -> floating, boolean -> boolean.
+    arrow integer, number -> floating, boolean -> boolean, array -> list.
     """
     import pyarrow as pa
     import pyarrow.parquet as pq
@@ -202,6 +202,7 @@ def check_parquet_schema(path: Path, fields: list[dict]) -> None:
         "integer": pa.types.is_integer,
         "number": pa.types.is_floating,
         "boolean": pa.types.is_boolean,
+        "array": lambda t: pa.types.is_list(t) or pa.types.is_large_list(t),
     }
 
     schema = pq.read_schema(path)
