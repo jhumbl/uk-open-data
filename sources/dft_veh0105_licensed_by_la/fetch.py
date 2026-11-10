@@ -42,6 +42,7 @@ from pathlib import Path
 # Allow "python sources/<name>/fetch.py" to find lib/ when run directly.
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from lib.dft_veh_geography import assign_region_codes, check_region_codes
 from lib.common import (
     canonicalize_categorical,
     categorical_value_sets,
@@ -86,7 +87,7 @@ KEEPERSHIP_CANON = ["Private", "Company", "Total"]
 
 # Low-cardinality categorical columns whose distinct value-sets are recorded
 # in catalog.json, so any publisher re-formatting surfaces as a catalog diff.
-CATEGORICAL_COLUMNS = ["body_type", "fuel", "keepership"]
+CATEGORICAL_COLUMNS = ["region_code", "body_type", "fuel", "keepership"]
 
 # DfT's quarter columns look like "2025 Q4".
 QUARTER_RE = re.compile(r"^\d{4} Q[1-4]$")
@@ -189,8 +190,16 @@ def tidy_to_parquet(ods_path: Path, parquet_path: Path) -> Path | None:
         # passes through unchanged and is caught by validate() below.
         wide["keepership"] = canonicalize_categorical(wide["keepership"], KEEPERSHIP_CANON)
 
+        # region_code is implicit in the sheet's row order (each region's
+        # rows follow it); derive it before melting, while that order holds.
+        block_cols = [c for c in ID_COLUMNS.values() if not c.startswith("ons_")]
+        wide["region_code"] = assign_region_codes(
+            wide["ons_code"], wide["ons_geography"],
+            wide[block_cols].itertuples(index=False, name=None),
+        )
+
         df = wide.melt(
-            id_vars=list(ID_COLUMNS.values()),
+            id_vars=[*ID_COLUMNS.values(), "region_code"],
             value_vars=quarter_cols,
             var_name="quarter",
             value_name="count_thousands",
@@ -253,6 +262,7 @@ def validate(files: list[Path]) -> None:
         )
 
         df = pd.read_parquet(parquet)
+        check_region_codes(df, parquet.name)
 
         # ~40,700 wide rows x ~65 quarters ≈ 2.64M; leave headroom for growth.
         if not (1_500_000 < len(df) < 6_000_000):

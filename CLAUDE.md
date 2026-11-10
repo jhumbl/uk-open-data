@@ -82,6 +82,9 @@ relitigate these without new facts.
     lib/tfl_network_demand.py   Shared by the two TfL Network Demand sources:
                                 bucket listing, overlap rule (latest period
                                 wins), deterministic raw zip
+    lib/dft_veh_geography.py    Shared by the two DfT VEH sources: derives
+                                region_code from the sheet's row hierarchy and
+                                checks it against order-independent facts
     catalog.json                Machine-readable index: per-file sha256, size,
                                 timestamps, URLs, stats, source health, HF
                                 revisions. Committed weekly by CI — its git

@@ -51,6 +51,11 @@
             "description": "Geography name as published by DfT (the ODS's hierarchy indentation is trimmed)."
           },
           {
+            "name": "region_code",
+            "type": "string",
+            "description": "ONS code of the region containing this geography: the English region (E12...), or for Wales, Scotland and Northern Ireland the nation (W92000004, S92000003, N92000002), which DfT's table places at region level. A region or nation row carries its own code; the United Kingdom, Great Britain and England rows and the national 'Region or county unknown' / 'Vehicle under disposal' rows are null. Derived from the hierarchy of DfT's table (each region's rows follow it), not published by DfT as a column. A region's code also appears on its own row, on county and sub-region rows (e.g. Inner London, Kent) and on its 'unknown' rows, so filter by ons_code prefix too before summing (e.g. London boroughs: region_code = 'E12000007' AND ons_code LIKE 'E09%')."
+          },
+          {
             "name": "ons_sort",
             "type": "integer",
             "description": "DfT's presentation sort order for geographies."

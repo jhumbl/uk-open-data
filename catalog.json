@@ -44,7 +44,7 @@
       "first_seen": "2026-07-12T14:22:13Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-09-28T12:50:50Z",
-      "last_checked": "2026-11-09T20:04:59Z",
+      "last_checked": "2026-11-10T21:22:10Z",
       "sha256": "242fa118bb25226ffa44797072d66bbcd07ecdcdec2fadb4a39853b4cc847d26",
       "size_bytes": 17613448,
       "source": "dft_veh0105_licensed_by_la"
@@ -54,10 +54,10 @@
       "fetched_from": "https://assets.publishing.service.gov.uk/media/6aad561bce3f006bd4346ce1/veh0105.ods",
       "first_seen": "2026-07-12T14:22:13Z",
       "hf_repo": "dft-vehicle-licensing",
-      "last_changed": "2026-09-28T12:50:50Z",
-      "last_checked": "2026-11-09T20:04:59Z",
-      "sha256": "0733bc0d6f41d39fb9e160a38466947d22f1ec14acb34d232a7da8c6785d5db2",
-      "size_bytes": 6644819,
+      "last_changed": "2026-11-10T21:02:52Z",
+      "last_checked": "2026-11-10T21:22:10Z",
+      "sha256": "23829d4f49deb53beb1ed06174d633df5937d4dbe58d0ca38fd4ff2acd3cb352",
+      "size_bytes": 6660974,
       "source": "dft_veh0105_licensed_by_la",
       "stats": {
         "categorical_values": {
@@ -81,6 +81,20 @@
             "Company",
             "Private",
             "Total"
+          ],
+          "region_code": [
+            "E12000001",
+            "E12000002",
+            "E12000003",
+            "E12000004",
+            "E12000005",
+            "E12000006",
+            "E12000007",
+            "E12000008",
+            "E12000009",
+            "N92000002",
+            "S92000003",
+            "W92000004"
           ]
         },
         "max_period": "2026 Q2",
@@ -94,7 +108,7 @@
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-09-28T12:52:05Z",
-      "last_checked": "2026-11-09T20:06:14Z",
+      "last_checked": "2026-11-10T21:13:45Z",
       "sha256": "908576566166b52c30720c5f2f4da7fb417c3f21fc0eb9c16df8aee1b7b08161",
       "size_bytes": 2219701,
       "source": "dft_veh0132_ulev_by_la"
@@ -104,10 +118,10 @@
       "fetched_from": "https://assets.publishing.service.gov.uk/media/6aad561a4c0f475de0a66a3e/veh0132.ods",
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
-      "last_changed": "2026-09-28T12:52:05Z",
-      "last_checked": "2026-11-09T20:06:14Z",
-      "sha256": "64b2e5090fce0cb0ef9eb372af7bfbb6496178a571087584e8784b17560125bc",
-      "size_bytes": 647324,
+      "last_changed": "2026-11-10T20:58:49Z",
+      "last_checked": "2026-11-10T21:13:45Z",
+      "sha256": "7d27eee211edb423156470319980754d1b574f9d2dfce430fba62617ef4d976c",
+      "size_bytes": 649857,
       "source": "dft_veh0132_ulev_by_la",
       "stats": {
         "categorical_values": {
@@ -122,6 +136,20 @@
             "Company",
             "Private",
             "Total"
+          ],
+          "region_code": [
+            "E12000001",
+            "E12000002",
+            "E12000003",
+            "E12000004",
+            "E12000005",
+            "E12000006",
+            "E12000007",
+            "E12000008",
+            "E12000009",
+            "N92000002",
+            "S92000003",
+            "W92000004"
           ]
         },
         "max_period": "2026 Q2",
@@ -1020,10 +1048,10 @@
     },
     "dft-vehicle-licensing": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T20:09:26Z",
+      "last_synced": "2026-11-10T21:22:13Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing",
-      "revision": "18891421256893623272fdcd8a4e00e2586c34a0",
+      "revision": "132fb5afbbd6cd590517af39594aa0d973e566b1",
       "status": "ok"
     },
     "fsa-food-hygiene-london": {
@@ -1091,13 +1119,13 @@
     },
     "dft_veh0105_licensed_by_la": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:04:59Z",
+      "last_success": "2026-11-10T21:22:10Z",
       "status": "ok"
     },
     "dft_veh0132_ulev_by_la": {
       "consecutive_failures": 0,
       "last_failure": "2026-07-12T16:06:07Z",
-      "last_success": "2026-11-09T20:06:14Z",
+      "last_success": "2026-11-10T21:13:45Z",
       "status": "ok"
     },
     "fsa_fhrs_london_food_hygiene": {
