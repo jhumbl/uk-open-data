@@ -299,6 +299,98 @@
         "row_count": 1988068
       }
     },
+    "tfl_annual_station_counts.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-annual-rail-demand/resolve/main/tfl_annual_station_counts.parquet",
+      "fetched_from": "https://crowding.data.tfl.gov.uk/",
+      "first_seen": "2026-11-13T14:40:59Z",
+      "hf_repo": "tfl-annual-rail-demand",
+      "last_changed": "2026-11-13T14:40:59Z",
+      "last_checked": "2026-11-13T15:13:08Z",
+      "sha256": "64b050683163450dcb2344acf4d9d919654462f28949b0af20f7d77e6451beda",
+      "size_bytes": 353536,
+      "source": "tfl_annual_station_counts",
+      "stats": {
+        "categorical_values": {
+          "coverage": [
+            "---Limited Service---",
+            "---Station Closed---",
+            "---see EZL---",
+            "---see LO---",
+            "---see LU---",
+            "---station closed---",
+            "Boarding/alighting",
+            "DLR boarding / alighting",
+            "LO boarding / alighting",
+            "LU boarding / alighting",
+            "LU+LO Boarding/alighting",
+            "Station entry / exit",
+            "Station entry/exit",
+            "TfL Rail boarding / alighting",
+            "Trams boarding / alighting"
+          ],
+          "day_type": [
+            "12-week",
+            "Annualised",
+            "Friday",
+            "Midweek (Tue-Thu)",
+            "Monday",
+            "Saturday",
+            "Sunday",
+            "Weekday (Mon-Fri)",
+            "Weekday (Mon-Thu)",
+            "Weekly"
+          ],
+          "measure": [
+            "entries",
+            "entries_and_exits",
+            "exits"
+          ],
+          "mode": [
+            "DLR",
+            "EZL",
+            "LO",
+            "LU",
+            "TRM",
+            "TfLRail"
+          ],
+          "source": [
+            "---",
+            "---limited services---",
+            "---see EZL---",
+            "---see LO---",
+            "---see LU---",
+            "APC",
+            "Gateline",
+            "Issue",
+            "Loadweigh",
+            "Manual Count",
+            "Manual Counts",
+            "Mixed",
+            "Relate",
+            "Scale_earlier",
+            "Scaled",
+            "Special",
+            "apc",
+            "lw",
+            "taps"
+          ]
+        },
+        "max_period": 2025,
+        "min_period": 2017,
+        "row_count": 44177
+      }
+    },
+    "tfl_annual_station_counts_raw.zip": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-annual-rail-demand/resolve/main/tfl_annual_station_counts_raw.zip",
+      "fetched_from": "https://crowding.data.tfl.gov.uk/",
+      "first_seen": "2026-11-13T14:40:59Z",
+      "hf_repo": "tfl-annual-rail-demand",
+      "last_changed": "2026-11-13T14:40:59Z",
+      "last_checked": "2026-11-13T15:13:08Z",
+      "sha256": "59894d8aa831aabd540c538b030b0b95dd0f3a825941b71f6aa4a17bd15c7ee6",
+      "size_bytes": 754686,
+      "source": "tfl_annual_station_counts"
+    },
     "tfl_bikepoint_docking_stations.parquet": {
       "download_url": "https://huggingface.co/datasets/jhumbl/tfl-cycle-hire/resolve/main/tfl_bikepoint_docking_stations.parquet",
       "fetched_from": "https://api.tfl.gov.uk/BikePoint",
@@ -337,6 +429,33 @@
       "sha256": "33efada87554b65165104bf1b967eb7a2a38e478a7e2c1c609dfacd695e9ffc8",
       "size_bytes": 78772,
       "source": "tfl_bikepoint_docking_stations"
+    },
+    "tfl_ccz_camera_captures.csv": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-congestion-charge/resolve/main/tfl_ccz_camera_captures.csv",
+      "fetched_from": "https://data.london.gov.uk/download/2r88d/601a15a2-352c-46be-adae-e049556314a3/tfl-vehicles-c-charge-zone.csv",
+      "first_seen": "2026-11-13T14:41:28Z",
+      "hf_repo": "tfl-congestion-charge",
+      "last_changed": "2026-11-13T14:41:28Z",
+      "last_checked": "2026-11-13T15:12:54Z",
+      "sha256": "a6e55cbd494912880db6f025401a96b9c0c0c2dccbb98831fa69639be4b43d93",
+      "size_bytes": 7764,
+      "source": "tfl_ccz_camera_captures"
+    },
+    "tfl_ccz_camera_captures.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-congestion-charge/resolve/main/tfl_ccz_camera_captures.parquet",
+      "fetched_from": "https://data.london.gov.uk/download/2r88d/601a15a2-352c-46be-adae-e049556314a3/tfl-vehicles-c-charge-zone.csv",
+      "first_seen": "2026-11-13T14:41:28Z",
+      "hf_repo": "tfl-congestion-charge",
+      "last_changed": "2026-11-13T14:41:28Z",
+      "last_checked": "2026-11-13T15:12:54Z",
+      "sha256": "a6b1d427e2a28afbc4b6fd4202a8d6787c4aa035287641bb9c2551d48d801142",
+      "size_bytes": 6258,
+      "source": "tfl_ccz_camera_captures",
+      "stats": {
+        "max_period": "2026-09",
+        "min_period": "2010-07",
+        "row_count": 194
+      }
     },
     "tfl_journeys_by_mode.csv": {
       "download_url": "https://huggingface.co/datasets/jhumbl/tfl-journeys-by-mode/resolve/main/tfl_journeys_by_mode.csv",
@@ -381,10 +500,10 @@
       "fetched_from": "https://crowding.data.tfl.gov.uk/",
       "first_seen": "2026-11-09T17:04:03Z",
       "hf_repo": "tfl-network-demand",
-      "last_changed": "2026-11-09T17:04:03Z",
-      "last_checked": "2026-11-09T20:09:06Z",
-      "sha256": "c6c8e4720d2382889a14798354404b410d7d713a5cacf8dc6c0baccb51ca24c7",
-      "size_bytes": 45199,
+      "last_changed": "2026-11-13T14:42:02Z",
+      "last_checked": "2026-11-13T15:13:15Z",
+      "sha256": "6832390ccf606b9abef02d33dfffed009f7ef54023dc771a4047dc1ef79cd854",
+      "size_bytes": 45293,
       "source": "tfl_network_daily_journeys",
       "stats": {
         "categorical_values": {
@@ -398,9 +517,9 @@
             "Wednesday"
           ]
         },
-        "max_period": "2026-10-31",
+        "max_period": "2026-11-07",
         "min_period": "2019-01-01",
-        "row_count": 2861
+        "row_count": 2868
       }
     },
     "tfl_network_daily_journeys_raw.zip": {
@@ -408,11 +527,38 @@
       "fetched_from": "https://crowding.data.tfl.gov.uk/",
       "first_seen": "2026-11-09T17:04:03Z",
       "hf_repo": "tfl-network-demand",
-      "last_changed": "2026-11-09T17:04:03Z",
-      "last_checked": "2026-11-09T20:09:06Z",
-      "sha256": "b7978f4f81c6d71854faa185d31a0c6a1e5cf7a00fc09beb5095ff3932fdafdc",
-      "size_bytes": 31701,
+      "last_changed": "2026-11-13T14:42:02Z",
+      "last_checked": "2026-11-13T15:13:15Z",
+      "sha256": "b076acac4d38c26a98868657fd2b0002263e040a37a6f24aa56380033ff360d3",
+      "size_bytes": 31759,
       "source": "tfl_network_daily_journeys"
+    },
+    "tfl_santander_cycles_daily_hires.parquet": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-santander-cycles-hires/resolve/main/tfl_santander_cycles_daily_hires.parquet",
+      "fetched_from": "https://data.london.gov.uk/download/2r84d/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires-sep26-update.xlsx",
+      "first_seen": "2026-11-13T14:40:54Z",
+      "hf_repo": "tfl-santander-cycles-hires",
+      "last_changed": "2026-11-13T14:40:54Z",
+      "last_checked": "2026-11-13T15:12:59Z",
+      "sha256": "8e068651449904cdd978a3e2d785ec6e21ee57f901c7dfdcd1679e72791ef4cd",
+      "size_bytes": 65475,
+      "source": "tfl_santander_cycles_daily_hires",
+      "stats": {
+        "max_period": "2026-09-30",
+        "min_period": "2010-07-30",
+        "row_count": 5907
+      }
+    },
+    "tfl_santander_cycles_daily_hires.xlsx": {
+      "download_url": "https://huggingface.co/datasets/jhumbl/tfl-santander-cycles-hires/resolve/main/tfl_santander_cycles_daily_hires.xlsx",
+      "fetched_from": "https://data.london.gov.uk/download/2r84d/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires-sep26-update.xlsx",
+      "first_seen": "2026-11-13T14:40:54Z",
+      "hf_repo": "tfl-santander-cycles-hires",
+      "last_changed": "2026-11-13T14:40:54Z",
+      "last_checked": "2026-11-13T15:12:59Z",
+      "sha256": "d8f48d0634dc659d634bbae3cd46c7c7eaa8893301a530efd1077c91d01a2ac9",
+      "size_bytes": 148688,
+      "source": "tfl_santander_cycles_daily_hires"
     },
     "tfl_station_footfall.parquet": {
       "download_url": "https://huggingface.co/datasets/jhumbl/tfl-network-demand/resolve/main/tfl_station_footfall.parquet",
@@ -1086,6 +1232,22 @@
       "revision": "5e8d3437ab6864c6aae532a7cacc32618a69c8fb",
       "status": "ok"
     },
+    "tfl-annual-rail-demand": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-11-13T15:13:12Z",
+      "last_tag": "archive-2026-11",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-annual-rail-demand",
+      "revision": "c114110cb5db8449ec8d0c3d17579e6be658ebca",
+      "status": "ok"
+    },
+    "tfl-congestion-charge": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-11-13T15:12:58Z",
+      "last_tag": "archive-2026-11",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-congestion-charge",
+      "revision": "d4ef96d4b1435a2cbe0547535987756862f0932e",
+      "status": "ok"
+    },
     "tfl-cycle-hire": {
       "consecutive_failures": 0,
       "last_synced": "2026-11-09T20:12:08Z",
@@ -1104,10 +1266,18 @@
     },
     "tfl-network-demand": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-10T17:16:20Z",
+      "last_synced": "2026-11-13T15:13:18Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-network-demand",
-      "revision": "c231574111fee0078bb91e2dbd44199fc68b752d",
+      "revision": "8f3b543117265e56986d0c78f54ce2cd7a896f16",
+      "status": "ok"
+    },
+    "tfl-santander-cycles-hires": {
+      "consecutive_failures": 0,
+      "last_synced": "2026-11-13T15:13:03Z",
+      "last_tag": "archive-2026-11",
+      "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-santander-cycles-hires",
+      "revision": "c78d4e8b418585ea487dda9e440ce57eb8b164dd",
       "status": "ok"
     }
   },
@@ -1148,9 +1318,20 @@
       "last_success": "2026-11-09T20:09:02Z",
       "status": "ok"
     },
+    "tfl_annual_station_counts": {
+      "consecutive_failures": 0,
+      "last_success": "2026-11-13T15:13:08Z",
+      "status": "ok"
+    },
     "tfl_bikepoint_docking_stations": {
       "consecutive_failures": 0,
       "last_success": "2026-11-09T20:12:06Z",
+      "status": "ok"
+    },
+    "tfl_ccz_camera_captures": {
+      "consecutive_failures": 0,
+      "last_failure": "2026-11-13T14:40:52Z",
+      "last_success": "2026-11-13T15:12:54Z",
       "status": "ok"
     },
     "tfl_journeys_by_mode": {
@@ -1160,7 +1341,12 @@
     },
     "tfl_network_daily_journeys": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:09:06Z",
+      "last_success": "2026-11-13T15:13:15Z",
+      "status": "ok"
+    },
+    "tfl_santander_cycles_daily_hires": {
+      "consecutive_failures": 0,
+      "last_success": "2026-11-13T15:12:59Z",
       "status": "ok"
     },
     "tfl_station_footfall": {
