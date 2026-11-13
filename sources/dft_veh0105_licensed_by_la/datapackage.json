@@ -5,6 +5,7 @@
   "homepage": "https://www.gov.uk/government/statistical-data-sets/vehicle-licensing-statistics-data-tables",
   "provider": "DfT / DVLA",
   "cadence": "Quarterly",
+  "max_days_unchanged": 120,
   "hf_repo": "dft-vehicle-licensing",
   "licenses": [
     {

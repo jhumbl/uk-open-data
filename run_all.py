@@ -34,6 +34,12 @@ Behaviour:
   * Per-source health (status, last_success, consecutive_failures) is
     tracked in catalog.json under "sources"; per-family sync health under
     "families".
+  * A source may declare `max_days_unchanged` in its datapackage.json. If
+    none of its files has changed for longer than that, it is flagged
+    "stale": its (valid) files still sync, but it counts as a failure line,
+    so the job goes red and a 2nd consecutive stale run files an issue — the
+    tripwire for a publisher that stops updating or moves its data without
+    breaking the old file.
   * This script always exits 0 unless something unexpected breaks the
     orchestrator itself — per-source failure reporting is the workflow's job.
 """
@@ -44,6 +50,7 @@ import argparse
 import importlib.util
 import sys
 import traceback
+from datetime import datetime, timezone
 from pathlib import Path
 
 from lib.common import (
@@ -85,11 +92,42 @@ def load_module(source_dir: Path):
 def record_failure(health_map: dict, name: str, kind: str, reason: str) -> str:
     """Update health in the catalog; return a one-line .failed summary."""
     health = health_map.setdefault(name, {})
-    health["status"] = kind  # "fetch_failed" | "validation_failed" | "sync_failed"
+    health["status"] = kind  # fetch_failed | validation_failed | config_failed | sync_failed | stale
     health["last_error"] = reason.strip().splitlines()[-1][:300]
     health["last_failure"] = utc_now_iso()
     health["consecutive_failures"] = health.get("consecutive_failures", 0) + 1
     return f"{name}\t{health['consecutive_failures']}\t[{kind}] {health['last_error']}"
+
+
+def overdue_reason(name: str, package: dict, catalog: dict) -> str | None:
+    """If the source declares max_days_unchanged and none of its files has
+    changed for longer than that, return a one-line explanation; else None.
+
+    This is the tripwire for a publisher that goes quiet without breaking:
+    stopped updating, or started publishing somewhere our fetcher doesn't
+    look while the old file stays put. Validation can't see either — the old
+    file is still valid — so the only symptom is that nothing changes.
+    Content-based staleness checks in individual validate() hooks remain the
+    sharper tool where a source has one; this covers every source cheaply.
+    """
+    limit = package.get("max_days_unchanged")
+    if limit is None:
+        return None
+    changes = [
+        e["last_changed"] for e in catalog["datasets"].values()
+        if e.get("source") == name and e.get("last_changed")
+    ]
+    if not changes:
+        return None
+    last = datetime.strptime(max(changes), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    days = (datetime.now(timezone.utc) - last).days
+    if days <= limit:
+        return None
+    return (
+        f"no file changed for {days} days (since {max(changes)[:10]}; expected within "
+        f"{limit}) — publisher stopped or moved the data? Check "
+        f"{package.get('homepage', 'its homepage')}"
+    )
 
 
 def family_card(family: str, catalog: dict) -> str:
@@ -183,7 +221,8 @@ def main() -> int:
         # 0. The source must name a family that families.json knows about —
         #    a config mistake, caught before we spend time fetching.
         try:
-            family = load_datapackage(source_dir)["hf_repo"]
+            package = load_datapackage(source_dir)
+            family = package["hf_repo"]
             if family not in families_meta:
                 raise KeyError(
                     f"hf_repo {family!r} has no entry in families.json — "
@@ -241,12 +280,8 @@ def main() -> int:
                 print(f"  WARNING: stats hook failed ({exc}) — publishing without stats.")
         fetched_from = getattr(module, "FETCHED_FROM", {})
 
-        # 4. Record success + detect changes (informational: the hub does
-        #    its own hash comparison at upload time).
-        health = catalog.setdefault("sources", {}).setdefault(name, {})
-        health.update(status="ok", last_success=utc_now_iso(), consecutive_failures=0)
-        health.pop("last_error", None)
-
+        # 4. Detect changes (informational: the hub does its own hash
+        #    comparison at upload time).
         for path in files:
             digest = sha256_file(path)
             entry = catalog["datasets"].setdefault(
@@ -272,7 +307,24 @@ def main() -> int:
 
         family_files.setdefault(family, []).extend(files)
 
-        # 5. Orphan check: catalog entries this source owns but didn't
+        # 5. Record health. The files are valid and still get synced either
+        #    way; a source that has gone quiet for longer than it declares
+        #    (max_days_unchanged in datapackage.json) is flagged "stale" —
+        #    the job goes red, and from the 2nd consecutive stale run the
+        #    workflow files an issue, so a human checks the publisher.
+        health = catalog.setdefault("sources", {}).setdefault(name, {})
+        stale = overdue_reason(name, package, catalog)
+        if stale is None:
+            health.update(status="ok", last_success=utc_now_iso(), consecutive_failures=0)
+            health.pop("last_error", None)
+        else:
+            print(f"  STALE: {stale}")
+            health["last_success"] = utc_now_iso()
+            if health.get("status") != "stale":
+                health["consecutive_failures"] = 0  # a new stale streak
+            failed_lines.append(record_failure(catalog["sources"], name, "stale", stale))
+
+        # 6. Orphan check: catalog entries this source owns but didn't
         #    produce this run. Warn only — NEVER prune: derived files are
         #    best-effort (a degraded tidy step must not retire the entry),
         #    and retiring a published filename is a deliberate, manual act
@@ -285,7 +337,7 @@ def main() -> int:
                     "did not produce it (derived file degraded, or retired?)"
                 )
 
-    # 6. Sync each family to HF (unless told not to).
+    # 7. Sync each family to HF (unless told not to).
     if args.no_hf:
         print("\n--no-hf: skipping Hugging Face sync; catalog URLs not updated.")
     elif family_files:

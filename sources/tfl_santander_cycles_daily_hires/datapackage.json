@@ -5,6 +5,7 @@
   "homepage": "https://data.london.gov.uk/dataset/number-bicycle-hires",
   "provider": "TfL / London Datastore",
   "cadence": "Monthly",
+  "max_days_unchanged": 75,
   "hf_repo": "tfl-santander-cycles-hires",
   "licenses": [
     {

@@ -5,6 +5,7 @@
   "homepage": "https://crowding.data.tfl.gov.uk/",
   "provider": "TfL",
   "cadence": "Annual",
+  "max_days_unchanged": 400,
   "hf_repo": "tfl-annual-rail-demand",
   "licenses": [
     {

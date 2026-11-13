@@ -5,6 +5,7 @@
   "homepage": "https://data.london.gov.uk/dataset/public-transport-journeys-by-type-of-transport-ep8ow",
   "provider": "TfL / London Datastore",
   "cadence": "4-weekly",
+  "max_days_unchanged": 75,
   "hf_repo": "tfl-journeys-by-mode",
   "licenses": [
     {

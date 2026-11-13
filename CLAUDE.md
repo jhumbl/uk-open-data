@@ -101,8 +101,11 @@ relitigate these without new facts.
                                 (hub skips unchanged files), monthly tags
     lib/cards.py                Renders each family's HF dataset card from
                                 metadata — deterministic, no timestamps
+    lib/tfl_bucket.py           Listing of TfL's open bucket
+                                (crowding.data.tfl.gov.uk), shared by every
+                                source that reads it; flags unrecognised files
     lib/tfl_network_demand.py   Shared by the two TfL Network Demand sources:
-                                bucket listing, overlap rule (latest period
+                                series files, overlap rule (latest period
                                 wins), deterministic raw zip
     lib/dft_veh_geography.py    Shared by the two DfT VEH sources: derives
                                 region_code from the sheet's row hierarchy and
@@ -224,6 +227,24 @@ Rules:
   from. Both are best-effort — failures warn, never quarantine.
 - If the publisher's direct URL is unstable, scrape their stable landing
   page for the current link (see the VEH0105 source for the pattern).
+- **Publishers move data without breaking the old file.** If they start
+  publishing somewhere new while the old file stays put, the old file keeps
+  validating and nothing goes red — the data just stops moving. Two guards:
+  - Declare `max_days_unchanged` in datapackage.json: the longest this
+    source's files normally go without any content change, with slack
+    (30 weekly, 75 monthly, 120 quarterly, 400 annual). run_all.py flags the
+    source `stale` once it's exceeded (see the runbook). Leave it out for
+    sources with no regular rhythm (trees, NaPTAN, BikePoint, the
+    crosswalk) until catalog history shows one. Where the data has a period
+    column, a content check in validate() is sharper still (e.g. the
+    expected-latest-year rule in `tfl_annual_station_counts`).
+  - Sources that pick files out of a listed folder (the TfL bucket ones)
+    record files that match none of their patterns as
+    `unrecognised_bucket_files` in the raw file's catalog stats, via
+    `lib.tfl_bucket.unrecognised_keys` — so a renamed continuation shows up
+    as a catalog.json diff and a log warning. Give it every pattern the
+    folder is expected to hold, including files deliberately not
+    republished, so the list is empty in the normal case.
 - datapackage.json must include `hf_repo` (the family repo the outputs
   land in) and the family must have an entry in families.json.
 - **Curated tables (one so far: `tfl_stoppoint_footfall_crosswalk`).**
@@ -256,9 +277,10 @@ Rules:
 3. Write `datapackage.json`: name, title, description, homepage, licence,
    `sources` (long-form citation), `update_cadence` (full sentence),
    caveats (these matter — data + context is the whole product), a
-   `schema.fields` block on each parquet resource, `hf_repo`, and the two
+   `schema.fields` block on each parquet resource, `hf_repo`, the two
    short display fields for the README table: `provider` (e.g.
-   `"DfT / DVLA"`) and `cadence` (e.g. `"Quarterly"`).
+   `"DfT / DVLA"`) and `cadence` (e.g. `"Quarterly"`), and — for a source
+   with a regular rhythm — `max_days_unchanged` (see the source contract).
 4. For each low-cardinality categorical column, classify the vocabulary
    and wire up the value-drift guards (see the categorical-values bullet
    in the source contract): *closed* → canonicalise in tidy +
@@ -306,9 +328,11 @@ comments on) a GitHub Issue titled `Source broken: <name>` — a single red
 run with no issue usually means a transient that will self-heal next week.
 catalog.json records health under `"sources"` — `status` (`fetch_failed` =
 couldn't get the file; `validation_failed` = got a file but it doesn't
-look right; `config_failed` = bad hf_repo/families.json wiring),
-`consecutive_failures`, `last_error`. Family-level upload problems appear
-under `"families"` as `sync_failed`.
+look right; `config_failed` = bad hf_repo/families.json wiring; `stale` =
+the files are fine but none has changed for longer than the source's
+`max_days_unchanged`), `consecutive_failures`, `last_error`. Family-level
+upload problems appear under `"families"` as `sync_failed`. A stale source
+opens `Source stale: <name>` instead of `Source broken`.
 
 **What's happened to the data.** Nothing bad: broken output is
 quarantined, so the HF repo still serves the last good version, and all
@@ -330,6 +354,13 @@ data; `last_success` in the catalog says exactly how stale.
      and note it in the README.
    - `sync_failed`: an HF-side problem — check the token is valid and the
      hub status page before changing any code.
+   - `stale`: nothing is broken — the data has just stopped moving. Open
+     the source's homepage and look for a newer edition: if it's been moved
+     or renamed, update fetch.py as for `fetch_failed`; if the publisher is
+     merely late or has changed its rhythm, raise `max_days_unchanged` (and
+     say why in the commit); if the series is discontinued, add a caveat and
+     remove the field. Check `unrecognised_bucket_files` in the catalog
+     first for bucket sources — it often names the moved file.
 3. Re-run `python run_all.py --only <name> --no-hf` until it reports the
    files CHANGED (or unchanged) with no failures; sanity-check `data/`.
 4. Commit, push, then trigger the workflow manually (Actions → Run

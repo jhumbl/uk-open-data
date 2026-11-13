@@ -5,6 +5,7 @@
   "homepage": "https://crowding.data.tfl.gov.uk/",
   "provider": "TfL",
   "cadence": "Weekly",
+  "max_days_unchanged": 30,
   "hf_repo": "tfl-network-demand",
   "licenses": [
     {

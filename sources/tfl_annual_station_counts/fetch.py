@@ -56,7 +56,7 @@ from lib.common import (
     parquet_stats,
     write_parquet,
 )
-from lib.tfl_bucket import LANDING_URL, key_url, list_keys
+from lib.tfl_bucket import LANDING_URL, key_url, list_keys, unrecognised_keys
 from lib.tfl_network_demand import build_zip
 
 STEM = "tfl_annual_station_counts"
@@ -64,10 +64,20 @@ ZIP_NAME = f"{STEM}_raw.zip"
 PARQUET_NAME = f"{STEM}.parquet"
 FOLDER = "Annual Station Counts/"
 KEY_RE = re.compile(rf"^{re.escape(FOLDER)}(\d{{4}})/([^/]*annualised[^/]*\.xlsx)$", re.IGNORECASE)
+# Quarter-hour workbooks (2017-2021) we know about and deliberately skip;
+# anything matching neither pattern is reported as unrecognised.
+SKIPPED_RE = re.compile(rf"^{re.escape(FOLDER)}\d{{4}}/[^/]*ByQhr[^/]*\.xlsx$", re.IGNORECASE)
 FIRST_YEAR = 2017
-# TfL publishes each year's counts the following summer; quarantine (harmless
-# — HF keeps the previous data) if two years pass without a new workbook.
-MAX_YEARS_BEHIND = 2
+# TfL has published each year's workbook by October of the following year
+# (2022's in Oct 2023, 2023's in Aug 2024, 2025's in Aug 2026). From
+# 1 December of year Y+1, year Y must be present; if not, quarantine (harmless
+# — HF keeps the previous data) so a missed or renamed release goes red
+# within weeks rather than years.
+DUE_BY_MONTH = 12
+
+# Files in TfL's folder matching neither pattern, recorded in catalog stats
+# (see lib/tfl_bucket.unrecognised_keys). Filled by fetch().
+UNRECOGNISED: list[str] = []
 
 # Closed vocabularies: TfL's day-type labels, and its direction labels mapped
 # to one canonical spelling each. A new label degrades the tidy step (and
@@ -85,11 +95,21 @@ CATEGORICAL_COLUMNS = ["mode", "coverage", "source", "day_type", "measure"]
 FETCHED_FROM: dict[str, str] = {}
 
 
+def expected_latest_year(today: date) -> int:
+    """The newest count year that TfL should have published by `today`."""
+    return today.year - 1 if today.month >= DUE_BY_MONTH else today.year - 2
+
+
 def list_workbooks() -> dict[int, str]:
     """{year: S3 key} of each year's annualised workbook. Raises if a year
-    has two candidates or the series looks moved."""
+    has two candidates or the series looks moved. Also records any file in
+    the folder that matches neither known pattern in UNRECOGNISED."""
+    keys = list_keys(FOLDER)
+    UNRECOGNISED[:] = unrecognised_keys(keys, [KEY_RE, SKIPPED_RE])
+    if UNRECOGNISED:
+        print(f"  WARNING: unrecognised file(s) in TfL's folder — a renamed workbook? {UNRECOGNISED}")
     found: dict[int, list[str]] = {}
-    for key in list_keys(FOLDER):
+    for key in keys:
         match = KEY_RE.match(key)
         if match:
             found.setdefault(int(match.group(1)), []).append(key)
@@ -242,8 +262,13 @@ def validate(files: list[Path]) -> None:
         years = sorted(int(n.split("/", 1)[0]) for n in zf.namelist())
     if years != list(range(FIRST_YEAR, years[-1] + 1)):
         raise ValueError(f"{ZIP_NAME} years {years} are not contiguous from {FIRST_YEAR}")
-    if years[-1] < date.today().year - MAX_YEARS_BEHIND:
-        raise ValueError(f"latest workbook is for {years[-1]} — TfL may have stopped publishing")
+    due = expected_latest_year(date.today())
+    if years[-1] < due:
+        hint = f" Unrecognised files in the folder: {UNRECOGNISED}" if UNRECOGNISED else ""
+        raise ValueError(
+            f"latest workbook is for {years[-1]}, but TfL normally publishes {due}'s by "
+            f"now — check {LANDING_URL} for a renamed or moved file.{hint}"
+        )
 
     parquet = by_name.get(PARQUET_NAME)
     if parquet is None:
@@ -274,12 +299,15 @@ def validate(files: list[Path]) -> None:
 
 
 def stats(files: list[Path]) -> dict[str, dict]:
+    result: dict[str, dict] = {}
+    if UNRECOGNISED:
+        result[ZIP_NAME] = {"unrecognised_bucket_files": list(UNRECOGNISED)}
     parquet = next((p for p in files if p.name == PARQUET_NAME), None)
-    if parquet is None:
-        return {}
-    file_stats = parquet_stats(parquet, "year")
-    file_stats["categorical_values"] = categorical_value_sets(parquet, CATEGORICAL_COLUMNS)
-    return {parquet.name: file_stats}
+    if parquet is not None:
+        file_stats = parquet_stats(parquet, "year")
+        file_stats["categorical_values"] = categorical_value_sets(parquet, CATEGORICAL_COLUMNS)
+        result[parquet.name] = file_stats
+    return result
 
 
 def fetch(out_dir: Path) -> list[Path]:

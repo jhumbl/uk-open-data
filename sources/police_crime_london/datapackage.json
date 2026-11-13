@@ -5,6 +5,7 @@
   "homepage": "https://data.police.uk/data/archive/",
   "provider": "Home Office / data.police.uk",
   "cadence": "Monthly",
+  "max_days_unchanged": 75,
   "hf_repo": "police-crime-london",
   "licenses": [
     {

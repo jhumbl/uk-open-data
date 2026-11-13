@@ -34,7 +34,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from lib.common import download
-from lib.tfl_bucket import LANDING_URL, key_url, list_keys
+from lib.tfl_bucket import LANDING_URL, key_url, list_keys, unrecognised_keys
 
 FOLDER = "Network Demand/"
 # Human-facing landing page for the folder (recorded as provenance).
@@ -94,6 +94,16 @@ def list_period_files(series: str) -> list[PeriodFile]:
             "the overlap rule can't pick a winner; review lib/tfl_network_demand.py."
         )
     return sorted(files, key=lambda f: f.rank)
+
+
+def unrecognised_files() -> list[str]:
+    """Files in the Network Demand folder that belong to neither series
+    (StationFootfall_*, Journeys_*) — e.g. a renamed continuation of one of
+    them. Both sources record this list in their catalog stats."""
+    known = re.compile(
+        rf"^{re.escape(FOLDER)}(?:StationFootfall|Journeys)_\d{{4}}(?:_\d{{4}})?\s*\.csv$"
+    )
+    return unrecognised_keys(list_keys(FOLDER), [known])
 
 
 def download_all(files: list[PeriodFile], work_dir: Path) -> list[tuple[PeriodFile, Path]]:

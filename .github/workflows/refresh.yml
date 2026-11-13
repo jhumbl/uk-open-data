@@ -151,7 +151,13 @@ jobs:
               echo "First failure for ${source} - not filing an issue yet (the job still fails; issue comes with a 2nd consecutive failure)."
               continue
             fi
-            title="Source broken: ${source}"
+            if [[ "$reason" == "[stale]"* ]]; then
+              title="Source stale: ${source}"
+              served="The source's files are still valid and published; they just haven't changed for longer than expected. Check whether the publisher has moved, renamed or stopped the dataset (see *Source stale* in CLAUDE.md's runbook)."
+            else
+              title="Source broken: ${source}"
+              served="The Hugging Face repo is still serving the previous good version of this source's files. See the *When a source breaks* runbook in CLAUDE.md."
+            fi
             existing=$(gh issue list -R "${{ github.repository }}" \
               --state open --search "in:title \"${title}\"" \
               --json number --jq '.[0].number // empty')
@@ -161,7 +167,7 @@ jobs:
           ${reason}
           \`\`\`
 
-          The Hugging Face repo is still serving the previous good version of this source's files. See the *When a source breaks* runbook in CLAUDE.md."
+          ${served}"
             if [ -n "$existing" ]; then
               gh issue comment "$existing" -R "${{ github.repository }}" --body "$body"
               echo "Updated existing issue #$existing for ${source}"

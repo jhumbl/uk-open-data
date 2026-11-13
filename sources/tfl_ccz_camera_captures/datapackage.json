@@ -5,6 +5,7 @@
   "homepage": "https://data.london.gov.uk/dataset/camera-captures-and-confirmed-vehicles-seen-in-the-congestion-ch-2r88d",
   "provider": "TfL / London Datastore",
   "cadence": "Monthly",
+  "max_days_unchanged": 75,
   "hf_repo": "tfl-congestion-charge",
   "licenses": [
     {

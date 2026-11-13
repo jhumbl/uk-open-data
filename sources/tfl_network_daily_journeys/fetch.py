@@ -45,6 +45,7 @@ from lib.tfl_network_demand import (
     iso_date,
     list_period_files,
     read_zip_series,
+    unrecognised_files,
 )
 
 STEM = "tfl_network_daily_journeys"
@@ -57,6 +58,9 @@ MAX_STALENESS_DAYS = 120  # see tfl_station_footfall/fetch.py
 CATEGORICAL_COLUMNS = ["day_of_week"]
 
 FETCHED_FROM: dict[str, str] = {}
+# Files in TfL's folder matching neither series, recorded in catalog stats
+# (see lib/tfl_bucket.unrecognised_keys). Filled by fetch().
+UNRECOGNISED: list[str] = []
 
 
 def tidy_to_parquet(zip_path: Path, parquet_path: Path) -> Path | None:
@@ -143,17 +147,23 @@ def validate(files: list[Path]) -> None:
 
 
 def stats(files: list[Path]) -> dict[str, dict]:
+    result: dict[str, dict] = {}
+    if UNRECOGNISED:
+        result[ZIP_NAME] = {"unrecognised_bucket_files": list(UNRECOGNISED)}
     parquet = next((p for p in files if p.name == PARQUET_NAME), None)
-    if parquet is None:
-        return {}
-    file_stats = parquet_stats(parquet, "travel_date")
-    file_stats["categorical_values"] = categorical_value_sets(parquet, CATEGORICAL_COLUMNS)
-    return {parquet.name: file_stats}
+    if parquet is not None:
+        file_stats = parquet_stats(parquet, "travel_date")
+        file_stats["categorical_values"] = categorical_value_sets(parquet, CATEGORICAL_COLUMNS)
+        result[parquet.name] = file_stats
+    return result
 
 
 def fetch(out_dir: Path) -> list[Path]:
     FETCHED_FROM.clear()
     out_dir.mkdir(parents=True, exist_ok=True)
+    UNRECOGNISED[:] = unrecognised_files()
+    if UNRECOGNISED:
+        print(f"  WARNING: unrecognised file(s) in TfL's folder — a renamed series? {UNRECOGNISED}")
     period_files = list_period_files(SERIES)
     downloads = download_all(period_files, out_dir)
 

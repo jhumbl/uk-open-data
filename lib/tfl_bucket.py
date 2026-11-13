@@ -10,6 +10,7 @@ source that reads the bucket.
 
 from __future__ import annotations
 
+import re
 import urllib.parse
 import xml.etree.ElementTree as ET
 
@@ -38,6 +39,24 @@ def list_keys(prefix: str) -> list[str]:
             break
         marker = page[-1]
     return keys
+
+
+def unrecognised_keys(keys: list[str], patterns: list[re.Pattern]) -> list[str]:
+    """Files among keys (folder placeholders ending '/' excluded) that match
+    none of patterns, sorted.
+
+    The tripwire for a publisher moving a series without breaking it: if TfL
+    starts publishing under a new filename, our pattern stops matching, the
+    old files keep validating, and nothing goes red. Sources record this list
+    in their catalog stats (and print a warning), so a newcomer in a folder
+    we read shows up as a reviewable catalog.json diff. Pass every pattern a
+    folder's files are expected to match — including files we deliberately
+    don't republish — so the list stays empty in the normal case.
+    """
+    return sorted(
+        k for k in keys
+        if not k.endswith("/") and not any(p.match(k) for p in patterns)
+    )
 
 
 def key_url(key: str) -> str:
