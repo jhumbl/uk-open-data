@@ -32,8 +32,8 @@
     "description": "Great Britain's National Rail stations from the National Public Transport Access Nodes dataset (NaPTAN), the Department for Transport's national register of public transport access points: each station's CRS code, TIPLOC, stop area and location. NaPTAN publishes only its current state, so the monthly archive-YYYY-MM tags here record how the register changes over time."
   },
   "tfl-annual-rail-demand": {
-    "title": "TfL annual rail demand — station entry and exit counts",
-    "description": "Transport for London's annual figures for demand on its rail networks — the Underground, London Overground, DLR and Elizabeth line — from its open data bucket (crowding.data.tfl.gov.uk): entries and exits at every station on a typical day of each day type in the autumn count period, and TfL's weekly and annualised totals, for each year from 2017. Each year's workbook is kept alongside as published. Powered by TfL Open Data."
+    "title": "TfL annual rail demand — station counts and NUMBAT",
+    "description": "Transport for London's annual figures for demand on its rail networks — the Underground, London Overground, DLR and Elizabeth line — from its open data bucket (crowding.data.tfl.gov.uk), each describing a typical autumn day: the Annual Station Counts (entries and exits at every station by day type, with TfL's weekly and annualised totals, from 2017), and the NUMBAT rail demand model (entries, exits, and boarders and alighters per line and platform, by quarter-hour, plus annualised boarders by line, from 2016). TfL's workbooks are kept alongside as published. Powered by TfL Open Data."
   },
   "tfl-congestion-charge": {
     "title": "TfL Congestion Charge zone — vehicles seen by month",

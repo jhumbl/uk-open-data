@@ -1,0 +1,70 @@
+{
+  "name": "tfl_numbat_station_demand",
+  "title": "TfL NUMBAT: station entries, exits, boarders and alighters by quarter-hour, typical autumn day",
+  "description": "Modelled passenger demand at every London Underground, London Overground, DLR and Elizabeth line station (and London Trams stop) from TfL's NUMBAT rail demand model: entries and exits per station, and boarders and alighters per line, direction and platform, for each quarter-hour of a typical autumn day of each day type, every year from 2016. NUMBAT is the only open TfL source that separates Elizabeth line from Underground use at shared stations such as Tottenham Court Road and Bond Street. Published by Transport for London in its open data bucket. One row per year, day type, station or platform row, and quarter-hour.",
+  "homepage": "https://crowding.data.tfl.gov.uk/",
+  "provider": "TfL",
+  "cadence": "Annual",
+  "max_days_unchanged": 400,
+  "hf_repo": "tfl-annual-rail-demand",
+  "licenses": [
+    {
+      "name": "TfL-Transport-Data-Licence",
+      "title": "TfL Transport Data Service licence (based on OGL v2.0) — attribution: \"Powered by TfL Open Data\"",
+      "path": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London — open data bucket (crowding.data.tfl.gov.uk, folder 'NUMBAT', NBTyyDDD_Outputs.xlsx workbooks)",
+      "path": "https://crowding.data.tfl.gov.uk/"
+    }
+  ],
+  "update_cadence": "TfL publishes each year's NUMBAT the following summer or autumn, and has occasionally revised published years; checked weekly.",
+  "caveats": [
+    "Modelled, not counted. TfL: NUMBAT uses smartcard ticketing data and gateline entry/exit totals for each station, estimates each journey's route and assigns it to trains and stations. TfL rates entries and exits high confidence (directly from gatelines), and boarders and alighters high confidence at non-interchange stations but medium confidence at interchange stations — which includes the Elizabeth line platforms at Tottenham Court Road, Bond Street and Paddington.",
+    "Values are averages for a typical autumn day of the day type, per quarter-hour, not totals for a period; a typical day runs 05:00 to 04:59, so qhr runs from 21 (05:00-05:15) to 116 (04:45-05:00 the next morning) — order by qhr, not by quarter_hour text. TfL excludes days affected by major disruption, events and closures, and notes autumn is a busier-than-average time of year.",
+    "Day types change: 2016-2017 MTT (Monday to Thursday), SAT, SUN; 2018-2021 MTT, FRI, SAT, SUN; from 2022 MON, TWT (Tuesday to Thursday), FRI, SAT, SUN. Codes are TfL's, from the workbook filenames.",
+    "Sum like with like. A station's entries and exits are one row each; boarders and alighters are one row per line, direction and platform (point_id), so a station's total boarders is the sum over its platforms. Don't add boarders to entries: an interchanging passenger boards twice but enters once.",
+    "Each TfL sheet row also has a daily Total and six time-band sums (Early, AM Peak, Midday, PM Peak, Evening, Late); the Total equals the sum of the quarter-hours (checked on every run), so only the quarter-hours are kept here. The time-band sums are in the raw workbooks.",
+    "The 'Elizabeth Line' rows before 2022 are TfL Rail services (Liverpool Street-Shenfield, Paddington-Heathrow/Reading); the central section opened in May 2022. Mode and line codes, line names and station names are TfL's, verbatim, and change between years (e.g. London Overground lines renamed in 2024: 'LO North London' became 'LO Mildmay').",
+    "Only four of each workbook's nine sheets are republished as the table: Station_Entries, Station_Exits, Station_Boarders, Station_Alighters. Link loads and frequencies, line boarders and station flows (passenger flows inside stations) are in the raw zip only. TfL's origin-destination files and definitions workbooks in the same folder are not republished.",
+    "TfL's 2019-2021 workbooks contain 62 small negative values (as low as -31.5), all exits and alighters at tram stops in single quarter-hours; they are published as given.",
+    "Covid-19: 2020 and 2021 reflect restrictions and recovery; do not use them as a baseline.",
+    "Attribution required by the licence: \"Powered by TfL Open Data\"."
+  ],
+  "resources": [
+    {
+      "name": "numbat_station_demand_parquet",
+      "path": "tfl_numbat_station_demand.parquet",
+      "format": "parquet",
+      "description": "One row per year, day type, measure, station or platform row and quarter-hour, in TfL's sheet order (year, day type, measure, sheet row, qhr). Derived from the raw zip, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "year", "type": "integer", "description": "NUMBAT year (TfL's folder), i.e. the autumn the typical day represents."},
+          {"name": "day_type", "type": "string", "description": "TfL's day-type code from the filename: MTT (Mon-Thu), MON, TWT (Tue-Thu), FRI, SAT or SUN."},
+          {"name": "measure", "type": "string", "description": "entries, exits (per station), boarders or alighters (per line, direction and platform) — the TfL sheet the row comes from."},
+          {"name": "point_id", "type": "string", "description": "TfL's NUMBAT platform/point ID (sheet column 'ID'); null for entries and exits."},
+          {"name": "nlc", "type": "string", "description": "TfL National Location Code of the station."},
+          {"name": "asc", "type": "string", "description": "TfL station code, e.g. 'TCRu'."},
+          {"name": "station", "type": "string", "description": "Station name, verbatim apart from trimmed whitespace."},
+          {"name": "fare_zone", "type": "string", "description": "Fare zone as TfL gives it, e.g. '1' or '2/3'; entries and exits only, null otherwise."},
+          {"name": "mode", "type": "string", "description": "TfL mode code of the platform: LU, LO, DLR, EZL, TRM; null for entries and exits."},
+          {"name": "line", "type": "string", "description": "TfL line code of the platform, e.g. CEN, NOR, EZL; null for entries and exits."},
+          {"name": "direction", "type": "string", "description": "TfL direction code of the platform, e.g. EB, WB, NB, SB, IB, OB; null for entries and exits."},
+          {"name": "platform", "type": "string", "description": "TfL's platform label, e.g. 'Elizabeth Line // EB'; null for entries and exits."},
+          {"name": "qhr", "type": "integer", "description": "TfL's quarter-hour number, 21 (05:00-05:15) to 116 (04:45-05:00 next morning); sorts in traffic-day order."},
+          {"name": "quarter_hour", "type": "string", "description": "TfL's quarter-hour label, e.g. '0800-0815'."},
+          {"name": "value", "type": "number", "description": "Passengers in that quarter-hour on a typical day of the day type (modelled, so fractional); null where TfL's cell is blank."},
+          {"name": "source_file", "type": "string", "description": "The workbook this row came from, as '<year>/<TfL filename>' (its path in the raw zip)."}
+        ]
+      }
+    },
+    {
+      "name": "raw_zip",
+      "path": "tfl_numbat_station_demand_raw.zip",
+      "format": "zip",
+      "description": "Every NUMBAT output workbook (all nine sheets) from TfL's 'NUMBAT' folder, unmodified, as '<year>/<TfL filename>', in one deterministic zip."
+    }
+  ]
+}

@@ -65,7 +65,9 @@ jobs:
 
       # The police crime source keeps London-filtered intermediates from
       # data.police.uk's ~1.6 GB monthly zips under cache/ so steady-state
-      # runs download little or nothing (see sources/police_crime_london).
+      # runs download little or nothing (see sources/police_crime_london);
+      # tfl_numbat_station_demand keeps TfL's ~470 MB of NUMBAT workbooks
+      # there too, keyed by ETag (the cache name predates it).
       # restore/save are split (rather than the combined actions/cache)
       # because the combined action skips its save when the job fails, and
       # this workflow deliberately fails the job whenever ANY source fails —

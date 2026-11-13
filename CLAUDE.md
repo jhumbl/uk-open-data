@@ -227,6 +227,13 @@ Rules:
   from. Both are best-effort — failures warn, never quarantine.
 - If the publisher's direct URL is unstable, scrape their stable landing
   page for the current link (see the VEH0105 source for the pattern).
+- Big inputs that rarely change are cached under the gitignored repo-root
+  `cache/<source>/` (never `data/`), so a steady-state weekly run downloads
+  nothing — respecting the publisher (invariant 7) and keeping CI fast.
+  `police_crime_london` caches derived intermediates; `tfl_numbat_station_demand`
+  caches TfL's workbooks keyed by S3 ETag. CI persists `cache/` between runs
+  (refresh.yml). A cache miss must only ever cost a re-download, never
+  change the output.
 - **Publishers move data without breaking the old file.** If they start
   publishing somewhere new while the old file stays put, the old file keeps
   validating and nothing goes red — the data just stops moving. Two guards:

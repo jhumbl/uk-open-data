@@ -23,22 +23,36 @@ LANDING_URL = "https://crowding.data.tfl.gov.uk/"
 _S3_NS = {"s3": "http://s3.amazonaws.com/doc/2006-03-01/"}
 
 
-def list_keys(prefix: str) -> list[str]:
-    """Every object key under prefix (e.g. 'Network Demand/'), via the public
-    S3 ListObjects XML, following pagination markers. Folder placeholder keys
-    (ending '/') are included as S3 returns them; callers filter by pattern."""
-    keys: list[str] = []
+def list_objects(prefix: str) -> list[dict]:
+    """Every object under prefix (e.g. 'Network Demand/') as {key, etag,
+    size}, via the public S3 ListObjects XML, following pagination markers.
+    The etag changes whenever TfL replaces a file, so sources that cache big
+    downloads use it to skip unchanged ones. Folder placeholder keys (ending
+    '/') are included as S3 returns them; callers filter by pattern."""
+    objects: list[dict] = []
     marker = ""
     while True:
         query = urllib.parse.urlencode({"prefix": prefix, "marker": marker})
         root = ET.fromstring(get_page(f"{BUCKET_URL}/?{query}"))
-        page = [el.text or "" for el in root.findall("s3:Contents/s3:Key", _S3_NS)]
-        keys.extend(page)
+        page = [
+            {
+                "key": el.findtext("s3:Key", "", _S3_NS),
+                "etag": el.findtext("s3:ETag", "", _S3_NS).strip('"'),
+                "size": int(el.findtext("s3:Size", "0", _S3_NS)),
+            }
+            for el in root.findall("s3:Contents", _S3_NS)
+        ]
+        objects.extend(page)
         truncated = (root.findtext("s3:IsTruncated", "false", _S3_NS) or "").lower() == "true"
         if not truncated or not page:
             break
-        marker = page[-1]
-    return keys
+        marker = page[-1]["key"]
+    return objects
+
+
+def list_keys(prefix: str) -> list[str]:
+    """Every object key under prefix — list_objects() without the metadata."""
+    return [o["key"] for o in list_objects(prefix)]
 
 
 def unrecognised_keys(keys: list[str], patterns: list[re.Pattern]) -> list[str]:

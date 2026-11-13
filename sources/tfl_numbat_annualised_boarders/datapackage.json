@@ -1,0 +1,55 @@
+{
+  "name": "tfl_numbat_annualised_boarders",
+  "title": "TfL NUMBAT: annualised passenger boarders by line",
+  "description": "Estimated passengers boarding each London Underground, London Overground, DLR and Elizabeth line line in a year, for each NUMBAT year from 2016, from TfL's NUMBAT rail demand model. Published by Transport for London as one small workbook in its open data bucket. One row per year per line.",
+  "homepage": "https://crowding.data.tfl.gov.uk/",
+  "provider": "TfL",
+  "cadence": "Annual",
+  "max_days_unchanged": 400,
+  "hf_repo": "tfl-annual-rail-demand",
+  "licenses": [
+    {
+      "name": "TfL-Transport-Data-Licence",
+      "title": "TfL Transport Data Service licence (based on OGL v2.0) — attribution: \"Powered by TfL Open Data\"",
+      "path": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London — open data bucket (crowding.data.tfl.gov.uk, folder 'NUMBAT', NBTyy-yy_AnnualisedBoarders_Outputs.xlsx)",
+      "path": "https://crowding.data.tfl.gov.uk/"
+    }
+  ],
+  "update_cadence": "TfL replaces the workbook each year with one covering the new year (the filename changes, e.g. NBT16-25 for 2016-2025); checked weekly.",
+  "caveats": [
+    "Modelled estimates: TfL scales NUMBAT's typical-autumn-day boarders to a year. TfL's sheet describes the figures as 'estimated annual totals for the financial year' while labelling the columns by NUMBAT year; numbat_year is TfL's column label, published as given.",
+    "Boarders, not journeys: a passenger who changes lines boards twice, so boarders summed across lines exceed journeys.",
+    "'Elizabeth Line' (EZL) before 2022 is TfL Rail (Liverpool Street-Shenfield, Paddington-Heathrow/Reading); the central section opened in May 2022, hence the jump. 'H&C and Circle' is one line here. London Overground line names are TfL's current ones (Windrush, Suffragette, Mildmay, Liberty, Weaver, Lioness, from November 2024), applied to every year.",
+    "The workbook's mode subtotal rows (LU, LO, EZL, DLR) are sums of the line rows and are kept only in the raw xlsx.",
+    "Covid-19: 2020 and 2021 reflect restrictions and recovery (e.g. Waterloo & City shows 0 for 2020, when it was closed); do not use them as a baseline.",
+    "Attribution required by the licence: \"Powered by TfL Open Data\"."
+  ],
+  "resources": [
+    {
+      "name": "numbat_annualised_boarders_parquet",
+      "path": "tfl_numbat_annualised_boarders.parquet",
+      "format": "parquet",
+      "description": "One row per year per line, sorted by numbat_year, mode, line_code. Derived from the raw xlsx, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "numbat_year", "type": "integer", "description": "TfL's column label: the NUMBAT year the estimate is scaled from."},
+          {"name": "mode", "type": "string", "description": "TfL mode code: LU, LO, DLR or EZL."},
+          {"name": "line_code", "type": "string", "description": "TfL line code, e.g. BAK, EZL, ELL."},
+          {"name": "line_name", "type": "string", "description": "TfL's line name, verbatim, e.g. 'Bakerloo', 'LO Windrush'."},
+          {"name": "boarders", "type": "number", "description": "Estimated annual passenger boarders on the line; null where TfL's cell is blank."}
+        ]
+      }
+    },
+    {
+      "name": "raw_xlsx",
+      "path": "tfl_numbat_annualised_boarders.xlsx",
+      "format": "xlsx",
+      "description": "TfL's NBTyy-yy_AnnualisedBoarders_Outputs.xlsx exactly as downloaded, including the mode subtotal rows."
+    }
+  ]
+}
