@@ -31,6 +31,18 @@
     "title": "NaPTAN — National Rail stations (DfT)",
     "description": "Great Britain's National Rail stations from the National Public Transport Access Nodes dataset (NaPTAN), the Department for Transport's national register of public transport access points: each station's CRS code, TIPLOC, stop area and location. NaPTAN publishes only its current state, so the monthly archive-YYYY-MM tags here record how the register changes over time."
   },
+  "tfl-annual-rail-demand": {
+    "title": "TfL annual rail demand — station entry and exit counts",
+    "description": "Transport for London's annual figures for demand on its rail networks — the Underground, London Overground, DLR and Elizabeth line — from its open data bucket (crowding.data.tfl.gov.uk): entries and exits at every station on a typical day of each day type in the autumn count period, and TfL's weekly and annualised totals, for each year from 2017. Each year's workbook is kept alongside as published. Powered by TfL Open Data."
+  },
+  "tfl-congestion-charge": {
+    "title": "TfL Congestion Charge zone — vehicles seen by month",
+    "description": "How many vehicles Transport for London's Congestion Charge cameras record in central London's charging zone each month, during charging hours, from July 2010: camera captures, confirmed vehicles observed, and charging days per month, as published by TfL on the London Datastore."
+  },
+  "tfl-santander-cycles-hires": {
+    "title": "TfL Santander Cycles — number of hires",
+    "description": "How many hires are made on London's Santander Cycles scheme each day since it opened on 30 July 2010, London-wide, as published by Transport for London on the London Datastore ('Number of Bicycle Hires'). The original spreadsheet, with TfL's monthly and yearly totals and average hire time, is kept alongside."
+  },
   "tfl-cycle-hire": {
     "title": "TfL Santander Cycles — docking stations",
     "description": "London's Santander Cycles hire network from Transport for London's open data: the inventory of docking stations from TfL's live BikePoint list — location, size, status and install date for around 800 stations. TfL publishes only the current list, so the monthly archive-YYYY-MM tags here record how the network changes over time: stations added, removed, renamed, moved or resized. Powered by TfL Open Data."

@@ -1,0 +1,64 @@
+{
+  "name": "tfl_annual_station_counts",
+  "title": "TfL Annual Station Counts: typical-day and annualised entries and exits per station",
+  "description": "TfL's yearly station counts for the Underground, London Overground, DLR and Elizabeth line (TfL Rail before 2022; trams in 2021 only), from 2017: entries and exits on a typical day of each day type in the autumn count period, plus weekly, 12-week (from 2022) and annualised entries-and-exits totals, for each station. Published by Transport for London as one workbook per year in its open data bucket. One row per year, station row and published figure.",
+  "homepage": "https://crowding.data.tfl.gov.uk/",
+  "provider": "TfL",
+  "cadence": "Annual",
+  "hf_repo": "tfl-annual-rail-demand",
+  "licenses": [
+    {
+      "name": "TfL-Transport-Data-Licence",
+      "title": "TfL Transport Data Service licence (based on OGL v2.0) — attribution: \"Powered by TfL Open Data\"",
+      "path": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London — open data bucket (crowding.data.tfl.gov.uk, folder 'Annual Station Counts', one annualised entry/exit workbook per year)",
+      "path": "https://crowding.data.tfl.gov.uk/"
+    }
+  ],
+  "update_cadence": "TfL publishes each year's workbook the following summer, and occasionally re-issues earlier years with revisions; checked weekly.",
+  "caveats": [
+    "Typical-day figures (day_type Monday ... Sunday, 'Weekday (Mon-Thu)', 'Midweek (Tue-Thu)' etc.) are averages for a typical day of that type in TfL's autumn count period, not totals; 'Weekly', '12-week' and 'Annualised' are TfL's own scaled totals of entries plus exits. Sum like with like: never add typical-day and annualised rows together.",
+    "The day types change between years: 2017 has 'Weekday (Mon-Fri)', Saturday and Sunday; 2018-2021 split Weekday (Mon-Thu) from Friday; from 2022 TfL gives Monday, 'Midweek (Tue-Thu)', Friday, Saturday and Sunday plus weekly and 12-week totals. day_type and measure are TfL's labels, with direction labels ('entries'/'Entries'/'Entry', 'en/ex') mapped to one spelling each.",
+    "The annualisation factor changes: TfL labels it 'p789 factor' for 2017-2019 and 2021-2022 and 'LD2 factor' (lockdown) for 2020; later workbooks don't say. Figures for 2020 and 2021 reflect Covid-19 restrictions; do not use them as a baseline.",
+    "coverage and source are TfL's notes, verbatim: whether a figure is gateline entries/exits or boardings/alightings, and how it was measured (gateline, taps, automatic passenger counts, loadweigh, manual counts, scaled). Their wording changes between years.",
+    "Interchange stations have one row per mode, and from 2022 some rows only point to another mode's row ('---see LU---', '---see LO---', '---see EZL---' in coverage) — including the Elizabeth line rows at Bond Street, Tottenham Court Road, Paddington, Liverpool Street, Farringdon, Whitechapel, Ealing Broadway and Stratford. Their counts are 0 in 2022 and null from 2023, as published: those stations' users are counted in the row pointed to, so this source cannot separate the Elizabeth line from the Underground there.",
+    "Station names and codes are TfL's, verbatim (whitespace trimmed); names change (e.g. 'Woolwich EZL' became 'Woolwich EL'). nlc is TfL's National Location Code (headed MNLC from 2022), asc its station code (MASC); mode codes also change (TfLRail became EZL from 2020).",
+    "TfL's 2025 workbook has two different Shenfield (EZL) rows; both are published as given. sheet_row is the Excel row number in TfL's sheet and tells such rows apart.",
+    "The 2017-2021 folders also hold quarter-hour workbooks (ByQhrEntryExit), which are not republished here.",
+    "Attribution required by the licence: \"Powered by TfL Open Data\"."
+  ],
+  "resources": [
+    {
+      "name": "annual_station_counts_parquet",
+      "path": "tfl_annual_station_counts.parquet",
+      "format": "parquet",
+      "description": "One row per year, station row, day type and direction (wide -> long), sorted by year, sheet_row, measure, day type. Derived from the raw zip, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "year", "type": "integer", "description": "Count year (the workbook's folder in TfL's bucket)."},
+          {"name": "mode", "type": "string", "description": "TfL mode code, verbatim: LU, LO, DLR, TfLRail (to 2019), EZL (from 2020), TRM (2021 only)."},
+          {"name": "nlc", "type": "string", "description": "TfL National Location Code of the station row (column NLC, or MNLC from 2022)."},
+          {"name": "asc", "type": "string", "description": "TfL station code (column ASC, or MASC from 2022), e.g. 'ACTu'."},
+          {"name": "station", "type": "string", "description": "Station name, verbatim apart from trimmed whitespace."},
+          {"name": "coverage", "type": "string", "description": "TfL's coverage note, verbatim, e.g. 'Station entry/exit', 'Boarding/alighting', '---see LU---'."},
+          {"name": "source", "type": "string", "description": "TfL's data-source note, verbatim, e.g. 'Gateline', 'taps', 'APC'."},
+          {"name": "day_type", "type": "string", "description": "TfL's day-type label: Weekday (Mon-Fri), Weekday (Mon-Thu), Monday, Midweek (Tue-Thu), Friday, Saturday, Sunday, Weekly, 12-week or Annualised."},
+          {"name": "measure", "type": "string", "description": "entries, exits, or entries_and_exits (TfL's 'en/ex', used by the Weekly, 12-week and Annualised totals)."},
+          {"name": "count", "type": "number", "description": "TfL's figure: a typical-day average for day types Monday ... Sunday, a total for Weekly, 12-week and Annualised. Null where TfL gives a '---' placeholder."},
+          {"name": "source_file", "type": "string", "description": "The workbook this row came from, as '<year>/<TfL filename>' (its path in the raw zip)."},
+          {"name": "sheet_row", "type": "integer", "description": "Excel row number of the station row in TfL's sheet."}
+        ]
+      }
+    },
+    {
+      "name": "raw_zip",
+      "path": "tfl_annual_station_counts_raw.zip",
+      "format": "zip",
+      "description": "Every year's annualised entry/exit workbook from TfL's 'Annual Station Counts' folder, unmodified, as '<year>/<TfL filename>', in one deterministic zip."
+    }
+  ]
+}

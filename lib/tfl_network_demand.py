@@ -29,20 +29,16 @@ rather than being copied into each fetch.py:
 from __future__ import annotations
 
 import re
-import urllib.parse
-import xml.etree.ElementTree as ET
 import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 
-from lib.common import download, get_page
+from lib.common import download
+from lib.tfl_bucket import LANDING_URL, key_url, list_keys
 
-BUCKET_URL = "https://s3-eu-west-1.amazonaws.com/crowding.data.tfl.gov.uk"
 FOLDER = "Network Demand/"
 # Human-facing landing page for the folder (recorded as provenance).
-FOLDER_URL = "https://crowding.data.tfl.gov.uk/"
-
-_S3_NS = {"s3": "http://s3.amazonaws.com/doc/2006-03-01/"}
+FOLDER_URL = LANDING_URL
 
 # Canonical day names. TfL's DayOfWeek column is a closed vocabulary.
 DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -63,7 +59,7 @@ class PeriodFile:
 
     @property
     def url(self) -> str:
-        return f"{BUCKET_URL}/{urllib.parse.quote(self.key)}"
+        return key_url(self.key)
 
     @property
     def rank(self) -> tuple[int, int]:
@@ -75,26 +71,13 @@ def list_period_files(series: str) -> list[PeriodFile]:
     """List the bucket folder and return every file of one series
     ('StationFootfall' or 'Journeys'), sorted oldest period first.
 
-    Uses the public S3 ListObjects XML, following pagination markers.
     Raises if nothing matches — that means TfL moved or renamed the series.
     """
     pattern = re.compile(
         rf"^{re.escape(FOLDER)}{re.escape(series)}_(\d{{4}})(?:_(\d{{4}}))?\s*\.csv$"
     )
-    keys: list[str] = []
-    marker = ""
-    while True:
-        query = urllib.parse.urlencode({"prefix": FOLDER, "marker": marker})
-        root = ET.fromstring(get_page(f"{BUCKET_URL}/?{query}"))
-        page = [el.text or "" for el in root.findall("s3:Contents/s3:Key", _S3_NS)]
-        keys.extend(page)
-        truncated = (root.findtext("s3:IsTruncated", "false", _S3_NS) or "").lower() == "true"
-        if not truncated or not page:
-            break
-        marker = page[-1]
-
     files = []
-    for key in keys:
+    for key in list_keys(FOLDER):
         match = pattern.match(key)
         if match:
             first = int(match.group(1))
@@ -102,7 +85,7 @@ def list_period_files(series: str) -> list[PeriodFile]:
             files.append(PeriodFile(key=key, first_year=first, last_year=last))
     if not files:
         raise RuntimeError(
-            f"No {series}_*.csv files found under {BUCKET_URL}/{FOLDER} — "
+            f"No {series}_*.csv files found under {LANDING_URL}{FOLDER} — "
             "TfL may have moved or renamed the series; check the bucket."
         )
     if len({f.rank for f in files}) != len(files):

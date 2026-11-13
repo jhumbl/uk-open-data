@@ -1,0 +1,50 @@
+{
+  "name": "tfl_santander_cycles_daily_hires",
+  "title": "Santander Cycles: number of hires per day",
+  "description": "The total number of hires on London's Santander Cycles scheme each day since it opened on 30 July 2010, London-wide. Published by Transport for London on the London Datastore as 'Number of Bicycle Hires'. One row per day.",
+  "homepage": "https://data.london.gov.uk/dataset/number-bicycle-hires",
+  "provider": "TfL / London Datastore",
+  "cadence": "Monthly",
+  "hf_repo": "tfl-santander-cycles-hires",
+  "licenses": [
+    {
+      "name": "OGL-UK-2.0",
+      "title": "Open Government Licence v2.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London, via the London Datastore — Number of Bicycle Hires (tfl-daily-cycle-hires.xlsx)",
+      "path": "https://data.london.gov.uk/dataset/number-bicycle-hires"
+    }
+  ],
+  "update_cadence": "TfL adds each month's figures about two weeks after the month ends; checked weekly.",
+  "caveats": [
+    "London-wide totals only: there is no breakdown by docking station, borough or bike type (classic or e-bike). Station-level journeys are in TfL's separate cycle hire usage files.",
+    "TfL notes that from 1 August 2017, because of delayed system events, daily figures are subject to small incremental changes and should stabilise after about two weeks — so the most recent fortnight may be revised in later updates.",
+    "10 and 11 September 2022 show 0 hires: TfL shut the scheme that weekend to upgrade its back-office system and prepare for e-bikes.",
+    "The parquet is the daily table only. TfL's spreadsheet also has monthly and yearly totals (exact sums of the daily figures, checked on every run) and the average hire time per month in minutes, which is kept only in the raw xlsx.",
+    "Covid-19: 2020 and 2021 reflect restrictions and recovery; do not use them as a baseline."
+  ],
+  "resources": [
+    {
+      "name": "daily_hires_parquet",
+      "path": "tfl_santander_cycles_daily_hires.parquet",
+      "format": "parquet",
+      "description": "One row per day, sorted by hire_date. Derived from the raw xlsx, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "hire_date", "type": "string", "description": "Date, ISO yyyy-mm-dd."},
+          {"name": "hires", "type": "integer", "description": "Number of Santander Cycles hires that day, London-wide."}
+        ]
+      }
+    },
+    {
+      "name": "raw_xlsx",
+      "path": "tfl_santander_cycles_daily_hires.xlsx",
+      "format": "xlsx",
+      "description": "TfL's Number of Bicycle Hires spreadsheet exactly as downloaded from the London Datastore: daily, monthly and yearly hires and monthly average hire time."
+    }
+  ]
+}

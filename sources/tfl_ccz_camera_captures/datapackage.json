@@ -1,0 +1,55 @@
+{
+  "name": "tfl_ccz_camera_captures",
+  "title": "TfL Congestion Charge zone: camera captures and confirmed vehicles, by month",
+  "description": "How many vehicles TfL's Congestion Charge cameras recorded in the charging zone each month during charging hours, from July 2010: total camera captures, and (from October 2016) the number of confirmed vehicles observed, with the number of charging days in the month. Published by Transport for London on the London Datastore. One row per month.",
+  "homepage": "https://data.london.gov.uk/dataset/camera-captures-and-confirmed-vehicles-seen-in-the-congestion-ch-2r88d",
+  "provider": "TfL / London Datastore",
+  "cadence": "Monthly",
+  "hf_repo": "tfl-congestion-charge",
+  "licenses": [
+    {
+      "name": "OGL-UK-2.0",
+      "title": "Open Government Licence v2.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Transport for London, via the London Datastore — Camera Captures and Confirmed Vehicles seen in the Congestion Charge Zone by Month (tfl-vehicles-c-charge-zone.csv)",
+      "path": "https://data.london.gov.uk/dataset/camera-captures-and-confirmed-vehicles-seen-in-the-congestion-ch-2r88d"
+    }
+  ],
+  "update_cadence": "TfL adds each month roughly six weeks after it ends; checked weekly.",
+  "caveats": [
+    "Counts are for charging hours on charging days only. Charging hours and days have changed over the series (notably 7-day charging from June 2020, and later changes to evening and weekend hours), so compare months per charging day and treat those changes as breaks in the series.",
+    "The two measures are TfL's, under TfL's names; the dataset itself carries no fuller definition. Neither is a count of traffic flow past a point, and there is no split by vehicle type.",
+    "confirmed_vehicles is blank before October 2016. In a few recent months it equals or exceeds camera_captures (e.g. May and September 2026); figures are published as TfL gives them.",
+    "The zone covers central London, including most but not all of the City of Westminster.",
+    "notes is TfL's free-text note of non-charging days in the month, verbatim.",
+    "There is no row for April 2020: TfL suspended the charge from 23 March to 18 May 2020 (Covid-19) and publishes nothing for that month; March and May 2020 cover only their charging days.",
+    "Covid-19: 2020 and 2021 reflect restrictions and recovery; do not use them as a baseline."
+  ],
+  "resources": [
+    {
+      "name": "ccz_camera_captures_parquet",
+      "path": "tfl_ccz_camera_captures.parquet",
+      "format": "parquet",
+      "description": "One row per month, sorted by month. Derived from the raw CSV, which is authoritative.",
+      "schema": {
+        "fields": [
+          {"name": "month", "type": "string", "description": "Calendar month, ISO yyyy-mm (TfL publishes 'Jul-10')."},
+          {"name": "camera_captures", "type": "integer", "description": "Congestion Charge camera captures during charging hours in the month."},
+          {"name": "confirmed_vehicles", "type": "integer", "description": "Confirmed vehicles observed during charging hours in the month; null before October 2016."},
+          {"name": "charging_days", "type": "integer", "description": "Number of charging days in the month, as published by TfL."},
+          {"name": "notes", "type": "string", "description": "TfL's note on non-charging days, verbatim; null where there is none."}
+        ]
+      }
+    },
+    {
+      "name": "raw_csv",
+      "path": "tfl_ccz_camera_captures.csv",
+      "format": "csv",
+      "description": "TfL's tfl-vehicles-c-charge-zone.csv exactly as downloaded from the London Datastore."
+    }
+  ]
+}

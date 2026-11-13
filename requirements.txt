@@ -5,5 +5,6 @@
 requests==2.31.0
 pandas==3.0.3
 odfpy==1.4.1
+openpyxl==3.1.5
 pyarrow==24.0.0
 huggingface_hub==1.23.0
