@@ -6,7 +6,7 @@
       "first_seen": "2026-11-09T23:38:05Z",
       "hf_repo": "dft-naptan",
       "last_changed": "2026-11-09T23:38:05Z",
-      "last_checked": "2026-11-09T23:39:17Z",
+      "last_checked": "2026-11-16T14:36:02Z",
       "sha256": "3e65e915d1cb9b03077672fd5f665430e92ddf9eb3f4c25043ce2478f19d6c13",
       "size_bytes": 272385,
       "source": "dft_naptan_rail_stations",
@@ -33,7 +33,7 @@
       "first_seen": "2026-11-09T23:38:05Z",
       "hf_repo": "dft-naptan",
       "last_changed": "2026-11-09T23:38:05Z",
-      "last_checked": "2026-11-09T23:39:17Z",
+      "last_checked": "2026-11-16T14:36:02Z",
       "sha256": "6752e2d959174e90eae5cd7880b633e9558b620bf642d99fc05abfb25fa0eab5",
       "size_bytes": 26963896,
       "source": "dft_naptan_rail_stations"
@@ -44,7 +44,7 @@
       "first_seen": "2026-07-12T14:22:13Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-09-28T12:50:50Z",
-      "last_checked": "2026-11-10T21:22:10Z",
+      "last_checked": "2026-11-16T14:40:09Z",
       "sha256": "242fa118bb25226ffa44797072d66bbcd07ecdcdec2fadb4a39853b4cc847d26",
       "size_bytes": 17613448,
       "source": "dft_veh0105_licensed_by_la"
@@ -55,7 +55,7 @@
       "first_seen": "2026-07-12T14:22:13Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-11-10T21:02:52Z",
-      "last_checked": "2026-11-10T21:22:10Z",
+      "last_checked": "2026-11-16T14:40:09Z",
       "sha256": "23829d4f49deb53beb1ed06174d633df5937d4dbe58d0ca38fd4ff2acd3cb352",
       "size_bytes": 6660974,
       "source": "dft_veh0105_licensed_by_la",
@@ -108,7 +108,7 @@
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-09-28T12:52:05Z",
-      "last_checked": "2026-11-10T21:13:45Z",
+      "last_checked": "2026-11-16T14:40:54Z",
       "sha256": "908576566166b52c30720c5f2f4da7fb417c3f21fc0eb9c16df8aee1b7b08161",
       "size_bytes": 2219701,
       "source": "dft_veh0132_ulev_by_la"
@@ -119,7 +119,7 @@
       "first_seen": "2026-07-12T16:02:41Z",
       "hf_repo": "dft-vehicle-licensing",
       "last_changed": "2026-11-10T20:58:49Z",
-      "last_checked": "2026-11-10T21:13:45Z",
+      "last_checked": "2026-11-16T14:40:54Z",
       "sha256": "7d27eee211edb423156470319980754d1b574f9d2dfce430fba62617ef4d976c",
       "size_bytes": 649857,
       "source": "dft_veh0132_ulev_by_la",
@@ -162,15 +162,15 @@
       "fetched_from": "https://ratings.food.gov.uk/OpenDataFiles/FHRS{code}en-GB.xml",
       "first_seen": "2026-07-12T16:09:42Z",
       "hf_repo": "fsa-food-hygiene-london",
-      "last_changed": "2026-11-09T15:07:47Z",
-      "last_checked": "2026-11-09T20:06:48Z",
-      "sha256": "9dead4db44f3e6bffd4b5e2fa946b4221ce2358f8452687037e3d137827dc390",
-      "size_bytes": 5153735,
+      "last_changed": "2026-11-16T14:41:37Z",
+      "last_checked": "2026-11-16T14:41:37Z",
+      "sha256": "23910276c1b375f6b0fdd7908af822fe6359f632eeb35c4d4e33a2b927a48956",
+      "size_bytes": 5155632,
       "source": "fsa_fhrs_london_food_hygiene",
       "stats": {
-        "max_period": "2026-11-05",
+        "max_period": "2026-11-12",
         "min_period": "2002-07-15",
-        "row_count": 81800
+        "row_count": 81761
       }
     },
     "fsa_fhrs_london_food_hygiene_raw_xml.zip": {
@@ -178,10 +178,10 @@
       "fetched_from": "https://ratings.food.gov.uk/OpenDataFiles/FHRS{code}en-GB.xml",
       "first_seen": "2026-07-12T16:09:42Z",
       "hf_repo": "fsa-food-hygiene-london",
-      "last_changed": "2026-11-09T15:07:47Z",
-      "last_checked": "2026-11-09T20:06:48Z",
-      "sha256": "988be4c4a20f6dda48d93f3879c9f01ccde20d6619c1c073ff1ed344b9919829",
-      "size_bytes": 4927508,
+      "last_changed": "2026-11-16T14:41:37Z",
+      "last_checked": "2026-11-16T14:41:37Z",
+      "sha256": "28893b4d4a977453a97a12bb78b5aa5af2e58f2754f00877e1050bcdeb08b866",
+      "size_bytes": 4926983,
       "source": "fsa_fhrs_london_food_hygiene"
     },
     "gla_public_realm_trees.csv": {
@@ -190,7 +190,7 @@
       "first_seen": "2026-07-17T21:28:43Z",
       "hf_repo": "gla-trees",
       "last_changed": "2026-07-17T21:28:43Z",
-      "last_checked": "2026-11-09T21:01:03Z",
+      "last_checked": "2026-11-16T14:41:52Z",
       "sha256": "47bfe02f42fc842c670f35b6f6ecbb04600884c56561429b9bba6aa4f79d6319",
       "size_bytes": 208790582,
       "source": "gla_public_realm_trees"
@@ -201,7 +201,7 @@
       "first_seen": "2026-07-17T21:28:43Z",
       "hf_repo": "gla-trees",
       "last_changed": "2026-07-17T21:28:43Z",
-      "last_checked": "2026-11-09T21:01:03Z",
+      "last_checked": "2026-11-16T14:41:52Z",
       "sha256": "af6209191a27b889ab36ac6ff288f60a3daf6255e67b4f6d2784a753b06bc451",
       "size_bytes": 26980926,
       "source": "gla_public_realm_trees",
@@ -215,7 +215,7 @@
       "first_seen": "2026-11-09T20:30:45Z",
       "hf_repo": "orr-station-usage",
       "last_changed": "2026-11-09T20:30:45Z",
-      "last_checked": "2026-11-09T20:34:10Z",
+      "last_checked": "2026-11-16T14:42:23Z",
       "sha256": "6b21d03093ebfd01382b2b876b44a7c61491b9b4eb5b638b80a414dbfe414465",
       "size_bytes": 1517842,
       "source": "orr_1415_station_usage"
@@ -226,7 +226,7 @@
       "first_seen": "2026-11-09T20:30:45Z",
       "hf_repo": "orr-station-usage",
       "last_changed": "2026-11-09T20:30:45Z",
-      "last_checked": "2026-11-09T20:34:10Z",
+      "last_checked": "2026-11-16T14:42:23Z",
       "sha256": "5e2c358cde648ef982342a53c28e360c01be04340b19779845b0972aeff60abc",
       "size_bytes": 960725,
       "source": "orr_1415_station_usage",
@@ -257,7 +257,7 @@
       "first_seen": "2026-07-12T16:19:33Z",
       "hf_repo": "police-crime-london",
       "last_changed": "2026-11-09T15:11:19Z",
-      "last_checked": "2026-11-09T20:09:03Z",
+      "last_checked": "2026-11-16T14:44:02Z",
       "sha256": "433c41b0528477ee32e6954395e052e158094dc9411f8fae6f720dd90fb01c8a",
       "size_bytes": 909252483,
       "source": "police_crime_london",
@@ -273,7 +273,7 @@
       "first_seen": "2026-07-12T16:19:33Z",
       "hf_repo": "police-crime-london",
       "last_changed": "2026-11-09T15:11:19Z",
-      "last_checked": "2026-11-09T20:09:03Z",
+      "last_checked": "2026-11-16T14:44:02Z",
       "sha256": "6f8643fe943bc460bd992513327a8bf484633c4f0513105616f6f9aea33fb883",
       "size_bytes": 687731279,
       "source": "police_crime_london",
@@ -289,7 +289,7 @@
       "first_seen": "2026-07-12T16:19:33Z",
       "hf_repo": "police-crime-london",
       "last_changed": "2026-11-09T15:11:19Z",
-      "last_checked": "2026-11-09T20:09:03Z",
+      "last_checked": "2026-11-16T14:44:02Z",
       "sha256": "ceb8d1049cf0a49cbb0191bc8673682f540de97c8c62625f9657eea0702d2f4a",
       "size_bytes": 21260929,
       "source": "police_crime_london",
@@ -305,7 +305,7 @@
       "first_seen": "2026-11-13T14:40:59Z",
       "hf_repo": "tfl-annual-rail-demand",
       "last_changed": "2026-11-13T14:40:59Z",
-      "last_checked": "2026-11-13T15:13:08Z",
+      "last_checked": "2026-11-16T14:44:10Z",
       "sha256": "64b050683163450dcb2344acf4d9d919654462f28949b0af20f7d77e6451beda",
       "size_bytes": 353536,
       "source": "tfl_annual_station_counts",
@@ -386,7 +386,7 @@
       "first_seen": "2026-11-13T14:40:59Z",
       "hf_repo": "tfl-annual-rail-demand",
       "last_changed": "2026-11-13T14:40:59Z",
-      "last_checked": "2026-11-13T15:13:08Z",
+      "last_checked": "2026-11-16T14:44:10Z",
       "sha256": "59894d8aa831aabd540c538b030b0b95dd0f3a825941b71f6aa4a17bd15c7ee6",
       "size_bytes": 754686,
       "source": "tfl_annual_station_counts"
@@ -396,10 +396,10 @@
       "fetched_from": "https://api.tfl.gov.uk/BikePoint",
       "first_seen": "2026-11-09T20:11:40Z",
       "hf_repo": "tfl-cycle-hire",
-      "last_changed": "2026-11-09T20:11:40Z",
-      "last_checked": "2026-11-09T20:12:06Z",
-      "sha256": "39996f1ae9e6a371551cd6be43390b4b1db81d6c4150bc2f8687c579d596aa44",
-      "size_bytes": 47282,
+      "last_changed": "2026-11-16T14:44:10Z",
+      "last_checked": "2026-11-16T14:44:10Z",
+      "sha256": "daef0698f56e4cf40b9acac279a8a2a43838005f2bf0831602f1c914af44952d",
+      "size_bytes": 46509,
       "source": "tfl_bikepoint_docking_stations",
       "stats": {
         "categorical_values": {
@@ -407,7 +407,7 @@
             true
           ],
           "locked": [
-            false
+            true
           ],
           "temporary": [
             false,
@@ -416,7 +416,7 @@
         },
         "max_period": "2026-06-01T23:00:00Z",
         "min_period": "2010-06-19T12:01:00Z",
-        "row_count": 799
+        "row_count": 784
       }
     },
     "tfl_bikepoint_docking_stations_raw.zip": {
@@ -424,10 +424,10 @@
       "fetched_from": "https://api.tfl.gov.uk/BikePoint",
       "first_seen": "2026-11-09T20:11:40Z",
       "hf_repo": "tfl-cycle-hire",
-      "last_changed": "2026-11-09T20:11:40Z",
-      "last_checked": "2026-11-09T20:12:06Z",
-      "sha256": "33efada87554b65165104bf1b967eb7a2a38e478a7e2c1c609dfacd695e9ffc8",
-      "size_bytes": 78772,
+      "last_changed": "2026-11-16T14:44:10Z",
+      "last_checked": "2026-11-16T14:44:10Z",
+      "sha256": "63dd64c4667e97b1cd2b4817c057009e67f384f59428a9fcbb920e4ce375f42a",
+      "size_bytes": 60484,
       "source": "tfl_bikepoint_docking_stations"
     },
     "tfl_ccz_camera_captures.csv": {
@@ -436,7 +436,7 @@
       "first_seen": "2026-11-13T14:41:28Z",
       "hf_repo": "tfl-congestion-charge",
       "last_changed": "2026-11-13T14:41:28Z",
-      "last_checked": "2026-11-13T15:12:54Z",
+      "last_checked": "2026-11-16T14:44:11Z",
       "sha256": "a6e55cbd494912880db6f025401a96b9c0c0c2dccbb98831fa69639be4b43d93",
       "size_bytes": 7764,
       "source": "tfl_ccz_camera_captures"
@@ -447,7 +447,7 @@
       "first_seen": "2026-11-13T14:41:28Z",
       "hf_repo": "tfl-congestion-charge",
       "last_changed": "2026-11-13T14:41:28Z",
-      "last_checked": "2026-11-13T15:12:54Z",
+      "last_checked": "2026-11-16T14:44:11Z",
       "sha256": "a6b1d427e2a28afbc4b6fd4202a8d6787c4aa035287641bb9c2551d48d801142",
       "size_bytes": 6258,
       "source": "tfl_ccz_camera_captures",
@@ -463,7 +463,7 @@
       "first_seen": "2026-11-09T21:00:48Z",
       "hf_repo": "tfl-journeys-by-mode",
       "last_changed": "2026-11-09T21:00:48Z",
-      "last_checked": "2026-11-09T21:01:44Z",
+      "last_checked": "2026-11-16T14:44:12Z",
       "sha256": "ad13cd46018dbb30c13c3aedc36bb8a1db327fe2331d4397d98ea62cd63fdfcd",
       "size_bytes": 14879,
       "source": "tfl_journeys_by_mode"
@@ -474,7 +474,7 @@
       "first_seen": "2026-11-09T21:00:48Z",
       "hf_repo": "tfl-journeys-by-mode",
       "last_changed": "2026-11-09T21:00:48Z",
-      "last_checked": "2026-11-09T21:01:44Z",
+      "last_checked": "2026-11-16T14:44:12Z",
       "sha256": "080e8ff9dff67d8e9111167158f7ef0d21828649fc4051e66c1eb6e14f20de6c",
       "size_bytes": 13186,
       "source": "tfl_journeys_by_mode",
@@ -501,7 +501,7 @@
       "first_seen": "2026-11-09T17:04:03Z",
       "hf_repo": "tfl-network-demand",
       "last_changed": "2026-11-13T14:42:02Z",
-      "last_checked": "2026-11-13T15:13:15Z",
+      "last_checked": "2026-11-16T14:44:17Z",
       "sha256": "6832390ccf606b9abef02d33dfffed009f7ef54023dc771a4047dc1ef79cd854",
       "size_bytes": 45293,
       "source": "tfl_network_daily_journeys",
@@ -528,7 +528,7 @@
       "first_seen": "2026-11-09T17:04:03Z",
       "hf_repo": "tfl-network-demand",
       "last_changed": "2026-11-13T14:42:02Z",
-      "last_checked": "2026-11-13T15:13:15Z",
+      "last_checked": "2026-11-16T14:44:17Z",
       "sha256": "b076acac4d38c26a98868657fd2b0002263e040a37a6f24aa56380033ff360d3",
       "size_bytes": 31759,
       "source": "tfl_network_daily_journeys"
@@ -539,7 +539,7 @@
       "first_seen": "2026-11-13T15:50:12Z",
       "hf_repo": "tfl-annual-rail-demand",
       "last_changed": "2026-11-13T15:50:12Z",
-      "last_checked": "2026-11-13T15:50:37Z",
+      "last_checked": "2026-11-16T14:44:18Z",
       "sha256": "40751984dd11cfef7fb071a0aff0f1208aaa85f4731dce6fdd261ac5af329a64",
       "size_bytes": 3715,
       "source": "tfl_numbat_annualised_boarders",
@@ -603,7 +603,7 @@
       "first_seen": "2026-11-13T15:50:12Z",
       "hf_repo": "tfl-annual-rail-demand",
       "last_changed": "2026-11-13T15:50:12Z",
-      "last_checked": "2026-11-13T15:50:37Z",
+      "last_checked": "2026-11-16T14:44:18Z",
       "sha256": "50a500bd9eb144be025f8d0059057822b62578392b56d2ad114dace7d43e6a30",
       "size_bytes": 24241,
       "source": "tfl_numbat_annualised_boarders"
@@ -614,7 +614,7 @@
       "first_seen": "2026-11-13T15:47:30Z",
       "hf_repo": "tfl-annual-rail-demand",
       "last_changed": "2026-11-13T15:47:30Z",
-      "last_checked": "2026-11-13T15:53:11Z",
+      "last_checked": "2026-11-16T14:48:12Z",
       "sha256": "4dbcd9ea7df5e569f4c73e4b141808b66604cd376722b8f93e85a20c3281348f",
       "size_bytes": 90104945,
       "source": "tfl_numbat_station_demand",
@@ -684,7 +684,7 @@
       "first_seen": "2026-11-13T15:47:30Z",
       "hf_repo": "tfl-annual-rail-demand",
       "last_changed": "2026-11-13T15:47:30Z",
-      "last_checked": "2026-11-13T15:53:11Z",
+      "last_checked": "2026-11-16T14:48:12Z",
       "sha256": "a047fcc19a7794afef3e0016b3ca28bf86591fce97dc2e396a4427d8bbc19e6d",
       "size_bytes": 464280702,
       "source": "tfl_numbat_station_demand"
@@ -695,7 +695,7 @@
       "first_seen": "2026-11-13T14:40:54Z",
       "hf_repo": "tfl-santander-cycles-hires",
       "last_changed": "2026-11-13T14:40:54Z",
-      "last_checked": "2026-11-13T15:12:59Z",
+      "last_checked": "2026-11-16T14:48:14Z",
       "sha256": "8e068651449904cdd978a3e2d785ec6e21ee57f901c7dfdcd1679e72791ef4cd",
       "size_bytes": 65475,
       "source": "tfl_santander_cycles_daily_hires",
@@ -711,7 +711,7 @@
       "first_seen": "2026-11-13T14:40:54Z",
       "hf_repo": "tfl-santander-cycles-hires",
       "last_changed": "2026-11-13T14:40:54Z",
-      "last_checked": "2026-11-13T15:12:59Z",
+      "last_checked": "2026-11-16T14:48:14Z",
       "sha256": "d8f48d0634dc659d634bbae3cd46c7c7eaa8893301a530efd1077c91d01a2ac9",
       "size_bytes": 148688,
       "source": "tfl_santander_cycles_daily_hires"
@@ -721,10 +721,10 @@
       "fetched_from": "https://crowding.data.tfl.gov.uk/",
       "first_seen": "2026-11-09T17:04:00Z",
       "hf_repo": "tfl-network-demand",
-      "last_changed": "2026-11-09T17:04:00Z",
-      "last_checked": "2026-11-09T20:09:25Z",
-      "sha256": "df02271c9f7895232dca19f95df2a79616a8c06d01b6b055eab15cb1d26b9b25",
-      "size_bytes": 6148073,
+      "last_changed": "2026-11-16T14:48:39Z",
+      "last_checked": "2026-11-16T14:48:39Z",
+      "sha256": "1c19db27a6a44c879009576c32fce68419f3e809eb4e474bdb4d360e63cbb582",
+      "size_bytes": 6163571,
       "source": "tfl_station_footfall",
       "stats": {
         "categorical_values": {
@@ -1178,9 +1178,9 @@
             "Woolwich Elizabeth Line"
           ]
         },
-        "max_period": "2026-10-31",
+        "max_period": "2026-11-07",
         "min_period": "2019-01-01",
-        "row_count": 1211350
+        "row_count": 1214332
       }
     },
     "tfl_station_footfall_raw.zip": {
@@ -1188,10 +1188,10 @@
       "fetched_from": "https://crowding.data.tfl.gov.uk/",
       "first_seen": "2026-11-09T17:04:00Z",
       "hf_repo": "tfl-network-demand",
-      "last_changed": "2026-11-09T17:04:00Z",
-      "last_checked": "2026-11-09T20:09:25Z",
-      "sha256": "9b96fc5f068867121f465b2393d2644dd3aaacdc5ec98a58ffee1c3d180015c5",
-      "size_bytes": 13701820,
+      "last_changed": "2026-11-16T14:48:39Z",
+      "last_checked": "2026-11-16T14:48:39Z",
+      "sha256": "734a4f4f453303989cf2210ac52b7e886b26097ecacf683ce5a68838c89fe0f6",
+      "size_bytes": 13729076,
       "source": "tfl_station_footfall"
     },
     "tfl_stoppoint_footfall_crosswalk.parquet": {
@@ -1200,7 +1200,7 @@
       "first_seen": "2026-11-10T10:52:44Z",
       "hf_repo": "tfl-network-demand",
       "last_changed": "2026-11-10T17:15:50Z",
-      "last_checked": "2026-11-10T17:16:16Z",
+      "last_checked": "2026-11-16T14:48:42Z",
       "sha256": "075b4d726205c6b67d36f053fe13677c5a4b3ce37441c0bc8de98306b95e639d",
       "size_bytes": 38790,
       "source": "tfl_stoppoint_footfall_crosswalk",
@@ -1332,17 +1332,17 @@
       "fetched_from": "https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr,overground,elizabeth-line,tram",
       "first_seen": "2026-11-10T10:52:44Z",
       "hf_repo": "tfl-network-demand",
-      "last_changed": "2026-11-10T17:16:16Z",
-      "last_checked": "2026-11-10T17:16:16Z",
-      "sha256": "f30a676252423e062b8baf0fef530edc31cb6ee859ce2773a3bf94f65656c481",
-      "size_bytes": 602824,
+      "last_changed": "2026-11-16T14:48:42Z",
+      "last_checked": "2026-11-16T14:48:42Z",
+      "sha256": "b8cc499875d5ad4cab04ed0aa162e66521f8269b70cde128b30c13b3bff94503",
+      "size_bytes": 606990,
       "source": "tfl_stoppoint_footfall_crosswalk"
     }
   },
   "families": {
     "dft-naptan": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T23:39:19Z",
+      "last_synced": "2026-11-16T14:48:44Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/dft-naptan",
       "revision": "069762f95cc89a1542080422a495d9c4f4246636",
@@ -1350,7 +1350,7 @@
     },
     "dft-vehicle-licensing": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-10T21:22:13Z",
+      "last_synced": "2026-11-16T14:48:46Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/dft-vehicle-licensing",
       "revision": "132fb5afbbd6cd590517af39594aa0d973e566b1",
@@ -1358,15 +1358,15 @@
     },
     "fsa-food-hygiene-london": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T20:09:27Z",
+      "last_synced": "2026-11-16T14:49:10Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/fsa-food-hygiene-london",
-      "revision": "26d221fa814a29c51618b6ed6a1bc0ca9da26d8b",
+      "revision": "5bc30d29cad6d3089bd12e0a854d43fae9ac4601",
       "status": "ok"
     },
     "gla-trees": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T20:09:30Z",
+      "last_synced": "2026-11-16T14:49:13Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/gla-trees",
       "revision": "5fc0b720e81c204b19b632cb68e84583d329ec62",
@@ -1374,7 +1374,7 @@
     },
     "orr-station-usage": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T20:34:11Z",
+      "last_synced": "2026-11-16T14:49:14Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/orr-station-usage",
       "revision": "14131996f9c536f85ac819413b325b1cb807f0ba",
@@ -1382,7 +1382,7 @@
     },
     "police-crime-london": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T20:09:33Z",
+      "last_synced": "2026-11-16T14:49:18Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/police-crime-london",
       "revision": "5e8d3437ab6864c6aae532a7cacc32618a69c8fb",
@@ -1390,7 +1390,7 @@
     },
     "tfl-annual-rail-demand": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-13T15:53:24Z",
+      "last_synced": "2026-11-16T14:49:20Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-annual-rail-demand",
       "revision": "b18b6267e82e4ff8ff3b8de9287ab6d62fce6012",
@@ -1398,7 +1398,7 @@
     },
     "tfl-congestion-charge": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-13T15:12:58Z",
+      "last_synced": "2026-11-16T14:49:21Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-congestion-charge",
       "revision": "d4ef96d4b1435a2cbe0547535987756862f0932e",
@@ -1406,15 +1406,15 @@
     },
     "tfl-cycle-hire": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T20:12:08Z",
+      "last_synced": "2026-11-16T14:49:25Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-cycle-hire",
-      "revision": "18e3c13378f65403476529e5da5bc1812724cf93",
+      "revision": "dae170f1f86a1bbf80e04c64e4789c15199e501d",
       "status": "ok"
     },
     "tfl-journeys-by-mode": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-09T21:01:46Z",
+      "last_synced": "2026-11-16T14:49:26Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-journeys-by-mode",
       "revision": "3fcb3102a416c1f546f454a5250574a39fbd60db",
@@ -1422,15 +1422,15 @@
     },
     "tfl-network-demand": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-13T15:13:18Z",
+      "last_synced": "2026-11-16T14:49:29Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-network-demand",
-      "revision": "8f3b543117265e56986d0c78f54ce2cd7a896f16",
+      "revision": "26c40c67ee68cf4dd9819bc33168a6945003e63f",
       "status": "ok"
     },
     "tfl-santander-cycles-hires": {
       "consecutive_failures": 0,
-      "last_synced": "2026-11-13T15:13:03Z",
+      "last_synced": "2026-11-16T14:49:31Z",
       "last_tag": "archive-2026-11",
       "repo_url": "https://huggingface.co/datasets/jhumbl/tfl-santander-cycles-hires",
       "revision": "c78d4e8b418585ea487dda9e440ce57eb8b164dd",
@@ -1440,90 +1440,90 @@
   "sources": {
     "dft_naptan_rail_stations": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T23:39:17Z",
+      "last_success": "2026-11-16T14:36:02Z",
       "status": "ok"
     },
     "dft_veh0105_licensed_by_la": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-10T21:22:10Z",
+      "last_success": "2026-11-16T14:40:09Z",
       "status": "ok"
     },
     "dft_veh0132_ulev_by_la": {
       "consecutive_failures": 0,
       "last_failure": "2026-07-12T16:06:07Z",
-      "last_success": "2026-11-10T21:13:45Z",
+      "last_success": "2026-11-16T14:40:54Z",
       "status": "ok"
     },
     "fsa_fhrs_london_food_hygiene": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:06:48Z",
+      "last_success": "2026-11-16T14:41:37Z",
       "status": "ok"
     },
     "gla_public_realm_trees": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T21:01:03Z",
+      "last_success": "2026-11-16T14:41:52Z",
       "status": "ok"
     },
     "orr_1415_station_usage": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:34:09Z",
+      "last_success": "2026-11-16T14:42:23Z",
       "status": "ok"
     },
     "police_crime_london": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:09:02Z",
+      "last_success": "2026-11-16T14:44:02Z",
       "status": "ok"
     },
     "tfl_annual_station_counts": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-13T15:13:08Z",
+      "last_success": "2026-11-16T14:44:10Z",
       "status": "ok"
     },
     "tfl_bikepoint_docking_stations": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:12:06Z",
+      "last_success": "2026-11-16T14:44:10Z",
       "status": "ok"
     },
     "tfl_ccz_camera_captures": {
       "consecutive_failures": 0,
       "last_failure": "2026-11-13T14:40:52Z",
-      "last_success": "2026-11-13T15:12:54Z",
+      "last_success": "2026-11-16T14:44:11Z",
       "status": "ok"
     },
     "tfl_journeys_by_mode": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T21:01:44Z",
+      "last_success": "2026-11-16T14:44:12Z",
       "status": "ok"
     },
     "tfl_network_daily_journeys": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-13T15:13:15Z",
+      "last_success": "2026-11-16T14:44:17Z",
       "status": "ok"
     },
     "tfl_numbat_annualised_boarders": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-13T15:50:37Z",
+      "last_success": "2026-11-16T14:44:18Z",
       "status": "ok"
     },
     "tfl_numbat_station_demand": {
       "consecutive_failures": 0,
       "last_failure": "2026-11-13T15:42:50Z",
-      "last_success": "2026-11-13T15:53:11Z",
+      "last_success": "2026-11-16T14:48:12Z",
       "status": "ok"
     },
     "tfl_santander_cycles_daily_hires": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-13T15:12:59Z",
+      "last_success": "2026-11-16T14:48:14Z",
       "status": "ok"
     },
     "tfl_station_footfall": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-09T20:09:25Z",
+      "last_success": "2026-11-16T14:48:39Z",
       "status": "ok"
     },
     "tfl_stoppoint_footfall_crosswalk": {
       "consecutive_failures": 0,
-      "last_success": "2026-11-10T17:16:16Z",
+      "last_success": "2026-11-16T14:48:42Z",
       "status": "ok"
     }
   }
