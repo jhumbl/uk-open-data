@@ -59,7 +59,14 @@ ODS_NAME = f"{STEM}.ods"
 PARQUET_NAME = f"{STEM}.parquet"
 PORTAL = "https://dataportal.orr.gov.uk"
 LANDING_PAGE = f"{PORTAL}/statistics/usage/estimates-of-station-usage"
-ODS_LINK_RE = re.compile(r'href="([^"]*table-1415[^"]*\.ods)"', re.IGNORECASE)
+# The .ods link may carry a cache-buster query (`...ods?cb=<guid>`, seen 2026-11);
+# find_ods_url strips it.
+ODS_LINK_RE = re.compile(r'href="([^"]*table-1415[^"]*?\.ods(?:\?[^"]*)?)"', re.IGNORECASE)
+# Since the 2025-26 release (2026-11) the landing page links to a per-table
+# sub-page, which holds the .ods link; earlier the landing page linked it directly.
+TABLE_PAGE_RE = re.compile(
+    r'href="(/statistics/usage/estimates-of-station-usage/table-1415[^"]*/)"', re.IGNORECASE
+)
 
 SHEET_EE = "1415a_Entries_and_Exits"
 SHEET_INT = "1415b_Interchanges"
@@ -86,13 +93,26 @@ FETCHED_FROM: dict[str, str] = {}
 
 
 def find_ods_url() -> str:
-    links = sorted(set(ODS_LINK_RE.findall(get_page(LANDING_PAGE))))
+    """Current Table 1415 .ods URL: linked from the landing page, or from the
+    Table 1415 sub-page the landing page links to."""
+    page_url = LANDING_PAGE
+    html = get_page(page_url)
+    links = sorted(set(ODS_LINK_RE.findall(html)))
+    if not links:
+        table_pages = sorted(set(TABLE_PAGE_RE.findall(html)))
+        if len(table_pages) == 1:
+            page_url = PORTAL + table_pages[0]
+            links = sorted(set(ODS_LINK_RE.findall(get_page(page_url))))
     if len(links) != 1:
         raise RuntimeError(
-            f"Expected exactly one Table 1415 .ods link on {LANDING_PAGE}, found "
-            f"{links}. The page layout may have changed — check ODS_LINK_RE."
+            f"Expected exactly one Table 1415 .ods link on {page_url}, found "
+            f"{links}. The page layout may have changed — check ODS_LINK_RE "
+            f"and TABLE_PAGE_RE."
         )
-    return PORTAL + links[0] if links[0].startswith("/") else links[0]
+    # Drop the cache-buster: it is random per page load (the file URL works
+    # without it), and keeping it would churn FETCHED_FROM in catalog.json weekly.
+    link = links[0].split("?", 1)[0]
+    return PORTAL + link if link.startswith("/") else link
 
 
 def _read_sheet(ods_path: Path, sheet: str):
